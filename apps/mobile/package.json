@@ -1,0 +1,27 @@
+{
+  "name": "@cabinconnect/mobile",
+  "version": "0.1.0",
+  "main": "expo-router/entry",
+  "scripts": {
+    "dev": "expo start",
+    "build:ios": "eas build --platform ios",
+    "build:android": "eas build --platform android",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cabinconnect/shared": "*",
+    "expo": "~51.0.0",
+    "expo-router": "~3.5.0",
+    "expo-location": "~17.0.0",
+    "expo-secure-store": "~13.0.0",
+    "react": "18.2.0",
+    "react-native": "0.74.0",
+    "i18next": "^23.0.0",
+    "react-i18next": "^14.0.0",
+    "@supabase/supabase-js": "^2.43.0"
+  },
+  "devDependencies": {
+    "@types/react": "~18.2.0",
+    "typescript": "^5.4.0"
+  }
+}

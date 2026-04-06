@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "CabinConnect",
+    "slug": "cabinconnect",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "cabinconnect",
+    "platforms": ["ios", "android"],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        { "locationAlwaysAndWhenInUsePermission": "Used to find nearby suppliers" }
+      ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.99x.cabinconnect"
+    },
+    "android": {
+      "package": "com.x99.cabinconnect"
+    }
+  }
+}

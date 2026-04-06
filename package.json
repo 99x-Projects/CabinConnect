@@ -1,5 +1,27 @@
 {
+  "name": "cabinconnect",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "db:migrate": "npm run migrate --workspace=packages/db",
+    "db:seed": "npm run seed --workspace=packages/db"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.0"
+  },
   "dependencies": {
     "agentic-flow": "^2.0.7"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

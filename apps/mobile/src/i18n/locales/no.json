@@ -1,0 +1,241 @@
+{
+  "auth": {
+    "email": "E-post",
+    "password": "Passord",
+    "displayName": "Navn",
+    "login": "Logg inn",
+    "register": "Registrer deg",
+    "createAccount": "Opprett konto",
+    "noAccount": "Har du ikke konto? Registrer deg",
+    "haveAccount": "Har du allerede konto? Logg inn",
+    "error": {
+      "generic": "Noe gikk galt. Prøv igjen.",
+      "nameRequired": "Navn er påkrevd"
+    }
+  },
+  "common": {
+    "save": "Lagre",
+    "saving": "Lagrer...",
+    "cancel": "Avbryt",
+    "delete": "Slett"
+  },
+  "cabin": {
+    "noCabins": "Ingen hytter ennå. Trykk + for å legge til din.",
+    "notFound": "Hytte ikke funnet",
+    "bedrooms": "Soverom",
+    "size": "Størrelse",
+    "yearBuilt": "Byggeår",
+    "maintenance": {
+      "title": "Vedlikehold",
+      "recent": "Siste vedlikehold",
+      "empty": "Ingen vedlikeholdslogger ennå",
+      "add": "Legg til",
+      "titlePlaceholder": "f.eks. Byttet takstein",
+      "costPlaceholder": "Kostnad (NOK)",
+      "completedBy": "Utført av",
+      "notes": "Notater",
+      "category": "Kategori"
+    },
+    "costs": {
+      "title": "Eierkostnader",
+      "monthly": "Månedlig",
+      "annually": "Årlig",
+      "year": "år",
+      "mo": "mnd",
+      "empty": "Ingen kostnader lagt til ennå. Trykk + for å legge til.",
+      "add": "Legg til kostnad",
+      "label": "Beskrivelse",
+      "labelPlaceholder": "f.eks. Innboforsikring",
+      "amount": "Beløp (NOK)",
+      "type": "Type",
+      "frequency": "Frekvens",
+      "types": {
+        "mortgage": "Boliglån",
+        "insurance": "Forsikring",
+        "property_tax": "Eiendomsskatt",
+        "utilities": "Strøm og vann",
+        "maintenance_budget": "Vedlikeholdsbudsjett",
+        "association_fee": "Fellesutgifter",
+        "other": "Annet"
+      },
+      "frequencies": {
+        "monthly": "Månedlig",
+        "quarterly": "Kvartalsvis",
+        "annually": "Årlig",
+        "one_time": "Engangs"
+      }
+    },
+    "instructions": {
+      "title": "Besøksinfo",
+      "accessCode": "Nøkkelkode / nøkkelboks",
+      "wifiName": "WiFi-nettverk",
+      "wifiPassword": "WiFi-passord",
+      "parking": "Parkeringsinformasjon",
+      "checkIn": "Innsjekksinfo",
+      "checkOut": "Utsjekksinfo",
+      "houseRules": "Husregler"
+    }
+  },
+  "toolshare": {
+    "empty": "Ingen verktøy tilgjengelig akkurat nå",
+    "notFound": "Verktøy ikke funnet",
+    "available": "Tilgjengelig",
+    "unavailable": "Ikke tilgjengelig",
+    "free": "Gratis",
+    "day": "dag",
+    "listedBy": "Delt av",
+    "description": "Beskrivelse",
+    "requestToBorrow": "Be om å låne",
+    "approve": "Godkjenn",
+    "reject": "Avslå",
+    "markReturned": "Marker som levert tilbake",
+    "from": "Fra",
+    "to": "Til",
+    "categories": {
+      "all": "Alle",
+      "power_tools": "Maskiner",
+      "hand_tools": "Håndverktøy",
+      "garden": "Hage",
+      "snow_removal": "Snørydding",
+      "cleaning": "Rengjøring",
+      "camping": "Friluftsliv",
+      "construction": "Bygg",
+      "other": "Annet"
+    },
+    "conditions": {
+      "new": "Ny",
+      "good": "God",
+      "fair": "OK",
+      "worn": "Slitt"
+    },
+    "status": {
+      "pending": "Venter",
+      "approved": "Godkjent",
+      "rejected": "Avslått",
+      "returned": "Levert tilbake"
+    },
+    "request": {
+      "title": "Be om å låne",
+      "startDate": "Fra dato",
+      "endDate": "Til dato",
+      "message": "Melding til eier (valgfritt)",
+      "messagePlaceholder": "Hva trenger du det til?",
+      "send": "Send forespørsel",
+      "sent": "Forespørsel sendt! Eieren vil vurdere den.",
+      "datesRequired": "Fyll inn start- og sluttdato",
+      "error": "Kunne ikke sende forespørsel"
+    },
+    "new": {
+      "title": "Del et verktøy",
+      "name": "Verktøynavn",
+      "description": "Beskrivelse",
+      "resort": "Hyttefelt / område",
+      "pricePerDay": "Pris per dag (NOK)",
+      "freeHint": "La stå tom for gratis utlån",
+      "category": "Kategori",
+      "condition": "Tilstand",
+      "submit": "Legg ut verktøy",
+      "nameRequired": "Navn er påkrevd",
+      "error": "Kunne ikke legge ut verktøy"
+    },
+    "activity": {
+      "incomingRequests": "Låneforespørsler",
+      "myRequests": "Mine forespørsler",
+      "myListings": "Mine verktøy",
+      "noIncoming": "Ingen innkommende forespørsler",
+      "noRequests": "Du har ikke bedt om å låne noe",
+      "noListings": "Du har ikke lagt ut noe ennå"
+    }
+  },
+  "events": {
+    "empty": "Ingen kommende arrangementer",
+    "notFound": "Arrangement ikke funnet",
+    "going": "deltar",
+    "by": "av",
+    "about": "Om arrangementet",
+    "categories": {
+      "all": "Alle",
+      "social": "Sosialt",
+      "sports": "Sport",
+      "kids": "Barn",
+      "culture": "Kultur",
+      "community": "Dugnad",
+      "market": "Marked",
+      "other": "Annet"
+    },
+    "rsvp": {
+      "title": "Skal du delta?",
+      "going": "Deltar",
+      "maybe": "Kanskje",
+      "notGoing": "Deltar ikke",
+      "current": "Ditt svar",
+      "cancel": "Fjern svar"
+    },
+    "new": {
+      "title": "Nytt arrangement",
+      "eventTitle": "Tittel",
+      "description": "Beskrivelse",
+      "location": "Sted",
+      "resort": "Hyttefelt (valgfritt)",
+      "startDate": "Startdato og tid",
+      "endDate": "Sluttdato og tid",
+      "maxAttendees": "Maks deltakere (valgfritt)",
+      "category": "Kategori",
+      "publish": "Publiser arrangement",
+      "requiredFields": "Fyll ut alle obligatoriske felt",
+      "error": "Kunne ikke opprette arrangement"
+    }
+  },
+  "suppliers": {
+    "title": "Leverandørkataloget",
+    "search": "Søk etter leverandører",
+    "nominate": "Anbefal en leverandør",
+    "nearMe": "Nær meg",
+    "nearMeActive": "Nær meg (30 km)",
+    "empty": "Ingen leverandører funnet",
+    "notFound": "Leverandør ikke funnet",
+    "verified": "Verifisert",
+    "reviews": "Anmeldelser",
+    "contact": "Kontakt",
+    "about": "Om",
+    "noReviews": "Ingen anmeldelser ennå. Vær den første!",
+    "writeReview": "Skriv en anmeldelse",
+    "claimProfile": "Krev denne profilen",
+    "ownerReply": "Svar fra eier",
+    "review": {
+      "title": "Skriv en anmeldelse",
+      "rating": "Vurdering",
+      "comment": "Din opplevelse",
+      "commentPlaceholder": "Hvordan var arbeidet?",
+      "jobDate": "Dato for jobben (valgfritt)",
+      "submit": "Send anmeldelse",
+      "ratingRequired": "Velg en vurdering",
+      "error": "Kunne ikke sende anmeldelse"
+    },
+    "nominate": {
+      "title": "Anbefal en leverandør",
+      "subtitle": "Kjenner du en dyktig lokal håndverker? Del dem med fellesskapet.",
+      "name": "Navn",
+      "phone": "Telefonnummer",
+      "email": "E-post (valgfritt)",
+      "website": "Nettside (valgfritt)",
+      "serviceAreas": "Tjenesteområder (kommaseparert)",
+      "description": "Beskrivelse",
+      "categories": "Kategorier",
+      "submit": "Send anbefaling",
+      "requiredFields": "Navn, telefon og minst én kategori er påkrevd",
+      "error": "Kunne ikke sende inn"
+    },
+    "categories": {
+      "plumber": "Rørlegger",
+      "electrician": "Elektriker",
+      "carpenter": "Snekker",
+      "cleaner": "Rengjøring",
+      "painter": "Maler",
+      "roofer": "Taktekker",
+      "landscaper": "Landskapsarbeider",
+      "handyman": "Altmuligmann",
+      "other": "Annet"
+    }
+  }
+}

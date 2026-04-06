@@ -1,0 +1,241 @@
+{
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "displayName": "Full name",
+    "login": "Sign in",
+    "register": "Create account",
+    "createAccount": "Create account",
+    "noAccount": "Don't have an account? Sign up",
+    "haveAccount": "Already have an account? Sign in",
+    "error": {
+      "generic": "Something went wrong. Please try again.",
+      "nameRequired": "Name is required"
+    }
+  },
+  "common": {
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "cabin": {
+    "noCabins": "No cabins yet. Tap + to add yours.",
+    "notFound": "Cabin not found",
+    "bedrooms": "Bedrooms",
+    "size": "Size",
+    "yearBuilt": "Built",
+    "maintenance": {
+      "title": "Maintenance",
+      "recent": "Recent maintenance",
+      "empty": "No maintenance records yet",
+      "add": "Add record",
+      "titlePlaceholder": "e.g. Replaced roof tiles",
+      "costPlaceholder": "Cost (NOK)",
+      "completedBy": "Completed by",
+      "notes": "Notes",
+      "category": "Category"
+    },
+    "costs": {
+      "title": "Ownership Costs",
+      "monthly": "Monthly",
+      "annually": "Annual",
+      "year": "year",
+      "mo": "mo",
+      "empty": "No costs added yet. Tap + to add one.",
+      "add": "Add cost",
+      "label": "Description",
+      "labelPlaceholder": "e.g. Home insurance",
+      "amount": "Amount (NOK)",
+      "type": "Type",
+      "frequency": "Frequency",
+      "types": {
+        "mortgage": "Mortgage",
+        "insurance": "Insurance",
+        "property_tax": "Property tax",
+        "utilities": "Utilities",
+        "maintenance_budget": "Maintenance budget",
+        "association_fee": "Association fee",
+        "other": "Other"
+      },
+      "frequencies": {
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "annually": "Annually",
+        "one_time": "One-time"
+      }
+    },
+    "instructions": {
+      "title": "Visitor Instructions",
+      "accessCode": "Access code / key lockbox",
+      "wifiName": "WiFi network name",
+      "wifiPassword": "WiFi password",
+      "parking": "Parking instructions",
+      "checkIn": "Check-in instructions",
+      "checkOut": "Check-out instructions",
+      "houseRules": "House rules"
+    }
+  },
+  "toolshare": {
+    "empty": "No tools available right now",
+    "notFound": "Tool not found",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "free": "Free",
+    "day": "day",
+    "listedBy": "Listed by",
+    "description": "Description",
+    "requestToBorrow": "Request to borrow",
+    "approve": "Approve",
+    "reject": "Decline",
+    "markReturned": "Mark as returned",
+    "from": "From",
+    "to": "To",
+    "categories": {
+      "all": "All",
+      "power_tools": "Power tools",
+      "hand_tools": "Hand tools",
+      "garden": "Garden",
+      "snow_removal": "Snow removal",
+      "cleaning": "Cleaning",
+      "camping": "Camping",
+      "construction": "Construction",
+      "other": "Other"
+    },
+    "conditions": {
+      "new": "New",
+      "good": "Good",
+      "fair": "Fair",
+      "worn": "Worn"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Declined",
+      "returned": "Returned"
+    },
+    "request": {
+      "title": "Request to borrow",
+      "startDate": "From date",
+      "endDate": "To date",
+      "message": "Message to owner (optional)",
+      "messagePlaceholder": "What do you need it for?",
+      "send": "Send request",
+      "sent": "Request sent! The owner will review it.",
+      "datesRequired": "Please enter start and end dates",
+      "error": "Failed to send request"
+    },
+    "new": {
+      "title": "Share a tool",
+      "name": "Tool name",
+      "description": "Description",
+      "resort": "Resort / area",
+      "pricePerDay": "Price per day (NOK)",
+      "freeHint": "Leave empty for free lending",
+      "category": "Category",
+      "condition": "Condition",
+      "submit": "List tool",
+      "nameRequired": "Tool name is required",
+      "error": "Failed to list tool"
+    },
+    "activity": {
+      "incomingRequests": "Borrow requests",
+      "myRequests": "My requests",
+      "myListings": "My tools",
+      "noIncoming": "No incoming requests",
+      "noRequests": "You haven't requested any tools",
+      "noListings": "You haven't listed any tools yet"
+    }
+  },
+  "events": {
+    "empty": "No events coming up",
+    "notFound": "Event not found",
+    "going": "going",
+    "by": "by",
+    "about": "About this event",
+    "categories": {
+      "all": "All",
+      "social": "Social",
+      "sports": "Sports",
+      "kids": "Kids",
+      "culture": "Culture",
+      "community": "Community",
+      "market": "Market",
+      "other": "Other"
+    },
+    "rsvp": {
+      "title": "Are you going?",
+      "going": "Going",
+      "maybe": "Maybe",
+      "notGoing": "Not going",
+      "current": "Your response",
+      "cancel": "Remove"
+    },
+    "new": {
+      "title": "New Event",
+      "eventTitle": "Event title",
+      "description": "Description",
+      "location": "Location",
+      "resort": "Resort (optional)",
+      "startDate": "Start date & time",
+      "endDate": "End date & time",
+      "maxAttendees": "Max attendees (optional)",
+      "category": "Category",
+      "publish": "Publish event",
+      "requiredFields": "Please fill in all required fields",
+      "error": "Failed to create event"
+    }
+  },
+  "suppliers": {
+    "title": "Supplier Directory",
+    "search": "Search suppliers",
+    "nominate": "Recommend a supplier",
+    "nearMe": "Near me",
+    "nearMeActive": "Near me (30 km)",
+    "empty": "No suppliers found",
+    "notFound": "Supplier not found",
+    "verified": "Verified",
+    "reviews": "Reviews",
+    "contact": "Contact",
+    "about": "About",
+    "noReviews": "No reviews yet. Be the first!",
+    "writeReview": "Write a review",
+    "claimProfile": "Claim this profile",
+    "ownerReply": "Owner reply",
+    "review": {
+      "title": "Write a review",
+      "rating": "Rating",
+      "comment": "Your experience",
+      "commentPlaceholder": "How was the work done?",
+      "jobDate": "Job date (optional)",
+      "submit": "Submit review",
+      "ratingRequired": "Please select a rating",
+      "error": "Failed to submit review"
+    },
+    "nominate": {
+      "title": "Recommend a supplier",
+      "subtitle": "Know a great local tradesperson? Share them with the community.",
+      "name": "Name",
+      "phone": "Phone number",
+      "email": "Email (optional)",
+      "website": "Website (optional)",
+      "serviceAreas": "Service areas (comma separated)",
+      "description": "Description",
+      "categories": "Categories",
+      "submit": "Submit recommendation",
+      "requiredFields": "Name, phone and at least one category are required",
+      "error": "Failed to submit"
+    },
+    "categories": {
+      "plumber": "Plumber",
+      "electrician": "Electrician",
+      "carpenter": "Carpenter",
+      "cleaner": "Cleaning",
+      "painter": "Painter",
+      "roofer": "Roofer",
+      "landscaper": "Landscaper",
+      "handyman": "Handyman",
+      "other": "Other"
+    }
+  }
+}
