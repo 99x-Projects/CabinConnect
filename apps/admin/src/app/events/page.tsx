@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getEvents } from '../../lib/api';
 import EventActions from './EventActions';
 

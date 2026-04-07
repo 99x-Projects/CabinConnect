@@ -1,0 +1,15 @@
+[
+  {
+    "id": "mem-project_supabase----",
+    "key": "-",
+    "content": "name: Supabase Configuration Status\ndescription: Supabase is running locally but not yet wired up — credentials to be added to .env later\ntype: project\n---\n\nSupabase wiring deferred — user has Supabase running locally and will configure credentials later.\n\n**Why:** User chose to defer this to avoid interrupting the build flow.\n\n**How to apply:** When user says \"wire up Supabase\" or asks about DB/auth connectivity, remind them to:\n1. Get local Supabase credentials: `npx supabase status` (shows UR",
+    "summary": "---",
+    "namespace": "project_supabase",
+    "type": "semantic",
+    "metadata": {
+      "sourceFile": "/Users/sachithp/.claude/projects/-Users-sachithp-Projects-99x-AI-DLC-CabinConnect/memory/project_supabase.md",
+      "bootstrapped": true
+    },
+    "createdAt": 1775544998580
+  }
+]

@@ -17,6 +17,7 @@
     "save": "Save",
     "saving": "Saving...",
     "cancel": "Cancel",
+    "confirm": "Confirm",
     "delete": "Delete"
   },
   "cabin": {
@@ -184,6 +185,114 @@
       "publish": "Publish event",
       "requiredFields": "Please fill in all required fields",
       "error": "Failed to create event"
+    }
+  },
+  "booking": {
+    "calendar": {
+      "title": "Booking Calendar",
+      "available": "Available",
+      "booked": "Booked",
+      "addWindow": "Set availability",
+      "book": "Book dates",
+      "tapStart": "Tap start date",
+      "tapEnd": "Tap end date",
+      "windows": "Availability windows",
+      "bookings": "Bookings",
+      "manageInvites": "Manage guests",
+      "deleteWindow": "Remove window",
+      "deleteWindowMsg": "Remove this availability window?",
+      "cancelBooking": "Cancel booking",
+      "cancelBookingMsg": "Cancel this booking?",
+      "confirmCancel": "Yes, cancel"
+    },
+    "book": {
+      "title": "Confirm booking",
+      "checkIn": "Check-in",
+      "checkOut": "Check-out",
+      "nights": "nights",
+      "notes": "Notes (optional)",
+      "notesPlaceholder": "Any notes for the owner?",
+      "confirm": "Confirm booking",
+      "error": "Failed to create booking"
+    },
+    "window": {
+      "title": "Set availability window",
+      "subtitle": "Guests can book within this period",
+      "from": "From",
+      "to": "To",
+      "days": "days",
+      "notes": "Notes (optional)",
+      "notesPlaceholder": "e.g. Cabin is prepared and ready",
+      "create": "Set window",
+      "error": "Failed to create window"
+    },
+    "invites": {
+      "title": "Guest access",
+      "subtitle": "Invite people to view the calendar and book stays",
+      "emailPlaceholder": "guest@email.com",
+      "send": "Send invite",
+      "empty": "No guests invited yet",
+      "pending": "Invite pending",
+      "revokeTitle": "Revoke access",
+      "revokeMsg": "Remove access for",
+      "revoke": "Revoke",
+      "invalidEmail": "Please enter a valid email address",
+      "error": "Failed to send invite"
+    }
+  },
+  "groceries": {
+    "empty": "No orders yet. Tap + to place one.",
+    "notFound": "Order not found",
+    "items": "items",
+    "pickupBy": "Pick up by",
+    "volunteerBanner": "Want to help? Volunteer for a delivery",
+    "new": {
+      "title": "New grocery order",
+      "details": "Order details",
+      "supermarket": "Supermarket",
+      "deliveryAddress": "Delivery address",
+      "pickupDeadline": "Pickup deadline",
+      "addressPlaceholder": "Enter drop-off address",
+      "notes": "Notes (optional)",
+      "shoppingList": "Shopping list",
+      "itemName": "Item name",
+      "addItem": "Add item",
+      "create": "Place order",
+      "requiredFields": "Delivery address and pickup deadline are required",
+      "noItems": "Add at least one item",
+      "error": "Failed to place order"
+    },
+    "detail": {
+      "status": "Status",
+      "volunteer": "Volunteer",
+      "items": "Shopping list",
+      "notes": "Notes",
+      "submit": "Submit order (find volunteer)",
+      "cancel": "Cancel order",
+      "cancelTitle": "Cancel order",
+      "cancelMsg": "Are you sure you want to cancel this order?",
+      "confirmCancel": "Yes, cancel",
+      "noVolunteerNotice": "No volunteer was found before the deadline. Please pick up your groceries yourself."
+    },
+    "volunteer": {
+      "title": "Help a neighbour",
+      "subtitle": "Accept a grocery order to deliver up the mountain",
+      "empty": "No orders waiting for delivery",
+      "left": "left",
+      "more": "more",
+      "accept": "Accept this delivery",
+      "accepting": "Accepting...",
+      "acceptError": "Failed to accept order"
+    },
+    "volunteerActive": {
+      "activeDelivery": "Active delivery",
+      "orderedBy": "Ordered by",
+      "confirm": "Confirm",
+      "confirmOnWay": "Mark this order as out for delivery?",
+      "confirmDelivered": "Mark this order as delivered?",
+      "markOnWay": "I'm on my way",
+      "markDelivered": "Mark as delivered",
+      "completed": "Delivered — thank you!"
     }
   },
   "suppliers": {

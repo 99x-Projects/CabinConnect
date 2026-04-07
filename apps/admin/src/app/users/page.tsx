@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getUsers } from '../../lib/api';
 import UserRoleSelect from './UserRoleSelect';
 

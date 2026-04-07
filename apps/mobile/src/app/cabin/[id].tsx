@@ -41,6 +41,7 @@ export default function CabinDetailScreen() {
         <ActionButton label={t('cabin.maintenance.title')} onPress={() => router.push(`/cabin/${id}/maintenance`)} />
         <ActionButton label={t('cabin.costs.title')} onPress={() => router.push(`/cabin/${id}/costs`)} />
         <ActionButton label={t('cabin.instructions.title')} onPress={() => router.push(`/cabin/${id}/instructions`)} />
+        <ActionButton label={t('booking.calendar.title')} onPress={() => router.push(`/cabin/${id}/calendar`)} />
       </View>
 
       {/* Recent maintenance */}

@@ -7,6 +7,7 @@ import { cabinRoutes } from './modules/cabin/api/cabinRoutes.js';
 import { eventRoutes } from './modules/community/api/eventRoutes.js';
 import { toolRoutes } from './modules/sharing/api/toolRoutes.js';
 import { groceryRoutes } from './modules/commerce/api/groceryRoutes.js';
+import { bookingRoutes } from './modules/cabin/api/bookingRoutes.js';
 
 export async function buildApp() {
   const app = Fastify({
@@ -28,6 +29,7 @@ export async function buildApp() {
   await app.register(eventRoutes, { prefix: '/api/v1/events' });
   await app.register(toolRoutes, { prefix: '/api/v1/tools' });
   await app.register(groceryRoutes, { prefix: '/api/v1/orders' });
+  await app.register(bookingRoutes, { prefix: '/api/v1/cabins' });
 
   return app;
 }

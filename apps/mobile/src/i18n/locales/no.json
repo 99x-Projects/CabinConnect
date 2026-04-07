@@ -17,6 +17,7 @@
     "save": "Lagre",
     "saving": "Lagrer...",
     "cancel": "Avbryt",
+    "confirm": "Bekreft",
     "delete": "Slett"
   },
   "cabin": {
@@ -184,6 +185,114 @@
       "publish": "Publiser arrangement",
       "requiredFields": "Fyll ut alle obligatoriske felt",
       "error": "Kunne ikke opprette arrangement"
+    }
+  },
+  "booking": {
+    "calendar": {
+      "title": "Bookingkalender",
+      "available": "Tilgjengelig",
+      "booked": "Booket",
+      "addWindow": "Sett tilgjengelighet",
+      "book": "Book datoer",
+      "tapStart": "Trykk på startdato",
+      "tapEnd": "Trykk på sluttdato",
+      "windows": "Tilgjengelighetsvinduer",
+      "bookings": "Bookinger",
+      "manageInvites": "Administrer gjester",
+      "deleteWindow": "Fjern vindu",
+      "deleteWindowMsg": "Fjerne dette tilgjengelighetsvinduet?",
+      "cancelBooking": "Avbryt booking",
+      "cancelBookingMsg": "Avbryte denne bookingen?",
+      "confirmCancel": "Ja, avbryt"
+    },
+    "book": {
+      "title": "Bekreft booking",
+      "checkIn": "Innsjekk",
+      "checkOut": "Utsjekk",
+      "nights": "netter",
+      "notes": "Notater (valgfritt)",
+      "notesPlaceholder": "Notater til eieren?",
+      "confirm": "Bekreft booking",
+      "error": "Kunne ikke opprette booking"
+    },
+    "window": {
+      "title": "Sett tilgjengelighetsvindu",
+      "subtitle": "Gjester kan booke innen denne perioden",
+      "from": "Fra",
+      "to": "Til",
+      "days": "dager",
+      "notes": "Notater (valgfritt)",
+      "notesPlaceholder": "f.eks. Hytten er klargjort",
+      "create": "Sett vindu",
+      "error": "Kunne ikke opprette vindu"
+    },
+    "invites": {
+      "title": "Gjester",
+      "subtitle": "Inviter folk til å se kalenderen og booke opphold",
+      "emailPlaceholder": "gjest@epost.no",
+      "send": "Send invitasjon",
+      "empty": "Ingen gjester invitert ennå",
+      "pending": "Invitasjon venter",
+      "revokeTitle": "Trekk tilbake tilgang",
+      "revokeMsg": "Fjern tilgang for",
+      "revoke": "Trekk tilbake",
+      "invalidEmail": "Skriv inn en gyldig e-postadresse",
+      "error": "Kunne ikke sende invitasjon"
+    }
+  },
+  "groceries": {
+    "empty": "Ingen bestillinger ennå. Trykk + for å bestille.",
+    "notFound": "Bestilling ikke funnet",
+    "items": "varer",
+    "pickupBy": "Hentes innen",
+    "volunteerBanner": "Vil du hjelpe? Meld deg som frivillig",
+    "new": {
+      "title": "Ny matbestilling",
+      "details": "Bestillingsdetaljer",
+      "supermarket": "Supermarked",
+      "deliveryAddress": "Leveringsadresse",
+      "pickupDeadline": "Hentingsfrist",
+      "addressPlaceholder": "Skriv inn leveringsadresse",
+      "notes": "Notater (valgfritt)",
+      "shoppingList": "Handleliste",
+      "itemName": "Varenavn",
+      "addItem": "Legg til vare",
+      "create": "Legg inn bestilling",
+      "requiredFields": "Leveringsadresse og hentingsfrist er påkrevd",
+      "noItems": "Legg til minst én vare",
+      "error": "Kunne ikke legge inn bestilling"
+    },
+    "detail": {
+      "status": "Status",
+      "volunteer": "Frivillig",
+      "items": "Handleliste",
+      "notes": "Notater",
+      "submit": "Send bestilling (finn frivillig)",
+      "cancel": "Avbryt bestilling",
+      "cancelTitle": "Avbryt bestilling",
+      "cancelMsg": "Er du sikker på at du vil avbryte bestillingen?",
+      "confirmCancel": "Ja, avbryt",
+      "noVolunteerNotice": "Ingen frivillig ble funnet innen fristen. Vennligst hent varene selv."
+    },
+    "volunteer": {
+      "title": "Hjelp en nabo",
+      "subtitle": "Ta en matbestilling og lever den opp til fjellet",
+      "empty": "Ingen bestillinger venter på levering",
+      "left": "igjen",
+      "more": "til",
+      "accept": "Ta denne leveringen",
+      "accepting": "Aksepterer...",
+      "acceptError": "Kunne ikke akseptere bestilling"
+    },
+    "volunteerActive": {
+      "activeDelivery": "Aktiv levering",
+      "orderedBy": "Bestilt av",
+      "confirm": "Bekreft",
+      "confirmOnWay": "Merk denne bestillingen som underveis?",
+      "confirmDelivered": "Merk denne bestillingen som levert?",
+      "markOnWay": "Jeg er på vei",
+      "markDelivered": "Merk som levert",
+      "completed": "Levert — tusen takk!"
     }
   },
   "suppliers": {

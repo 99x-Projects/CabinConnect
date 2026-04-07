@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getDashboardStats, getSuppliers, getEvents } from '../lib/api';
 
 export default async function DashboardPage() {

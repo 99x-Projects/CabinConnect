@@ -44,7 +44,7 @@ export class GroceryRepository {
 
   async listAvailableForVolunteers(): Promise<GroceryOrder[]> {
     // Auto-expire before fetching
-    await this.db.rpc('expire_undelivered_orders').catch(() => {});
+    try { await this.db.rpc('expire_undelivered_orders'); } catch { /* best-effort */ }
 
     const { data, error } = await this.db
       .from('grocery_orders')

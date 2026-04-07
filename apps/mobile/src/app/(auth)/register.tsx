@@ -11,6 +11,7 @@ export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
   async function handleRegister() {
@@ -22,6 +23,8 @@ export default function RegisterScreen() {
     setLoading(true);
     try {
       await signUpWithEmail(email.trim(), password, displayName.trim());
+      // If we're still on this screen, email confirmation is required
+      setSuccess('Account created! Check your email to confirm your account before signing in.');
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : t('auth.error.generic'));
     } finally {
@@ -34,6 +37,7 @@ export default function RegisterScreen() {
       <Text style={styles.title}>{t('auth.createAccount')}</Text>
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
+      {success ? <Text style={styles.success}>{success}</Text> : null}
 
       <TextInput
         style={styles.input}
@@ -78,5 +82,6 @@ const styles = StyleSheet.create({
   button: { backgroundColor: '#2563eb', borderRadius: 8, padding: 14, alignItems: 'center', marginTop: 8 },
   buttonText: { color: '#fff', fontWeight: '600', fontSize: 16 },
   error: { color: '#dc2626', marginBottom: 12, textAlign: 'center' },
+  success: { color: '#16a34a', marginBottom: 12, textAlign: 'center', lineHeight: 20 },
   link: { marginTop: 16, textAlign: 'center', color: '#2563eb' },
 });

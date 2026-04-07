@@ -137,8 +137,45 @@ celerybeat.pid
 # Node
 node_modules/
 
+# TypeScript build output
+dist/
+build/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+
+# Turbo
+.turbo/
+
+# Expo / React Native
+.expo/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Supabase
+supabase/.branches/
+supabase/.temp/
+
+# Claude Flow / Swarm runtime
+.claude-flow/data/
+.claude-flow/logs/
+.claude-flow/sessions/
+.claude-flow/neural/
+.claude-flow/metrics/
+.claude-flow/security/
+.claude-flow/swarm/
+.swarm/
+
 # Environments
 .env
+.env.local
+.env.*.local
 .envrc
 .venv
 env/

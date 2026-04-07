@@ -41,14 +41,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signUpWithEmail(email: string, password: string, displayName: string) {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: { data: { display_name: displayName } },
     });
     if (error) throw error;
-    // Profile row is created via Supabase DB trigger
-    router.replace('/(tabs)');
+    // If email confirmation is required, session will be null — caller handles messaging.
+    // If confirmation is disabled (dev mode), session is set and we navigate.
+    if (data.session) {
+      router.replace('/(tabs)');
+    }
+    // else: no navigation — caller should show "check your email" message
   }
 
   async function signOut() {
