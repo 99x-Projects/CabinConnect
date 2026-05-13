@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": 1775645189122,
+    "nodes": 2,
+    "edges": 0,
+    "pageRankSum": 1,
+    "confidences": [
+      0.495,
+      0.5
+    ],
+    "accessCounts": [
+      0,
+      0
+    ],
+    "topPatterns": [
+      {
+        "id": "insight-1775645189120-uwjc",
+        "summary": "Frequently edited: unknown (32x)",
+        "confidence": 0.5,
+        "pageRank": 0.5,
+        "accessCount": 0
+      },
+      {
+        "id": "mem-project_supabase----",
+        "summary": "---",
+        "confidence": 0.495,
+        "pageRank": 0.5,
+        "accessCount": 0
+      }
+    ]
+  }
+]

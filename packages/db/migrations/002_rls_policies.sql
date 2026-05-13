@@ -74,8 +74,10 @@ BEGIN
   VALUES (NEW.id, NEW.raw_user_meta_data->>'display_name')
   ON CONFLICT (id) DO NOTHING;
   RETURN NEW;
+EXCEPTION WHEN others THEN
+  RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 CREATE TRIGGER on_auth_user_created
 AFTER INSERT ON auth.users

@@ -128,14 +128,19 @@ CREATE POLICY "bookings_owner_cancel" ON public.cabin_bookings
 -- ============================================================
 CREATE OR REPLACE FUNCTION resolve_invite_user_id()
 RETURNS TRIGGER AS $$
+DECLARE
+  user_email TEXT;
 BEGIN
-  UPDATE public.cabin_invites
-  SET invited_user_id = NEW.id
-  WHERE invited_email = NEW.email
-    AND invited_user_id IS NULL;
+  SELECT email INTO user_email FROM auth.users WHERE id = NEW.id;
+  IF user_email IS NOT NULL THEN
+    UPDATE public.cabin_invites
+    SET invited_user_id = NEW.id
+    WHERE invited_email = user_email
+      AND invited_user_id IS NULL;
+  END IF;
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 CREATE TRIGGER on_profile_created_resolve_invites
   AFTER INSERT ON public.profiles

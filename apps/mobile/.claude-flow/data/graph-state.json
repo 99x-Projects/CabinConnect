@@ -1,18 +1,26 @@
 {
   "version": 1,
-  "updatedAt": 1775544998584,
-  "nodeCount": 1,
+  "updatedAt": 1775645189121,
+  "nodeCount": 2,
   "nodes": {
     "mem-project_supabase----": {
       "id": "mem-project_supabase----",
       "category": "project_supabase",
-      "confidence": 0.5,
+      "confidence": 0.495,
       "accessCount": 0,
       "createdAt": 1775544998580
+    },
+    "insight-1775645189120-uwjc": {
+      "id": "insight-1775645189120-uwjc",
+      "category": "insights",
+      "confidence": 0.5,
+      "accessCount": 0,
+      "createdAt": 1775645189120
     }
   },
   "edges": [],
   "pageRanks": {
-    "mem-project_supabase----": 1
+    "mem-project_supabase----": 0.5,
+    "insight-1775645189120-uwjc": 0.5
   }
 }

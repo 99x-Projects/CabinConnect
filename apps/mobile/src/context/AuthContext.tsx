@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function signInWithEmail(email: string, password: string) {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
-    router.replace('/(tabs)');
+    router.replace('/');
   }
 
   async function signUpWithEmail(email: string, password: string, displayName: string) {
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // If email confirmation is required, session will be null — caller handles messaging.
     // If confirmation is disabled (dev mode), session is set and we navigate.
     if (data.session) {
-      router.replace('/(tabs)');
+      router.replace('/');
     }
     // else: no navigation — caller should show "check your email" message
   }

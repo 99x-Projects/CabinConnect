@@ -1,14 +1,39 @@
 {
   "version": 1,
-  "computedAt": 1775544998584,
+  "computedAt": 1775645189121,
   "entries": [
+    {
+      "id": "insight-1775645189120-uwjc",
+      "content": "File unknown was edited 32 times this session — likely a hot path worth monitoring.",
+      "summary": "Frequently edited: unknown (32x)",
+      "category": "insights",
+      "confidence": 0.5,
+      "pageRank": 0.5,
+      "accessCount": 0,
+      "words": [
+        "file",
+        "unknown",
+        "edited",
+        "times",
+        "session",
+        "likely",
+        "hot",
+        "path",
+        "worth",
+        "monitoring",
+        "frequently",
+        "edited",
+        "unknown",
+        "32x"
+      ]
+    },
     {
       "id": "mem-project_supabase----",
       "content": "name: Supabase Configuration Status\ndescription: Supabase is running locally but not yet wired up — credentials to be added to .env later\ntype: project\n---\n\nSupabase wiring deferred — user has Supabase running locally and will configure credentials later.\n\n**Why:** User chose to defer this to avoid interrupting the build flow.\n\n**How to apply:** When user says \"wire up Supabase\" or asks about DB/auth connectivity, remind them to:\n1. Get local Supabase credentials: `npx supabase status` (shows UR",
       "summary": "---",
       "category": "project_supabase",
-      "confidence": 0.5,
-      "pageRank": 1,
+      "confidence": 0.495,
+      "pageRank": 0.5,
       "accessCount": 0,
       "words": [
         "name",
