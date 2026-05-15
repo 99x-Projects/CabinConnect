@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<ICabinRepository, CabinRepository>();
+builder.Services.AddScoped<IAmenityTagRepository, AmenityTagRepository>();
 
 builder.Services.AddCors(options =>
 {

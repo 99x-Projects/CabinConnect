@@ -5,6 +5,7 @@ namespace CabinConnect.Infrastructure.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
+    public DbSet<AmenityTag> AmenityTags => Set<AmenityTag>();
     public DbSet<Cabin> Cabins => Set<Cabin>();
     public DbSet<Booking> Bookings => Set<Booking>();
     public DbSet<Hold> Holds => Set<Hold>();
