@@ -4,6 +4,8 @@ using CabinConnect.Infrastructure.Data;
 using CabinConnect.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -18,7 +20,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ICabinRepository, CabinRepository>();
 builder.Services.AddScoped<IAmenityTagRepository, AmenityTagRepository>();
+builder.Services.AddScoped<ICabinKeyInfoRepository, CabinKeyInfoRepository>();
+builder.Services.AddScoped<IKeyInfoRevealLogRepository, KeyInfoRevealLogRepository>();
 builder.Services.AddScoped<ICabinService, CabinService>();
+builder.Services.AddScoped<ICabinKeyInfoService, CabinKeyInfoService>();
 
 builder.Services.AddCors(options =>
 {

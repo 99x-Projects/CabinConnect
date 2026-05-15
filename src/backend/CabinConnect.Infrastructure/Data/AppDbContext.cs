@@ -7,6 +7,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     public DbSet<AmenityTag> AmenityTags => Set<AmenityTag>();
     public DbSet<Cabin> Cabins => Set<Cabin>();
+    public DbSet<CabinKeyInfo> CabinKeyInfos => Set<CabinKeyInfo>();
+    public DbSet<KeyInfoRevealLog> KeyInfoRevealLogs => Set<KeyInfoRevealLog>();
     public DbSet<Booking> Bookings => Set<Booking>();
     public DbSet<Hold> Holds => Set<Hold>();
     public DbSet<BlackoutDate> BlackoutDates => Set<BlackoutDate>();

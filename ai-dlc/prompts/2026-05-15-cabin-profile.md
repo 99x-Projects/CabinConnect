@@ -1,6 +1,6 @@
 # Prompt Log: Cabin Profile — Bolt 01
 
-**Unit(s):** [List Amenity Tags](../ops/build/units/cabin-amenity-tags-list.md) · [Create Cabin](../ops/build/units/cabin-profile-create.md) · [Update Cabin Profile](../ops/build/units/cabin-profile-update.md) · [List Host Cabins](../ops/build/units/cabin-list-host.md)
+**Unit(s):** [List Amenity Tags](../ops/build/units/cabin-amenity-tags-list.md) · [Create Cabin](../ops/build/units/cabin-profile-create.md) · [Update Cabin Profile](../ops/build/units/cabin-profile-update.md) · [List Host Cabins](../ops/build/units/cabin-list-host.md) · [Manage Cabin Key Information](../ops/build/units/cabin-key-info-manage.md) · [Get Cabin Detail (Host)](../ops/build/units/cabin-detail-host.md)
 **Date started:** 2026-05-15
 **Contributors:** Sachith Perera
 
@@ -100,3 +100,52 @@ None — output accepted as generated.
 - AC4 (no key info fields in response) is tested via reflection on `CabinDto` property names — guarantees the DTO type never exposes key info regardless of future mapping changes.
 - AC7 (ordering) is tested by having the service mock return items in DESC order and asserting the controller preserves that order — ordering responsibility is correctly in the repository, not the controller.
 - `GetAllActiveAsync` is retained on the interface and repository for potential future guest-browsing use; it is no longer called by any controller action.
+
+---
+
+## Session 2026-05-15 — Unit ⑤: Manage Cabin Key Information
+
+### Prompt
+> Build unit ⑤ Manage Cabin Key Info: PUT /api/cabins/{id}/key-info (partial update — null fields preserve existing values) and GET /api/cabins/{id}/key-info?reveal=true|false. Stored in separate `cabin_key_info` table. Masking applied in service layer: access_codes and emergency_contacts masked unless reveal=true; house_rules always plaintext. Every reveal=true request with existing data is audit-logged to `key_info_reveal_log`. host_id ownership verified before any read or write. Key info not yet set returns null fields with 200 (not 404).
+
+### Output Summary
+Created `CabinKeyInfo` and `KeyInfoRevealLog` entities, `ICabinKeyInfoRepository` (GetByCabinIdAsync, AddAsync, SaveAsync) and `IKeyInfoRevealLogRepository` (LogAsync), EF configurations for both tables, repository implementations, `KeyInfoDto` and `UpsertKeyInfoRequest` DTOs, `ICabinKeyInfoService` and `CabinKeyInfoService` (masking, partial update logic, reveal audit logging), two new actions on `CabinsController` (GET and PUT `/key-info`), and two test files: controller tests for ACs 1–4 and 6–7, service-level tests for ACs 5 and 8 plus masking theory tests. Updated all prior controller test constructors to pass the new `ICabinKeyInfoService` mock. 43/43 passing.
+
+### Quality Gate Result
+- Context: Pass — Host managing sensitive operational key info; separate table; separate service
+- Constraints: Pass — EC-007 (ownership before any read/write), EC-011 (null fields not 404), masking in service not DB, encryption deferred
+- Acceptance Criteria: Pass — 8 ACs all covered (controller tests + service tests)
+- Output Format: Pass — C# files with xUnit tests specified
+
+### Changes Made to Output
+- `CabinKeyInfoService.Mask` changed from `internal static` to `public static` to make it accessible from the test project (different assembly). `internal` only works within the same assembly; the test project is a separate project reference.
+- All three prior `CabinsController` test constructors updated to pass `Substitute.For<ICabinKeyInfoService>()` — required after adding `ICabinKeyInfoService` as a new constructor parameter to `CabinsController`.
+
+### Decision Notes
+- `SaveAsync` on `ICabinKeyInfoRepository` (rather than `UpdateAsync(entity)`) mirrors the pattern used in `CabinRepository` for in-place EF change tracking: the service mutates the tracked entity directly, then tells the repository to flush.
+- Partial update (AC5) is implemented by checking `request.Field is not null` before assigning — null means "don't change". This means a host cannot explicitly clear a field once set; considered acceptable for the MVP scope.
+- Reveal audit log is only written when `keyInfo is not null` — if there is no data to reveal, logging a reveal event would be misleading.
+
+---
+
+## Session 2026-05-15 — Unit ⑥: Get Cabin Detail (Host)
+
+### Prompt
+> Build unit ⑥ Get Cabin Detail (Host): GET /api/cabins/{id}?reveal=true|false. Aggregates cabin profile, amenity tags, and key info (masked by default) in a single response. Ownership verified server-side. reveal=true returns plaintext key info and logs the event. Key info not yet set returns null fields (not 404). Existing GetById had no ownership check — this unit adds it.
+
+### Output Summary
+Created `CabinDetailDto` (cabin profile fields + embedded `KeyInfoDto`), updated `CabinsController.GetById` to extract hostId from JWT, check ownership, and call `keyInfoService.GetAsync` to fetch/mask key info, then return `CabinDetailDto`. 7 controller tests covering all ACs. 50/50 passing.
+
+### Quality Gate Result
+- Context: Pass — Host fetching full single-cabin view; aggregates two data sources
+- Constraints: Pass — EC-007 (ownership check added to previously unguarded GetById), EC-011 (null key info fields not 404)
+- Acceptance Criteria: Pass — 7 ACs all covered by tests
+- Output Format: Pass — C# files with xUnit tests specified
+
+### Changes Made to Output
+None — output accepted as generated.
+
+### Decision Notes
+- Controller orchestrates the aggregation (cabin repo + key info service) rather than a dedicated service method. The two sources have no shared business logic that warrants a new service — the controller is acting as a thin composer.
+- `keyInfoService.GetAsync` internally re-verifies ownership (calls `cabins.GetByIdAsync` again). With a scoped `AppDbContext`, EF Core's identity map returns the cached entity without a second DB round-trip. The redundancy is harmless and preserves the service's own defensive boundary.
+- `CabinDetailDto` is a separate record from `CabinDto` rather than a subclass — avoids inheritance in records and makes the response contract explicit at the type level.

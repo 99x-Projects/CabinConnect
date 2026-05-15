@@ -14,6 +14,7 @@ public class CabinsControllerListTests
 {
     private readonly ICabinRepository _repo = Substitute.For<ICabinRepository>();
     private readonly ICabinService _service = Substitute.For<ICabinService>();
+    private readonly ICabinKeyInfoService _keyInfoService = Substitute.For<ICabinKeyInfoService>();
     private readonly CabinsController _sut;
 
     private static readonly Guid HostId = Guid.NewGuid();
@@ -21,7 +22,7 @@ public class CabinsControllerListTests
 
     public CabinsControllerListTests()
     {
-        _sut = new CabinsController(_repo, _service);
+        _sut = new CabinsController(_repo, _service, _keyInfoService);
         SetAuthenticatedHost(HostId);
     }
 
