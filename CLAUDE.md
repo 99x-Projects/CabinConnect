@@ -142,6 +142,25 @@ Intent → Mob Elaboration → Unit → Bolt → Code → Retro → Improvement
 
 **After generating code for a unit:** remind the engineer to log the prompt in `ai-dlc/prompts/YYYY-MM-DD-<feature>.md`.
 
+### Mob Elaboration — Interactive Protocol (MANDATORY)
+
+A mob elaboration session is a conversation, not a monologue. The following rules govern every session:
+
+**Turn structure — strictly one unit per turn:**
+1. Propose a single candidate unit (name + one-sentence purpose only). Stop and wait for human confirmation.
+2. Once confirmed, propose the acceptance criteria for that unit as a numbered list. Stop and wait. The human may add, remove, or reword ACs.
+3. Once ACs are agreed, surface edge cases and open questions for that unit only. Stop and wait.
+4. Move to the next unit. Repeat from step 1.
+5. After all units are agreed, present the full summary table and ask for final sign-off before writing any files.
+
+**Never do these during elaboration:**
+- Do not decompose all units in a single response
+- Do not write ACs before the human confirms the unit exists
+- Do not create unit files, elaboration files, or update the backlog until the human gives final sign-off on the complete unit list
+- Do not make scope or edge-case decisions unilaterally — surface them as questions
+
+Full interactive protocol: [ai-dlc/skills/mob-elaboration-prompts.md](ai-dlc/skills/mob-elab-prompts.md)
+
 ---
 
 ## 7. Review Behaviour — Verify Before Presenting Output
