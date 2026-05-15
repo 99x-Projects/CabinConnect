@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using CabinConnect.Api.DTOs;
 using CabinConnect.Api.Services;
 using CabinConnect.Domain.Exceptions;
@@ -32,7 +33,7 @@ public class CabinsController(ICabinRepository cabins, ICabinService cabinServic
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var sub = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
+        var sub = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
                ?? User.FindFirst("sub")?.Value;
 
         if (!Guid.TryParse(sub, out var hostId))
@@ -42,6 +43,45 @@ public class CabinsController(ICabinRepository cabins, ICabinService cabinServic
         {
             var dto = await cabinService.CreateAsync(hostId, request, ct);
             return CreatedAtAction(nameof(GetById), new { id = dto.Id }, dto);
+        }
+        catch (InvalidAmenityTagsException ex)
+        {
+            return BadRequest(new { error = ex.Message, invalidIds = ex.InvalidIds });
+        }
+        catch (DuplicateCabinNameException ex)
+        {
+            return Conflict(new { error = ex.Message });
+        }
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCabinRequest request, CancellationToken ct)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        var sub = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+               ?? User.FindFirst("sub")?.Value;
+
+        if (!Guid.TryParse(sub, out var hostId))
+            return Unauthorized();
+
+        try
+        {
+            var dto = await cabinService.UpdateAsync(hostId, id, request, ct);
+            return Ok(dto);
+        }
+        catch (CabinNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (CabinOwnershipException)
+        {
+            return StatusCode(403);
+        }
+        catch (CabinVersionConflictException ex)
+        {
+            return Conflict(new { error = ex.Message, currentVersion = ex.CurrentVersion });
         }
         catch (InvalidAmenityTagsException ex)
         {

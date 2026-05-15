@@ -40,6 +40,42 @@ public class CabinService(ICabinRepository cabins, IAmenityTagRepository amenity
         return ToDto(created);
     }
 
+    public async Task<CabinDto> UpdateAsync(Guid hostId, Guid cabinId, UpdateCabinRequest request, CancellationToken ct = default)
+    {
+        var cabin = await cabins.GetByIdAsync(cabinId, ct)
+            ?? throw new CabinNotFoundException(cabinId);
+
+        if (cabin.HostId != hostId)
+            throw new CabinOwnershipException(cabinId);
+
+        if (cabin.Version != request.Version)
+            throw new CabinVersionConflictException(cabinId, cabin.Version);
+
+        var tagIds = request.AmenityTagIds ?? [];
+        List<AmenityTag> resolvedTags = [];
+
+        if (tagIds.Count > 0)
+        {
+            resolvedTags = [.. await amenityTags.GetByIdsAsync(tagIds, ct)];
+            var invalidIds = tagIds.Except(resolvedTags.Select(t => t.Id)).ToList();
+            if (invalidIds.Count > 0)
+                throw new InvalidAmenityTagsException(invalidIds);
+        }
+
+        cabin.Name = request.Name;
+        cabin.Location = request.Location;
+        cabin.Capacity = request.Capacity;
+        cabin.Description = request.Description;
+        cabin.AmenityTags.Clear();
+        foreach (var tag in resolvedTags)
+            cabin.AmenityTags.Add(tag);
+        cabin.Version++;
+        cabin.UpdatedAt = DateTimeOffset.UtcNow;
+
+        await cabins.UpdateAsync(cabin, ct);
+        return ToDto(cabin);
+    }
+
     internal static CabinDto ToDto(Cabin cabin) => new(
         cabin.Id,
         cabin.Name,

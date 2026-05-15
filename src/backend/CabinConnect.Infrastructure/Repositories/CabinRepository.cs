@@ -31,7 +31,13 @@ public class CabinRepository(AppDbContext db) : ICabinRepository
 
     public async Task UpdateAsync(Cabin cabin, CancellationToken ct = default)
     {
-        db.Cabins.Update(cabin);
-        await db.SaveChangesAsync(ct);
+        try
+        {
+            await db.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateException ex) when (ex.InnerException is PostgresException { SqlState: "23505" })
+        {
+            throw new DuplicateCabinNameException(cabin.Name);
+        }
     }
 }
