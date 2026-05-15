@@ -1,32 +1,53 @@
-## **Solution**
+# CabinConnect
 
-**CabinConnect** connects cabin owners, local businesses, and neighbors through one simple app — a digital layer for sustainable, social, and convenient cabin life.
+CabinConnect is a digital community platform for cabin owners, local businesses, and neighbors in Norwegian mountain resorts. It brings together four core capabilities — cabin management, local events, grocery ordering, and tool sharing — into one lightweight, cloud-hosted app built for sustainable and social cabin life.
 
-### **1\. MyCabin**
+The project is being built by 99x using the AI-Driven Development Lifecycle (AI-DLC).
 
-A structured data hub for cabin owners.  
- Users can store key information, track maintenance, calculate ownership costs, and share visitor instructions.  
+---
 
-### **2\. Events**
+## The Product
 
-A simple, user-friendly event platform that empowers both administrators and residents to publish and manage local events.  
+| Module | What it does |
+|---|---|
+| **MyCabin** | Cabin owners store, track, and share everything about their cabin — maintenance, costs, visitor instructions |
+| **Events** | Administrators and residents publish and manage local community events |
+| **Groceries** | Cabin owners order groceries for pickup or volunteer-delivered doorstep delivery |
+| **ToolShare** | Community sharing economy for tools and equipment — lend, borrow, or rent locally |
 
-### **3\. Groceries (Pick Up / Delivery)**
+Full requirements: [docs/solution/Requirements.md](docs/solution/Requirements.md)
 
-Seamless grocery pickup for cabin owners on their way to the mountain — starting with **RIMA**.  
- → *Demanded feature*: Doorstep delivery at the cabin using volunteers
+---
 
-### **4\. ToolShare**
+## Tech Stack
 
-A community-driven sharing economy for tools and equipment.  
- Cabin owners can lend, borrow, or rent tools locally.  
+- **Backend:** C# / .NET 8 Web API
+- **Frontend:** React 18 + TypeScript
+- **Database & Auth:** Supabase (PostgreSQL with RLS)
+- **Hosting:** Shared cloud infrastructure
 
- ## **Why It Matters**
+---
 
-* Builds a **digital community** that supports sustainability, efficiency, and local commerce.
+## How We Build
 
-* Creates **a real-life testbed** for scalable “Smart Community” solutions — a model for other Norwegian resorts.
+This project follows the AI-DLC process. Work is structured as Intents → Units → Bolts across three phases: Inception, Build, and Operate.
 
-* Offers **a balanced MVP**: low complexity, strong user value, and clear monetization pathways.
+| Document | Purpose |
+|---|---|
+| [ai-dlc/Instructions2FDE.md](ai-dlc/Instructions2FDE.md) | Main guide — how to work in this project using AI-DLC |
+| [ai-dlc/README.md](ai-dlc/README.md) | Artifact lifecycle overview |
+| [ai-dlc/ops/build/backlog.md](ai-dlc/ops/build/backlog.md) | Live status of all units |
+| [CLAUDE.md](CLAUDE.md) | Rules loaded by Claude at the start of every session |
 
-* Technically, it’s **lightweight, scalable, and cloud-ready**, ideal for 99x to develop and host cost-efficiently on shared cloud infrastructure
+---
+
+## Key References
+
+| Document | Purpose |
+|---|---|
+| [ai-dlc/guidelines/domain-glossary.md](ai-dlc/guidelines/domain-glossary.md) | Canonical business terms used in code and prompts |
+| [ai-dlc/guidelines/edge-cases.md](ai-dlc/guidelines/edge-cases.md) | Known failure modes to check before generating code |
+| [ai-dlc/rules/prompt-quality-gate.md](ai-dlc/rules/prompt-quality-gate.md) | The four-component check run before every AI code generation |
+| [ai-dlc/rules/architecture.md](ai-dlc/rules/architecture.md) | Architecture decisions and their rationale |
+| [ai-dlc/rules/code-standards.md](ai-dlc/rules/code-standards.md) | Naming conventions, patterns, and testing standards |
+| [ai-dlc/rules/security.md](ai-dlc/rules/security.md) | Security rules — never/always |
