@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet --version)",
+      "Bash(npm --version)",
+      "Bash(npx supabase *)",
+      "Bash(mkdir -p src/backend src/frontend supabase/migrations)",
+      "Bash(dotnet new *)",
+      "Bash(chmod -R u+w /Users/sachithp/.nuget/packages/xunit.runner.visualstudio)",
+      "Bash(dotnet restore *)",
+      "Bash(chmod -R u+w /Users/sachithp/.nuget/packages/)",
+      "Bash(sudo chmod -R u+w /Users/sachithp/.nuget/packages/)",
+      "Bash(dotnet nuget *)",
+      "Bash(dotnet sln *)",
+      "Bash(dotnet add *)",
+      "Bash(dotnet build *)",
+      "Bash(npm create *)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(dotnet package *)"
+    ],
+    "additionalDirectories": [
+      "/Users/sachithp/Projects/99x/AI-DLC/CabinConnect/src"
+    ]
+  }
+}
