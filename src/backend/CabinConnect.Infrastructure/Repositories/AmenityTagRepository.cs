@@ -9,4 +9,7 @@ public class AmenityTagRepository(AppDbContext db) : IAmenityTagRepository
 {
     public async Task<IReadOnlyList<AmenityTag>> GetAllOrderedByNameAsync(CancellationToken ct = default) =>
         await db.AmenityTags.OrderBy(t => t.Name).ToListAsync(ct);
+
+    public async Task<IReadOnlyList<AmenityTag>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct = default) =>
+        await db.AmenityTags.Where(t => ids.Contains(t.Id)).ToListAsync(ct);
 }

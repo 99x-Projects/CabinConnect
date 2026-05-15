@@ -1,3 +1,4 @@
+using CabinConnect.Api.Services;
 using CabinConnect.Domain.Interfaces;
 using CabinConnect.Infrastructure.Data;
 using CabinConnect.Infrastructure.Repositories;
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ICabinRepository, CabinRepository>();
 builder.Services.AddScoped<IAmenityTagRepository, AmenityTagRepository>();
+builder.Services.AddScoped<ICabinService, CabinService>();
 
 builder.Services.AddCors(options =>
 {
