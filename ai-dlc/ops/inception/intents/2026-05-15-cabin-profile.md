@@ -50,7 +50,7 @@ _(none — all resolved before elaboration)_
 |---|---|---|
 | Create Cabin | [cabin-profile-create.md](../../build/units/cabin-profile-create.md) | Open |
 | Update Cabin Profile | [cabin-profile-update.md](../../build/units/cabin-profile-update.md) | Open |
-| Manage Cabin Amenities | [cabin-amenities-manage.md](../../build/units/cabin-amenities-manage.md) | Open |
-| Manage Cabin Key Information | [cabin-key-info-manage.md](../../build/units/cabin-key-info-manage.md) | Open |
 | List Host Cabins | [cabin-list-host.md](../../build/units/cabin-list-host.md) | Open |
+| Manage Cabin Key Information | [cabin-key-info-manage.md](../../build/units/cabin-key-info-manage.md) | Open |
 | Get Cabin Detail (Host) | [cabin-detail-host.md](../../build/units/cabin-detail-host.md) | Open |
+| List Amenity Tags | [cabin-amenity-tags-list.md](../../build/units/cabin-amenity-tags-list.md) | Open |

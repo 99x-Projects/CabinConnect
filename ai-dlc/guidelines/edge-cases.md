@@ -70,3 +70,7 @@ _Mitigation:_ Return null/empty fields with HTTP 200. Do not return HTTP 404 —
 **EC-012 — Mixed valid/invalid amenity tag IDs in a single request**
 A Host submits a list of amenity tag IDs where some are valid and some are not in the predefined list.
 _Mitigation:_ Reject the entire request with HTTP 400. Do not apply the valid ones partially. Include the invalid IDs in the error response so the client can correct them.
+
+**EC-013 — Duplicate cabin name per Host**
+A Host attempts to create or update a cabin with a name that already exists on another of their cabins.
+_Mitigation:_ Reject with HTTP 409 Conflict on both create and update. The uniqueness constraint is scoped per Host — two different Hosts may use the same cabin name.
