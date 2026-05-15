@@ -15,6 +15,13 @@ public class CabinRepository(AppDbContext db) : ICabinRepository
     public async Task<IReadOnlyList<Cabin>> GetAllActiveAsync(CancellationToken ct = default) =>
         await db.Cabins.Include(c => c.AmenityTags).Where(c => c.IsActive).ToListAsync(ct);
 
+    public async Task<IReadOnlyList<Cabin>> GetByHostIdAsync(Guid hostId, CancellationToken ct = default) =>
+        await db.Cabins
+            .Include(c => c.AmenityTags)
+            .Where(c => c.HostId == hostId)
+            .OrderByDescending(c => c.CreatedAt)
+            .ToListAsync(ct);
+
     public async Task<Cabin> AddAsync(Cabin cabin, CancellationToken ct = default)
     {
         db.Cabins.Add(cabin);

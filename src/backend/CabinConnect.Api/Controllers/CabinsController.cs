@@ -16,8 +16,14 @@ public class CabinsController(ICabinRepository cabins, ICabinService cabinServic
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken ct)
     {
-        var result = await cabins.GetAllActiveAsync(ct);
-        return Ok(result.Select(CabinService.ToDto));
+        var sub = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+               ?? User.FindFirst("sub")?.Value;
+
+        if (!Guid.TryParse(sub, out var hostId))
+            return Unauthorized();
+
+        var result = await cabinService.GetByHostAsync(hostId, ct);
+        return Ok(result);
     }
 
     [HttpGet("{id:guid}")]

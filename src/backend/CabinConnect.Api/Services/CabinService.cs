@@ -7,6 +7,12 @@ namespace CabinConnect.Api.Services;
 
 public class CabinService(ICabinRepository cabins, IAmenityTagRepository amenityTags) : ICabinService
 {
+    public async Task<IReadOnlyList<CabinDto>> GetByHostAsync(Guid hostId, CancellationToken ct = default)
+    {
+        var result = await cabins.GetByHostIdAsync(hostId, ct);
+        return result.Select(ToDto).ToList();
+    }
+
     public async Task<CabinDto> CreateAsync(Guid hostId, CreateCabinRequest request, CancellationToken ct = default)
     {
         var tagIds = request.AmenityTagIds ?? [];
