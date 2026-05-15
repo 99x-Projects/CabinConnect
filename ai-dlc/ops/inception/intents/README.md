@@ -28,4 +28,4 @@ An **Intent** is a high-level description of a capability or outcome the team wa
 
 | Intent | Status | Date |
 |---|---|---|
-| [Cabin Profile Management](2026-05-15-cabin-profile.md) | Ready | 2026-05-15 |
+| [Cabin Profile Management](2026-05-15-cabin-profile.md) | Elaborated | 2026-05-15 |

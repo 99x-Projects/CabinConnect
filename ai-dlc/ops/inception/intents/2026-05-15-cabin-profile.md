@@ -1,6 +1,6 @@
 # Intent: Cabin Profile Management
 
-**Status:** Ready
+**Status:** Elaborated
 **Date:** 2026-05-15
 **Owner:** Sachith
 
@@ -41,11 +41,16 @@ _(none — all resolved before elaboration)_
 
 | Session | Date | Units Extracted |
 |---|---|---|
-| _(none yet)_ | | |
+| [Session 1](../elaborations/cabin-profile/2026-05-15-session-1.md) | 2026-05-15 | 6 |
 
 ## Extracted Units
 <!-- Summary list. Canonical definitions live in build/units/. -->
 
 | Unit | File | Status |
 |---|---|---|
-| _(none yet)_ | | |
+| Create Cabin | [cabin-profile-create.md](../../build/units/cabin-profile-create.md) | Open |
+| Update Cabin Profile | [cabin-profile-update.md](../../build/units/cabin-profile-update.md) | Open |
+| Manage Cabin Amenities | [cabin-amenities-manage.md](../../build/units/cabin-amenities-manage.md) | Open |
+| Manage Cabin Key Information | [cabin-key-info-manage.md](../../build/units/cabin-key-info-manage.md) | Open |
+| List Host Cabins | [cabin-list-host.md](../../build/units/cabin-list-host.md) | Open |
+| Get Cabin Detail (Host) | [cabin-detail-host.md](../../build/units/cabin-detail-host.md) | Open |

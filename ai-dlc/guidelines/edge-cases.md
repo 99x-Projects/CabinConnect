@@ -58,3 +58,15 @@ _Mitigation:_ Validated server-side before any database query. Frontend also val
 **EC-010 — Zero-night booking**
 Check-in and check-out on the same date results in a zero-night stay.
 _Mitigation:_ Minimum booking duration is 1 night. Enforce in validation with a clear error message.
+
+---
+
+## Cabin Profile
+
+**EC-011 — Cabin key info requested before it has been saved**
+A Host requests key info (access codes, emergency contacts, house rules) for a cabin where none has been entered yet.
+_Mitigation:_ Return null/empty fields with HTTP 200. Do not return HTTP 404 — the cabin exists; the key info record simply has not been created yet.
+
+**EC-012 — Mixed valid/invalid amenity tag IDs in a single request**
+A Host submits a list of amenity tag IDs where some are valid and some are not in the predefined list.
+_Mitigation:_ Reject the entire request with HTTP 400. Do not apply the valid ones partially. Include the invalid IDs in the error response so the client can correct them.
