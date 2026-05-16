@@ -1,6 +1,6 @@
 # Intent: Cabin Profile UI (Host)
 
-**Status:** Ready
+**Status:** Elaborated
 **Date:** 2026-05-16
 **Owner:** Sachith
 
@@ -45,10 +45,16 @@ _(none — all resolved before file creation)_
 
 | Session | Date | Units Extracted |
 |---|---|---|
-| _(not yet run)_ | | |
+| [Session 1](../elaborations/cabin-profile-ui/2026-05-16-session-1.md) | 2026-05-16 | 7 |
 
 ## Extracted Units
 
 | Unit | File | Status |
 |---|---|---|
-| _(not yet elaborated)_ | | |
+| Host Authentication | [ui-auth-host.md](../../build/units/ui-auth-host.md) | Open |
+| Cabin List Dashboard | [ui-cabin-list.md](../../build/units/ui-cabin-list.md) | Open |
+| Create Cabin Modal | [ui-cabin-create-modal.md](../../build/units/ui-cabin-create-modal.md) | Open |
+| Cabin Detail & Edit Page | [ui-cabin-detail-edit.md](../../build/units/ui-cabin-detail-edit.md) | Open |
+| Key Information Panel | [ui-key-info-panel.md](../../build/units/ui-key-info-panel.md) | Open |
+| User Invitation Management | [ui-user-invitation.md](../../build/units/ui-user-invitation.md) | Open |
+| Create User Invitation (API) | [api-user-invitation.md](../../build/units/api-user-invitation.md) | Open |
