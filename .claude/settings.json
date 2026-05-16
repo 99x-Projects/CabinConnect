@@ -18,7 +18,8 @@
       "Bash(npm install *)",
       "Bash(npx tsc *)",
       "Bash(dotnet package *)",
-      "Bash(dotnet test *)"
+      "Bash(dotnet test *)",
+      "Bash(npx vite *)"
     ],
     "additionalDirectories": [
       "/Users/sachithp/Projects/99x/AI-DLC/CabinConnect/src"
