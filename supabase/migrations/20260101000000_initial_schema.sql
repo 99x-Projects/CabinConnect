@@ -201,3 +201,25 @@ create policy "Hosts manage seasonal rates for their cabins"
 create policy "Guests can view seasonal rates"
   on seasonal_rates for select
   using (true);
+
+-- ============================================================
+-- user_roles (invitation tracking — written by backend via service role)
+-- ============================================================
+create table user_roles (
+  id           uuid        primary key default gen_random_uuid(),
+  user_id      uuid        not null references auth.users(id) on delete cascade,
+  email        text        not null,
+  role         text        not null check (role in ('cabin_owner', 'guest')),
+  status       text        not null default 'pending' check (status in ('pending', 'active')),
+  invited_at   timestamptz not null default now(),
+  accepted_at  timestamptz,
+
+  constraint user_roles_email_unique unique (email)
+);
+
+alter table user_roles enable row level security;
+
+-- Authenticated users can read their own role record (used for post-setup redirect)
+create policy "Users can view their own role"
+  on user_roles for select
+  using (auth.uid() = user_id);

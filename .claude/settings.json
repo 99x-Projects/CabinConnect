@@ -19,7 +19,9 @@
       "Bash(npx tsc *)",
       "Bash(dotnet package *)",
       "Bash(dotnet test *)",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(xargs ls -la)",
+      "Bash(./node_modules/.bin/tsc -p tsconfig.app.json --noEmit)"
     ],
     "additionalDirectories": [
       "/Users/sachithp/Projects/99x/AI-DLC/CabinConnect/src"

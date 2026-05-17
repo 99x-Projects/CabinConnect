@@ -1,10 +1,13 @@
+using System.Text;
+using System.Text.Json;
+using CabinConnect.Api.Infrastructure;
 using CabinConnect.Api.Services;
 using CabinConnect.Domain.Interfaces;
 using CabinConnect.Infrastructure.Data;
 using CabinConnect.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-
-
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +21,62 @@ var connectionString = builder.Configuration.GetConnectionString("Default")
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
+var jwtSecret = builder.Configuration["Supabase:JwtSecret"] ?? string.Empty;
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.FromSeconds(30),
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = context =>
+            {
+                var appMetadataJson = context.Principal?.FindFirst("app_metadata")?.Value;
+                if (appMetadataJson is not null)
+                {
+                    try
+                    {
+                        using var doc = JsonDocument.Parse(appMetadataJson);
+                        if (doc.RootElement.TryGetProperty("role", out var role))
+                        {
+                            var identity = (System.Security.Claims.ClaimsIdentity)context.Principal!.Identity!;
+                            identity.AddClaim(new System.Security.Claims.Claim("app_role", role.GetString() ?? ""));
+                        }
+                    }
+                    catch { /* ignore malformed app_metadata */ }
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
 builder.Services.AddScoped<ICabinRepository, CabinRepository>();
 builder.Services.AddScoped<IAmenityTagRepository, AmenityTagRepository>();
 builder.Services.AddScoped<ICabinKeyInfoRepository, CabinKeyInfoRepository>();
 builder.Services.AddScoped<IKeyInfoRevealLogRepository, KeyInfoRevealLogRepository>();
+builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 builder.Services.AddScoped<ICabinService, CabinService>();
 builder.Services.AddScoped<ICabinKeyInfoService, CabinKeyInfoService>();
+builder.Services.AddScoped<IInvitationService, InvitationService>();
+
+var supabaseUrl = builder.Configuration["Supabase:Url"]
+    ?? throw new InvalidOperationException("Supabase:Url is not configured.");
+var serviceRoleKey = builder.Configuration["Supabase:ServiceRoleKey"]
+    ?? throw new InvalidOperationException("Supabase:ServiceRoleKey is not configured.");
+
+builder.Services.AddHttpClient<ISupabaseAdminClient, SupabaseAdminClient>(client =>
+{
+    client.BaseAddress = new Uri(supabaseUrl);
+    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {serviceRoleKey}");
+    client.DefaultRequestHeaders.Add("apikey", serviceRoleKey);
+});
 
 builder.Services.AddCors(options =>
 {

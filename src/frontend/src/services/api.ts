@@ -28,10 +28,16 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
   const res = await fetch(`${BASE_URL}${path}`, { ...init, headers });
 
   if (!res.ok) {
+    if (res.status === 401) {
+      await supabase.auth.signOut();
+      window.location.replace('/login');
+    }
+
     let message = `API error ${res.status}`;
     try {
       const body = await res.json();
       if (typeof body?.title === 'string') message = body.title;
+      else if (typeof body?.error === 'string') message = body.error;
       else if (typeof body?.message === 'string') message = body.message;
     } catch {
       // ignore parse failures — status code is enough
