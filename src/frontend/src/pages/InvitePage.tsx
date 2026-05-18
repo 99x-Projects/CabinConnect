@@ -84,14 +84,11 @@ export function InvitePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b px-6 py-4">
-        <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
-          <ArrowLeftIcon className="mr-1" /> Back to Dashboard
-        </Button>
-      </header>
-
-      <main className="mx-auto max-w-lg px-6 py-8">
+    <div className="mx-auto max-w-lg">
+      <Button variant="ghost" size="sm" onClick={() => navigate('/')} className="mb-6">
+        <ArrowLeftIcon className="mr-1" /> Back to Dashboard
+      </Button>
+      <div>
         <Card>
           <CardHeader>
             <CardTitle>Invite User</CardTitle>
@@ -154,7 +151,7 @@ export function InvitePage() {
             </form>
           </CardContent>
         </Card>
-      </main>
+      </div>
     </div>
   );
 }

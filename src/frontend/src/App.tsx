@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from '@/context/auth';
-import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { AuthenticatedLayout } from '@/components/AuthenticatedLayout';
 import { LoginPage } from '@/pages/LoginPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { CabinDetailPage } from '@/pages/CabinDetailPage';
@@ -15,25 +15,25 @@ function App() {
           <Route
             path="/"
             element={
-              <ProtectedRoute>
+              <AuthenticatedLayout>
                 <DashboardPage />
-              </ProtectedRoute>
+              </AuthenticatedLayout>
             }
           />
           <Route
             path="/cabins/:id"
             element={
-              <ProtectedRoute>
+              <AuthenticatedLayout>
                 <CabinDetailPage />
-              </ProtectedRoute>
+              </AuthenticatedLayout>
             }
           />
           <Route
             path="/invite"
             element={
-              <ProtectedRoute>
+              <AuthenticatedLayout>
                 <InvitePage />
-              </ProtectedRoute>
+              </AuthenticatedLayout>
             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />
