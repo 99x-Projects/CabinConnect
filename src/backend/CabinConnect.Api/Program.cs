@@ -1,4 +1,3 @@
-using System.Text;
 using System.Text.Json;
 using CabinConnect.Api.Infrastructure;
 using CabinConnect.Api.Services;
@@ -21,15 +20,17 @@ var connectionString = builder.Configuration.GetConnectionString("Default")
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-var jwtSecret = builder.Configuration["Supabase:JwtSecret"] ?? string.Empty;
+var supabaseUrl = builder.Configuration["Supabase:Url"]
+    ?? throw new InvalidOperationException("Supabase:Url is not configured.");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        // Supabase Cloud signs tokens with ES256. Validate via the JWKS endpoint so the
+        // library handles key discovery and algorithm negotiation automatically.
+        options.Authority = $"{supabaseUrl}/auth/v1";
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
             ValidateIssuer = false,
             ValidateAudience = false,
             ClockSkew = TimeSpan.FromSeconds(30),
@@ -66,8 +67,6 @@ builder.Services.AddScoped<ICabinService, CabinService>();
 builder.Services.AddScoped<ICabinKeyInfoService, CabinKeyInfoService>();
 builder.Services.AddScoped<IInvitationService, InvitationService>();
 
-var supabaseUrl = builder.Configuration["Supabase:Url"]
-    ?? throw new InvalidOperationException("Supabase:Url is not configured.");
 var serviceRoleKey = builder.Configuration["Supabase:ServiceRoleKey"]
     ?? throw new InvalidOperationException("Supabase:ServiceRoleKey is not configured.");
 

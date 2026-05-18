@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/context/auth';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function LoginPage() {
   const { user, loading } = useAuth();
-  const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as { from?: Location })?.from?.pathname ?? '/';
 
@@ -42,8 +41,7 @@ export function LoginPage() {
       setSubmitting(false);
       return;
     }
-
-    navigate(from, { replace: true });
+    // onAuthStateChange will update session → LoginPage re-renders → <Navigate to={from} />
   };
 
   return (

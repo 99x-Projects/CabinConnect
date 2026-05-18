@@ -21,7 +21,17 @@
       "Bash(dotnet test *)",
       "Bash(npx vite *)",
       "Bash(xargs ls -la)",
-      "Bash(./node_modules/.bin/tsc -p tsconfig.app.json --noEmit)"
+      "Bash(./node_modules/.bin/tsc -p tsconfig.app.json --noEmit)",
+      "Bash(dotnet run *)",
+      "Bash(curl -s http://localhost:5050/health)",
+      "Bash(python3 -m json.tool)",
+      "Bash(pkill -f \"CabinConnect.Api\")",
+      "Bash(nc -zv db.vkaolfknkgzmajqdtrxx.supabase.co 5432)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(host db.vkaolfknkgzmajqdtrxx.supabase.co)",
+      "Bash(nslookup db.vkaolfknkgzmajqdtrxx.supabase.co)",
+      "Bash(nc -6 -zv db.vkaolfknkgzmajqdtrxx.supabase.co 5432)",
+      "Bash(nc -6 -zv 2406:da14:1d62:b400:cfbc:e898:8fee:b7ad 5432)"
     ],
     "additionalDirectories": [
       "/Users/sachithp/Projects/99x/AI-DLC/CabinConnect/src"
