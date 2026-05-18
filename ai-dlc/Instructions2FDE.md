@@ -49,59 +49,44 @@ Before starting work, know these four files:
 
 ---
 
+## Running Ceremonies with Claude
+
+Claude knows the full AI-DLC process. You do not need to manually copy templates, write prompts from scratch, or follow step-by-step checklists. Just tell Claude what ceremony you want to run and it will handle the structure, ask the right questions, create the right files, and update the backlog.
+
+### How to invoke each ceremony
+
+| You want to… | Say to Claude |
+|---|---|
+| Define a new capability | "Let's write an intent for [feature]" |
+| Break an intent into units | "Run a mob elaboration for [intent name]" |
+| Plan the next batch of work | "Plan a bolt from the open units in the backlog" |
+| Build a unit | "Execute unit [name] from bolt [name]" |
+| Write a retro | "Write the retro for bolt [name]" |
+| Record a production issue | "Log an incident for [description of the problem]" |
+| Improve a rule or guideline | "File an improvement for [what needs to change and why]" |
+
+Claude will enforce the prompt quality gate, follow the mob elaboration interactive protocol, create all artifact files from templates, and update the backlog — without you needing to manage any of that manually.
+
+### What you still own
+
+Claude accelerates the ceremonies but does not replace your judgment:
+
+- **Review every diff** before it merges. "It looks right" is not a review.
+- **Confirm acceptance criteria** during mob elaboration — Claude proposes, you decide.
+- **Run the tests** and verify the actual behavior in the UI, not just that the tests pass.
+- **Check edge cases** against [guidelines/edge-cases.md](guidelines/edge-cases.md) for anything the code you're reviewing touches.
+
+---
+
 ## Phase 1 — Inception
 
 > Goal: turn a vague idea into a set of units with testable acceptance criteria.
 
-### Step 1 — Write an Intent
+An **Intent** is a one-page description of a capability you want the system to have. It describes the outcome, not the solution. A good intent fits on one page — if you need more, you have two intents.
 
-An **Intent** is a one-page description of a capability you want the system to have. It is not a user story, a task, or a specification. It describes the outcome, not the solution.
+A **Mob Elaboration** is a collaborative session where the team (with Claude as facilitator) breaks an intent into independently buildable units. Claude runs this as a turn-by-turn conversation: one unit at a time, confirming acceptance criteria and edge cases before moving on.
 
-1. Copy [ops/inception/intents/_template.md](ops/inception/intents/_template.md)
-2. Name the file: `YYYY-MM-DD-<intent-name>.md` (e.g. `2025-07-01-cabin-search.md`)
-3. Fill in: What, Why, Success Looks Like, Assumptions, Out of Scope
-4. Set **Status: Draft**
-5. When it is ready to elaborate: set **Status: Ready**
-
-A good intent fits on one page. If you are writing more than that, you have two intents.
-
-### Step 2 — Run a Mob Elaboration Session
-
-A **Mob Elaboration** is a 45–90 minute session where the team (2–4 people + AI) breaks an intent into independently buildable units.
-
-**Before the session:**
-- Intent is in `Ready` status
-- Everyone has read the intent
-- Facilitator has [skills/mob-elab-prompts.md](skills/mob-elab-prompts.md) open
-
-**During the session:**
-
-1. Read the intent aloud. Confirm what success looks like.
-2. Paste **Prompt 1** (Feature Decomposition) from [skills/mob-elab-prompts.md](skills/mob-elab-prompts.md) into Claude. Fill in the feature name and description from the intent.
-3. Review the AI's proposed units as a team. Challenge each one:
-   - Can it be built and deployed independently?
-   - Does it have a testable outcome?
-   - Is it the right size? (1–3 days of work; 2–5 acceptance criteria)
-4. For each unit that survives, paste **Prompt 2** (Acceptance Criteria) to generate Given/When/Then criteria.
-5. Record all outputs and team decisions in a session file: copy [ops/inception/elaborations/_template.md](ops/inception/elaborations/_template.md) to `ops/inception/elaborations/<intent-slug>/YYYY-MM-DD-session-1.md`
-6. Note any new edge cases discovered — add them to [guidelines/edge-cases.md](guidelines/edge-cases.md)
-
-**Session rules:**
-- One question at a time to Claude — do not batch everything into one mega-prompt
-- If you disagree with the AI's output, say so explicitly and re-prompt with the correction
-- If the session exceeds 90 minutes, the intent is too large — split it
-
-### Step 3 — Extract Units
-
-After the session, create a unit file for each extracted unit:
-
-1. Copy [ops/build/units/_template.md](ops/build/units/_template.md)
-2. Name the file: `<unit-slug>.md` in kebab-case, no date (e.g. `cabin-availability-check.md`)
-3. Fill in all sections — especially Acceptance Criteria in Given/When/Then format
-4. Check [guidelines/acceptance-patterns.md](guidelines/acceptance-patterns.md) if you are unsure whether your ACs are good
-5. Add the unit to [ops/build/backlog.md](ops/build/backlog.md) with **Status: Open**
-6. Update the Intent file's Elaboration Sessions and Extracted Units tables
-7. When all units are extracted: set the Intent to **Status: Elaborated**
+**To run inception:** tell Claude "Let's write an intent for [feature]" and follow the conversation. When the intent is ready, say "Run a mob elaboration for this intent." Claude will produce all files and backlog entries on sign-off.
 
 ---
 
@@ -109,100 +94,18 @@ After the session, create a unit file for each extracted unit:
 
 > Goal: take Open units, plan them into a Bolt, build the code with AI assistance, and ship.
 
-### Step 1 — Triage the Backlog
+A **Bolt** is a batch of related units that delivers a coherent, end-to-end outcome. Think of it as a mini-sprint scoped by what the user can do, not by how long it takes. A Bolt should be completable in 1–2 weeks with 3–8 units.
 
-Before planning a Bolt, review [ops/build/backlog.md](ops/build/backlog.md):
-- Are all Open units properly defined? (AC written, dependencies clear)
-- Which units are blocked and why?
-- What is the highest-value outcome the team can deliver next?
+**To plan a bolt:** tell Claude "Plan a bolt from the open units in the backlog" and it will select units, set execution order, and create all files.
 
-### Step 2 — Plan a Bolt
+**To execute a unit:** tell Claude "Execute unit [name]" — Claude will apply the prompt quality gate, generate the code, and remind you to log the prompt. Work in this order:
+1. API contract first
+2. Implementation scaffold
+3. Fill in TODOs
+4. Tests
+5. Claude self-review (ask: "Review your output against the rules and ACs")
 
-A **Bolt** is a batch of related units that delivers a coherent, end-to-end outcome. Think of it as a mini-sprint scoped by what the user can do, not by how long it takes.
-
-1. Copy [ops/build/bolts/_template.md](ops/build/bolts/_template.md)
-2. Name the file: `bolt-NN-<name>.md` (e.g. `bolt-01-cabin-search.md`)
-3. Select 3–8 units from the backlog that deliver a coherent outcome together
-4. Define the execution order — which units have dependencies on others
-5. Update each selected unit's status in the backlog to **Planned**
-6. Update each unit file's Bolt field
-
-A Bolt should be completable by the team in 1–2 weeks. If the selected units would take longer, reduce scope.
-
-### Step 3 — Execute a Unit
-
-This is where you write code. For each unit in the active Bolt, follow this sequence exactly:
-
-#### 3a. Confirm the unit is ready
-- Acceptance criteria are written in Given/When/Then format
-- Dependencies are Done or not required
-- You have read [guidelines/edge-cases.md](guidelines/edge-cases.md) for relevant failure modes
-
-#### 3b. Apply the Prompt Quality Gate
-
-Before sending any prompt to Claude, confirm the request contains all four components:
-
-| Component | Question to ask yourself |
-|---|---|
-| **Context** | Did I tell Claude what system this is and what it touches? |
-| **Constraints** | Did I say what must not be changed and which rules apply? |
-| **Acceptance Criteria** | Is there a testable pass/fail condition in the prompt? |
-| **Output Format** | Did I say what I want back (code, scaffold, contract, test stubs)? |
-
-If any component is missing, Claude will ask you one question at a time to fill the gap. Do not skip this — it is the main mechanism that prevents wasted AI output.
-
-Full gate: [rules/prompt-quality-gate.md](rules/prompt-quality-gate.md)
-
-#### 3c. Generate the output
-
-Use the prompts in [skills/mob-elab-prompts.md](skills/mob-elab-prompts.md):
-
-| Prompt | Use it for |
-|---|---|
-| Prompt 3 — API Contract | Design the endpoint shape before writing any code |
-| Prompt 4 — Implementation Scaffold | Generate the .NET controller, service, repository, and test stubs |
-| Prompt 5 — Review AI Output | Ask Claude to critique its own output against rules and ACs |
-
-Work in this order: API Contract → Scaffold → Fill in TODOs → Tests → Review.
-
-#### 3d. Log the prompt
-
-Every AI interaction must be logged. Create or append to `prompts/YYYY-MM-DD-<feature>.md`:
-- Paste the exact prompt you used
-- Summarize what the AI produced
-- Note the quality gate result
-- List any changes you made to the AI output before accepting it
-
-This is the audit trail. Do not skip it.
-
-#### 3e. Run the Review Checklist
-
-Before raising a PR, go through every item in [skills/review-checklist.md](skills/review-checklist.md). Key checks:
-
-- Every acceptance criterion is traceable to the code
-- No hallucinated API methods or type signatures
-- Auth is checked on every new endpoint
-- RLS policies updated if new Supabase tables are introduced
-- At least one test per acceptance criterion
-- Prompt log entry exists for this unit
-
-Do not approve a PR that skips this checklist. Document any deliberate skips with a reason.
-
-#### 3f. Close the unit
-
-Once the PR is merged:
-1. Update the unit file's Status to **Done**
-2. Update the backlog
-3. Update the Bolt's unit status table
-
-### Step 4 — Close the Bolt
-
-When all units in the Bolt are Done:
-1. Run an integration test — the complete user journey the Bolt enables, end-to-end
-2. Deploy to staging or preview environment
-3. Get stakeholder acceptance if required
-4. Update the Bolt status to **Complete**
-5. Move to Operate phase
+**Before merging:** run through [skills/review-checklist.md](skills/review-checklist.md). Claude can run this for you — ask "Run the review checklist for this unit."
 
 ---
 
@@ -210,36 +113,11 @@ When all units in the Bolt are Done:
 
 > Goal: learn from what was built and make the process better.
 
-### After Every Bolt — Retrospective
+**After every Bolt:** say "Write the retro for bolt [name]." Claude will produce the retro file. Review it and add any action items it missed.
 
-Hold a retro within 48 hours of closing the Bolt. Create a file from [ops/operate/retros/_template.md](ops/operate/retros/_template.md) named `bolt-NN.md`.
+**When production issues occur:** say "Log an incident for [description]." Claude will create the incident file and check whether it relates to a known edge case.
 
-Cover these specifically:
-- Which prompts worked and why
-- Which prompts needed revision before output was usable
-- Whether the quality gate caught anything that would have merged badly
-- Whether any reviewer accepted AI output without reading the diff
-
-For every action item, file an **Improvement** (see below) before closing the retro.
-
-### When Production Issues Occur — Incidents
-
-Every production bug or unexpected behaviour must be recorded. Create a file from [ops/operate/incidents/_template.md](ops/operate/incidents/_template.md).
-
-Always answer:
-- Was this a known edge case that wasn't handled?
-- Was it in [guidelines/edge-cases.md](guidelines/edge-cases.md) but not checked?
-- Does a new edge case need to be added?
-
-### When the Process Needs Updating — Improvements
-
-When a retro or incident reveals that a rule, guideline, or skill needs changing:
-1. Create a file from [ops/operate/improvements/_template.md](ops/operate/improvements/_template.md)
-2. Quote the current text and the proposed replacement
-3. Apply the change to the target file
-4. Mark the improvement as Applied
-
-This is how the process evolves. Do not skip it — unrecorded lessons repeat.
+**When the process needs updating:** say "File an improvement for [what needs to change and why]." Claude will quote the current text, write the replacement, apply it to the target file, and mark the improvement as applied.
 
 ---
 
@@ -248,35 +126,56 @@ This is how the process evolves. Do not skip it — unrecorded lessons repeat.
 These are never optional, regardless of time pressure:
 
 ### 1. The Prompt Quality Gate
-Every code generation request goes through the four-component check. If a component is missing, Claude will ask for it. Do not try to bypass this by stuffing partial context into a single rushed prompt. A bad prompt produces output that costs more time to fix than it saved.
+Every code generation request goes through the four-component check (Context, Constraints, Acceptance Criteria, Output Format). Claude enforces this automatically — if a component is missing, it will ask before generating any code.
 
 ### 2. The Review Checklist
-Every AI-generated diff is reviewed by a human against the checklist before merge. "It looks right" is not a review. Read the code. Run the tests. Check the edge cases.
+Every AI-generated diff is reviewed by a human against the checklist before merge. Read the code. Run the tests. Check the edge cases. Claude can run the checklist for you, but the human sign-off is not optional.
 
 ### 3. The Prompt Log
-Every AI interaction is logged in `prompts/`. If there is no log entry, there is no audit trail. This is how the team learns which prompts work, which don't, and why.
+Every AI interaction is logged in `prompts/`. Claude will remind you to log after each session. If there is no log entry, there is no audit trail.
 
 ---
 
-## Working with Claude — Practical Tips
+## Using a Different AI Tool (Cursor or GitHub Copilot)
 
-**Be specific about what must not change.**
-"Don't touch the auth layer" is more valuable than a long description of what to build. Constraints prevent scope creep.
+This guide is written for **Claude Code** (the CLI / VS Code extension), where `CLAUDE.md` is automatically loaded every session and Claude runs ceremonies autonomously. If your team uses Cursor or GitHub Copilot instead, the process is the same but the configuration layer changes.
 
-**Paste the acceptance criteria into the prompt.**
-Claude can only produce correct output if it knows what correct means. ACs in Given/When/Then format are the most reliable form of correctness signal.
+### Cursor
 
-**Ask for one thing at a time.**
-"Generate the API contract" and "Generate the implementation" are two separate prompts. Mixing them produces worse output for both.
+Cursor supports project-level AI instructions via a `.cursorrules` file in the repo root. This is the equivalent of `CLAUDE.md`.
 
-**When Claude produces something wrong, say why.**
-"This is wrong because it doesn't check cabin ownership before returning booking data" is more useful than "try again." Claude uses your correction to improve the next output in the session.
+**What to change:**
+1. Create `.cursorrules` at the repo root and copy the full contents of `CLAUDE.md` into it. Cursor loads this automatically for every chat in the project.
+2. Ceremonies work the same way — type the same invocations ("Run a mob elaboration for…", "Execute unit…") into Cursor Chat. Cursor will follow the rules in `.cursorrules`.
+3. For file context that Claude Code loads automatically (backlog, unit files, edge cases), use Cursor's `@file` references explicitly when needed — e.g. `@ops/build/backlog.md what are the open units?`
+4. Keep `CLAUDE.md` in the repo as the source of truth. Sync any rule changes to `.cursorrules` as well — they should always be identical.
 
-**Use Prompt 5 (Review) before accepting scaffolded code.**
-Ask Claude to critique its own output before you read it. It will often catch its own hallucinated methods or missed edge cases.
+**What stays the same:** the artifact structure, templates, quality gate, review checklist, and prompt log are all tool-agnostic. Nothing in `ai-dlc/` needs to change.
 
-**Domain terms matter.**
-Use the exact terms from [guidelines/domain-glossary.md](guidelines/domain-glossary.md) in every prompt. If you say "reservation" when the system calls it "Booking," Claude may generate code using inconsistent naming.
+---
+
+### GitHub Copilot
+
+GitHub Copilot Chat supports workspace-level instructions via `.github/copilot-instructions.md`. This is loaded automatically in VS Code and JetBrains when Copilot Chat is open.
+
+**What to change:**
+1. Create `.github/copilot-instructions.md` and copy the full contents of `CLAUDE.md` into it.
+2. Ceremonies require more explicit context than with Claude Code. At the start of each ceremony, reference the relevant files in your message — for example: `Using the rules in CLAUDE.md and the template at ai-dlc/ops/build/units/_template.md, help me write a unit for…`
+3. Copilot does not persist context between chat sessions. For multi-turn ceremonies like mob elaboration, keep the chat window open for the entire session or re-paste the intent file at the start of each new session.
+4. Copilot is strongest at **unit execution** (generating code against ACs) and weakest at **ceremony orchestration** (mob elaboration, bolt planning). For complex ceremonies, consider using Claude.ai in the browser with the relevant files pasted in, then switching to Copilot for code generation.
+
+**What stays the same:** all `ai-dlc/` artifacts, templates, quality gate rules, and the prompt log requirement are unchanged.
+
+---
+
+### Summary comparison
+
+| Capability | Claude Code | Cursor | GitHub Copilot |
+|---|---|---|---|
+| Rules auto-loaded every session | Yes (`CLAUDE.md`) | Yes (`.cursorrules`) | Yes (`.github/copilot-instructions.md`) |
+| Runs ceremonies autonomously | Yes | Yes | Partial — needs explicit file context |
+| Persists context across sessions | Yes (memory system) | No | No |
+| Config file to maintain | `CLAUDE.md` only | `CLAUDE.md` + `.cursorrules` (keep in sync) | `CLAUDE.md` + `.github/copilot-instructions.md` (keep in sync) |
 
 ---
 
@@ -284,8 +183,8 @@ Use the exact terms from [guidelines/domain-glossary.md](guidelines/domain-gloss
 
 | Mistake | Consequence | Correct approach |
 |---|---|---|
-| Skipping the quality gate on a "simple" request | Simple requests produce the most hallucinated output because they lack context | Run the gate every time |
-| Writing units without acceptance criteria | Engineers build the wrong thing; review is impossible | No unit enters a Bolt without ACs |
+| Skipping the quality gate on a "simple" request | Simple requests produce the most hallucinated output because they lack context | Claude enforces the gate — don't try to bypass it |
+| Writing units without acceptance criteria | Engineers build the wrong thing; review is impossible | No unit enters a Bolt without ACs — Claude will block this |
 | Not logging prompts | The team re-learns the same lessons next Bolt | Log immediately after each session |
 | Accepting AI output without reading the diff | Hallucinated methods, wrong auth, missing edge cases reach production | Read the code; run the checklist |
 | Bolts that are too large | The Bolt never closes; retro never happens; improvements never land | 3–8 units max; if in doubt, cut scope |
@@ -295,19 +194,17 @@ Use the exact terms from [guidelines/domain-glossary.md](guidelines/domain-gloss
 
 ## Quick Reference
 
-| I want to... | Go here |
+| I want to… | Say to Claude |
 |---|---|
-| Start a new feature | [ops/inception/intents/_template.md](ops/inception/intents/_template.md) |
-| Run a mob elaboration | [skills/mob-elab-prompts.md](skills/mob-elab-prompts.md) |
-| Record an elaboration session | [ops/inception/elaborations/_template.md](ops/inception/elaborations/_template.md) |
-| Write a unit | [ops/build/units/_template.md](ops/build/units/_template.md) |
-| See all unit status | [ops/build/backlog.md](ops/build/backlog.md) |
-| Plan a bolt | [ops/build/bolts/_template.md](ops/build/bolts/_template.md) |
-| Check the prompt quality gate | [rules/prompt-quality-gate.md](rules/prompt-quality-gate.md) |
-| Review AI output before merging | [skills/review-checklist.md](skills/review-checklist.md) |
+| Start a new feature | "Let's write an intent for [feature]" |
+| Run a mob elaboration | "Run a mob elaboration for [intent name]" |
+| Plan a bolt | "Plan a bolt from the open units in the backlog" |
+| Execute a unit | "Execute unit [name] from bolt [name]" |
+| Check unit status | "What's the current backlog status?" |
+| Review AI output | "Run the review checklist for this unit" |
+| Write a retro | "Write the retro for bolt [name]" |
+| Record a production incident | "Log an incident for [description]" |
+| Improve a rule or guideline | "File an improvement for [what and why]" |
 | Look up a domain term | [guidelines/domain-glossary.md](guidelines/domain-glossary.md) |
 | Check known failure modes | [guidelines/edge-cases.md](guidelines/edge-cases.md) |
-| Write a retro | [ops/operate/retros/_template.md](ops/operate/retros/_template.md) |
-| Record a production incident | [ops/operate/incidents/_template.md](ops/operate/incidents/_template.md) |
-| Improve a rule or guideline | [ops/operate/improvements/_template.md](ops/operate/improvements/_template.md) |
 | See what Claude is told every session | [../CLAUDE.md](../CLAUDE.md) |
