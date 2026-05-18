@@ -86,11 +86,27 @@ Before raising a PR, the engineer must verify:
 
 ### Merge conflict resolution
 
-Merge conflicts in AI-generated code are common when two units touch the same file. Resolution rules:
-- Never resolve conflicts by blindly accepting either side — read both changes and understand what each unit intended
-- If both changes are correct and non-overlapping, manually compose the merged result
-- If the conflict is in `index.css` (palette/theme tokens): the palette is defined once; check the unit files for both branches to understand which tokens each needed and combine them
-- After resolving, re-run the quality gate check to confirm the merged output still satisfies all ACs
+Merge conflicts in AI-generated code are common when two units touch the same file. Claude can resolve these directly — and does it better than a human working blind, because it can read both unit files and both prompt logs to understand *what each branch was trying to do* before composing the merged result.
+
+**Workflow when two unit branches conflict:**
+
+1. Merge the first branch into `main`
+2. On the second branch, run `git merge main` (or rebase)
+3. Hand the conflicted files to Claude:
+   > "Resolve the merge conflicts in these files. Unit A's goal was [link to unit file + prompt log]. Unit B's goal was [link to unit file + prompt log]."
+4. Review Claude's proposed resolution against both sets of ACs before accepting — do not merge without reading the result
+
+**What Claude handles well:**
+- "Fake conflicts" — git flagged a conflict but both changes are non-overlapping; Claude combines them cleanly
+- CSS token conflicts in `index.css` — reads both unit files to understand which tokens each side needed and merges the `@theme` and `:root` blocks correctly
+- Component conflicts where one side added a wrapper (e.g. `AuthenticatedLayout`) and the other side modified the wrapped content
+
+**Where human judgment is still required:**
+- Logic conflicts where both sides changed the same function to behave differently — Claude can present both options but the engineer must decide which behavior is correct
+- Scope creep conflicts — if one branch quietly modified a file it was not supposed to touch, Claude may resolve the conflict correctly but won't catch that the change was out of scope; the reviewer must spot this
+- Any conflict where the correct resolution depends on a product or design decision that is not in the unit files
+
+**After any AI-resolved conflict:** re-run the quality gate check to confirm the merged output still satisfies all ACs from both units.
 
 ---
 
