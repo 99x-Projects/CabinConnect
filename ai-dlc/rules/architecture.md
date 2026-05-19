@@ -25,6 +25,11 @@ CabinConnect is a cabin booking platform. The backend is a .NET Web API, the fro
 **Why:** Easier cross-cutting changes (shared types, coordinated deploys) for a small team.
 **Trade-off:** CI pipelines must be scoped carefully to avoid rebuilding everything on every change.
 
+### ADR-005 — Supabase JWT signing algorithm
+**Decision:** Use JWKS-based JWT validation in the .NET API (`options.Authority = supabaseUrl + "/auth/v1"`), not symmetric key validation.
+**Why:** Supabase Cloud signs JWTs with ES256 (asymmetric ECDSA, P-256), not HS256. The JWKS endpoint (`/auth/v1/.well-known/jwks.json`) is the correct key source. Attempting symmetric validation with the Supabase JWT secret will fail with a signature error even if the kid matches. Authority-based validation also handles key rotation automatically.
+**Trade-off:** The API must be able to reach the Supabase JWKS endpoint at startup; air-gapped environments would need to cache the public key manually.
+
 ## Boundaries
 - The React app communicates with the .NET API only — it does not call Supabase directly for data mutations
 - Supabase client is used on the frontend for auth token management and real-time subscriptions only

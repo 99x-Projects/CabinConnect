@@ -209,3 +209,4 @@ GitHub Copilot Chat supports workspace-level instructions via `.github/copilot-i
 | Check known failure modes | [guidelines/edge-cases.md](guidelines/edge-cases.md) |
 | See what Claude is told every session | [../CLAUDE.md](../CLAUDE.md) |
 | Scale to a multi-engineer team | [guidelines/team-rollout.md](guidelines/team-rollout.md) |
+| Set up a new dev environment | [guidelines/dev-setup.md](guidelines/dev-setup.md) |

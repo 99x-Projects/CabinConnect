@@ -17,12 +17,14 @@
 - Use repository pattern for data access; no raw SQL in controllers
 - DTOs at API boundaries; domain models stay internal
 - Async/await throughout — no `.Result` or `.Wait()`
+- Use `BadRequest(ModelState)` for model validation errors in controllers — **not** `ValidationProblem(ModelState)`; `ValidationProblem` requires `ProblemDetailsFactory` which is unavailable outside the ASP.NET Core pipeline and silently returns a null status code in unit tests
 
 ### Frontend (React)
 - Functional components only — no class components
 - Co-locate styles, tests, and types with the component
 - Custom hooks for shared stateful logic (`use-cabin-search.ts`)
 - No prop drilling beyond two levels — use context or a state manager
+- **Auth redirects:** do not call `navigate()` imperatively after `signInWithPassword()` — the session hasn't updated yet and will cause a redirect loop; instead rely on `onAuthStateChange` driving reactive state and use `<Navigate to={from} replace />` in the render path
 
 ## Formatting & Linting
 - Backend: enforced by `.editorconfig` + Roslyn analyzers

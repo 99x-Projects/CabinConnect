@@ -42,9 +42,13 @@
 | | | YYYY-MM-DD | [link] |
 
 ## Improvements Triggered
-<!-- Link to the improvement files created as a result of this retro. -->
+<!-- REQUIRED. For every process problem identified in "What Didn't Go Well", either: -->
+<!--   (a) link to the improvement file created, or -->
+<!--   (b) write an explicit reason why no improvement is warranted (e.g. "one-off environment issue, no rule change needed") -->
+<!-- Leaving this blank or writing "None" without a reason is not acceptable. -->
 - [ ] [operate/improvements/YYYY-MM-DD-description.md](../improvements/YYYY-MM-DD-description.md)
 
 ## New Intents Triggered
 <!-- Did this retro reveal a missing capability? Create an intent. -->
+<!-- If none, write "None identified — [brief reason]" -->
 - [ ] [inception/intents/YYYY-MM-DD-intent-name.md](../../inception/intents/YYYY-MM-DD-intent-name.md)

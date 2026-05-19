@@ -52,3 +52,4 @@ This project follows the AI-DLC process. Work is structured as Intents → Units
 | [ai-dlc/rules/code-standards.md](ai-dlc/rules/code-standards.md) | Naming conventions, patterns, and testing standards |
 | [ai-dlc/rules/security.md](ai-dlc/rules/security.md) | Security rules — never/always |
 | [ai-dlc/guidelines/team-rollout.md](ai-dlc/guidelines/team-rollout.md) | Pre-requisites and guidelines for multi-engineer teams |
+| [ai-dlc/guidelines/dev-setup.md](ai-dlc/guidelines/dev-setup.md) | Developer environment setup checklist |

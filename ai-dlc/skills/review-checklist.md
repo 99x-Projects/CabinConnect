@@ -34,6 +34,8 @@ Use this before approving any AI-assisted output (code, tests, API contracts, AC
 - [ ] Prompt quality gate (`rules/prompt-quality-gate.md`) completed and passed
 - [ ] Prompt and output logged in `prompts/YYYY-MM-DD-feature.md`
 - [ ] Reviewer has read the full diff — not just the AI summary
+- [ ] If the unit introduces a layout wrapper, shell, or shared component: existing pages were grepped for patterns it will duplicate (e.g. `<header`, `signOut`, `min-h-screen`) before generation — not after browser review
+- [ ] Behavioral trade-offs (e.g. null semantics, field-clearing rules, fallback behavior) were explicitly confirmed with the engineer before the output was accepted
 
 ## Deployment Readiness
 - [ ] No breaking changes to existing API contracts without a versioning strategy
