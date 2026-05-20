@@ -1,12 +1,26 @@
 # CabinConnect
 
-CabinConnect is a digital community platform for cabin owners, local businesses, and neighbors in Norwegian mountain resorts. It brings together four core capabilities — cabin management, local events, grocery ordering, and tool sharing — into one lightweight, cloud-hosted app built for sustainable and social cabin life.
+CabinConnect is a digital community platform for cabin owners, local businesses, and neighbours in Norwegian mountain resorts. It brings together four core capabilities — cabin management, local events, grocery ordering, and tool sharing — into one lightweight, cloud-hosted app built for sustainable and social cabin life.
 
 The project is being built by 99x using the AI-Driven Development Lifecycle (AI-DLC).
 
 ---
 
-## The Product
+## Repo layout
+
+This repository deliberately separates **process** (how we build) from **product** (what we build):
+
+| Folder | Contains |
+|---|---|
+| [`platform/`](platform/) | **The product.** The CabinConnect monorepo — backend, frontend, data layer, infra, shared types. Start in [`platform/README.md`](platform/README.md). |
+| [`ai-dlc/`](ai-dlc/) | **The process.** AI-DLC artifacts — Intents, Elaborations, Units, Bolts, retros, prompt logs, rules, skills, guidelines. Start in [`ai-dlc/Instructions2FDE.md`](ai-dlc/Instructions2FDE.md). |
+| [`docs/`](docs/) | Customer-facing artifacts — the original requirements brief. |
+| [`project-review/`](project-review/) | Review notes on the AI-DLC adoption itself (process improvements + scaffold findings). |
+| [`CLAUDE.md`](CLAUDE.md) | Rules loaded by Claude at the start of every AI session. |
+
+---
+
+## The Product (one-line summary)
 
 | Module | What it does |
 |---|---|
@@ -15,41 +29,17 @@ The project is being built by 99x using the AI-Driven Development Lifecycle (AI-
 | **Groceries** | Cabin owners order groceries for pickup or volunteer-delivered doorstep delivery |
 | **ToolShare** | Community sharing economy for tools and equipment — lend, borrow, or rent locally |
 
-Full requirements: [docs/solution/Requirements.md](docs/solution/Requirements.md)
+Full requirements: [docs/solution/Requirements.md](docs/solution/Requirements.md) (customer brief) and [ai-dlc/ops/inception/prd/PRD.md](ai-dlc/ops/inception/prd/PRD.md) (enriched product spec).
 
 ---
 
-## Tech Stack
+## Starting points by role
 
-- **Backend:** C# / .NET 8 Web API
-- **Frontend:** React 18 + TypeScript
-- **Database & Auth:** Supabase (PostgreSQL with RLS)
-- **Hosting:** Shared cloud infrastructure
-
----
-
-## How We Build
-
-This project follows the AI-DLC process. Work is structured as Intents → Units → Bolts across three phases: Inception, Build, and Operate.
-
-| Document | Purpose |
+| Who you are | Read first |
 |---|---|
-| [ai-dlc/Instructions2FDE.md](ai-dlc/Instructions2FDE.md) | Main guide — how to work in this project using AI-DLC |
-| [ai-dlc/README.md](ai-dlc/README.md) | Artifact lifecycle overview |
-| [ai-dlc/ops/build/backlog.md](ai-dlc/ops/build/backlog.md) | Live status of all units |
-| [CLAUDE.md](CLAUDE.md) | Rules loaded by Claude at the start of every session |
-
----
-
-## Key References
-
-| Document | Purpose |
-|---|---|
-| [ai-dlc/guidelines/domain-glossary.md](ai-dlc/guidelines/domain-glossary.md) | Canonical business terms used in code and prompts |
-| [ai-dlc/guidelines/edge-cases.md](ai-dlc/guidelines/edge-cases.md) | Known failure modes to check before generating code |
-| [ai-dlc/rules/prompt-quality-gate.md](ai-dlc/rules/prompt-quality-gate.md) | The four-component check run before every AI code generation |
-| [ai-dlc/rules/architecture.md](ai-dlc/rules/architecture.md) | Architecture decisions and their rationale |
-| [ai-dlc/rules/code-standards.md](ai-dlc/rules/code-standards.md) | Naming conventions, patterns, and testing standards |
-| [ai-dlc/rules/security.md](ai-dlc/rules/security.md) | Security rules — never/always |
-| [ai-dlc/guidelines/team-rollout.md](ai-dlc/guidelines/team-rollout.md) | Pre-requisites and guidelines for multi-engineer teams |
-| [ai-dlc/guidelines/dev-setup.md](ai-dlc/guidelines/dev-setup.md) | Developer environment setup checklist |
+| Engineer setting up local dev | [`platform/README.md`](platform/README.md) (Quickstart) |
+| New FDE / Project Champion onboarding | [`ai-dlc/Instructions2FDE.md`](ai-dlc/Instructions2FDE.md) |
+| Architect / Tech Lead reviewing decisions | [`ai-dlc/ops/inception/tfd/TFD.md`](ai-dlc/ops/inception/tfd/TFD.md) |
+| Product Owner reviewing scope | [`ai-dlc/ops/inception/prd/PRD.md`](ai-dlc/ops/inception/prd/PRD.md) |
+| Engineer picking up next Unit | [`ai-dlc/ops/build/backlog.md`](ai-dlc/ops/build/backlog.md) |
+| Reviewing the AI-DLC adoption itself | [`project-review/notes.md`](project-review/notes.md) |

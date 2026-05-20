@@ -1,0 +1,20 @@
+{
+  "app": {
+    "title": "CabinConnect",
+    "subtitle": "Cabin life, gathered in one place.",
+    "toggleLocale": "Switch language",
+    "mockNotice": "Mock data — Bolt 2 will replace this with real data from the API."
+  },
+  "cabin": {
+    "capacity": "Sleeps",
+    "guests": "guests",
+    "amenities": "Amenities",
+    "editProfile": "Edit cabin profile",
+    "shareVisitorInstructions": "Share visitor instructions"
+  },
+  "_meta": {
+    "locale": "en",
+    "default": false,
+    "note": "English bundle. Keys mirror nb-NO.json — locale-parity check (U-009) enforces this."
+  }
+}

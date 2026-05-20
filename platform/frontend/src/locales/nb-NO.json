@@ -1,0 +1,20 @@
+{
+  "app": {
+    "title": "CabinConnect",
+    "subtitle": "Hytteliv, samlet på ett sted.",
+    "toggleLocale": "Bytt språk",
+    "mockNotice": "Mock-data — Bolt 2 erstatter dette med ekte data fra API-et."
+  },
+  "cabin": {
+    "capacity": "Plass til",
+    "guests": "gjester",
+    "amenities": "Fasiliteter",
+    "editProfile": "Rediger hytteprofil",
+    "shareVisitorInstructions": "Del besøksinformasjon"
+  },
+  "_meta": {
+    "locale": "nb-NO",
+    "default": true,
+    "note": "Bokmål bundle. Keys mirror en.json — locale-parity check (U-009) enforces this."
+  }
+}

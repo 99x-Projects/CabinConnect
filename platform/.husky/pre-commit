@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# CabinConnect pre-commit hook (Husky 9). Delivered by U-T04.
+#
+# Runs lint-staged from platform/ — formats + lints ONLY the staged files,
+# never the whole tree. Budget: < 5s on a typical small commit.
+#
+# To bypass intentionally (rare; documented exceptions only):
+#   git commit --no-verify
+# Bypass is logged by code review — do not make it a habit.
+
+set -eu
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT/platform"
+
+# pnpm runs from the platform workspace root.
+pnpm exec lint-staged

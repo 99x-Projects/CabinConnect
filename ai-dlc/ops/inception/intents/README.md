@@ -26,6 +26,9 @@ An **Intent** is a high-level description of a capability or outcome the team wa
 
 ## Index
 
-| Intent | Status | Date |
-|---|---|---|
-| _(none yet)_ | | |
+| Intent | Status | Date | Cluster |
+|---|---|---|---|
+| [CI-01 Community Boundary & Data Isolation](2026-05-19-community-boundary.md) | Elaborated | 2026-05-19 | Foundation |
+| [CI-02 Cabin Owner Registration & Authentication](2026-05-19-cabin-owner-auth.md) | Elaborated | 2026-05-19 | Foundation |
+| [CI-13 Offline-First Caching for Critical Reads](2026-05-19-offline-caching.md) | Elaborated | 2026-05-19 | Foundation |
+| [CI-14 Norwegian + English Localization](2026-05-19-localization.md) | Elaborated | 2026-05-19 | Foundation |
