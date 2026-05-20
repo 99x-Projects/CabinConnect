@@ -61,6 +61,11 @@ build/
 .nuxt/
 .cache/
 
+# AI-DLC artifacts live under ai-dlc/ops/build/ — re-include them
+# (the `build/` pattern above is for React/Node build outputs, not the AI-DLC Build phase)
+!ai-dlc/ops/build/
+!ai-dlc/ops/build/**
+
 # Environment variables
 .env
 .env.local
