@@ -57,6 +57,8 @@ node_modules/
 # Build output
 dist/
 build/
+# AI-DLC planning artifacts are not build output
+!ai-dlc/ops/build/
 .next/
 .nuxt/
 .cache/

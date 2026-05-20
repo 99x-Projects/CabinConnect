@@ -57,6 +57,39 @@ A date range during which a Cabin is not available for booking regardless of con
 
 ---
 
+## Grocery Ordering Terms
+
+**GroceryItem**
+A catalog entry representing a purchasable grocery product. Has a name, description, unit price, category, unit of measure (e.g. kg, each), and an availability flag. Managed by admin.
+
+**GroceryOrder**
+An order placed by a Host to purchase grocery items via Pickup or VolunteerDelivery. Always has a status (see GroceryOrderStatus) and is owned by exactly one Host.
+
+**GroceryOrderItem**
+A line item within a GroceryOrder specifying a GroceryItem and the quantity ordered.
+
+**GroceryOrderStatus**
+The lifecycle state of a GroceryOrder:
+- `Placed` — submitted by the Host; awaiting volunteer assignment (VolunteerDelivery) or ready for collection (Pickup)
+- `Assigned` — a Volunteer has been assigned to the order (VolunteerDelivery only)
+- `PickedUp` — items collected from the store by the Volunteer, or collected by the Host (Pickup)
+- `Delivered` — items delivered to the cabin door by the Volunteer (VolunteerDelivery only)
+- `Cancelled` — order cancelled before fulfillment
+
+**DeliveryMethod**
+How a GroceryOrder is fulfilled:
+- `Pickup` — the Host collects the order themselves
+- `VolunteerDelivery` — a registered Volunteer collects and delivers to the cabin address
+
+**Volunteer**
+A community member registered to fulfill VolunteerDelivery orders. Linked to a Supabase Auth user. Has a service area and a status.
+
+**VolunteerStatus**
+- `Active` — available to be assigned orders
+- `Inactive` — not available (deregistered or suspended)
+
+---
+
 ## Abbreviations
 | Abbreviation | Meaning |
 |---|---|
