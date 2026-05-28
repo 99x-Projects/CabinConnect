@@ -1,0 +1,42 @@
+## Standard .NET / Visual Studio gitignore (trimmed)
+
+bin/
+obj/
+out/
+[Bb]in/
+[Oo]bj/
+
+## VS / Rider / VSCode
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userprefs
+
+## Build / publish
+*.binlog
+*.log
+*.tlog
+publish/
+artifacts/
+
+## Test results
+TestResults/
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+coverage*.info
+*.trx
+
+## Secrets / local config
+appsettings.*.Local.json
+*.pfx
+*.snk
+*.user
+secrets.json
+
+## OS
+Thumbs.db
+.DS_Store

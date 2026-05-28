@@ -4,6 +4,21 @@ Reference prompts for use during Mob Elaboration sessions. Copy, adapt context, 
 
 ---
 
+## 0. Runtime Environment Audit (run this BEFORE breaking down units)
+
+Run this checklist at the start of every mob elaboration session. Capture answers in the elaboration session file. If any answer is "no" or "unknown", flag it as a constraint that ACs must respect — do NOT write ACs that assume a capability the team cannot deliver locally.
+
+- [ ] Docker available on every dev box that will execute units in this bolt? (If no: no Testcontainers, no WireMock containers, no `npx supabase start`, no `docker compose`.)
+- [ ] IPv6 reachable from dev boxes and CI runners? (If no: assume Supabase / hosted-Postgres direct DB hostnames are unreachable — design for the pooler / proxy host instead. See EC-011.)
+- [ ] Which OS/shell will units be executed on? (Windows + PowerShell ≠ macOS + bash for path separators, env-var syntax, line endings, file casing.)
+- [ ] Are all required managed services already provisioned? (Supabase project, S3 bucket, SendGrid, etc.) Note their region — region mismatches break pooler hostnames.
+- [ ] Are there any company / network-level egress restrictions? (Corporate proxy, firewall blocking 5432, geo-blocked endpoints.)
+- [ ] Which credentials need to exist locally for units to be testable end-to-end? Are they already rotated and stored in a gitignored file (NOT in chat)?
+
+Output of this gate must appear in the elaboration session file under a "Runtime constraints" heading, and the resulting unit ACs must explicitly acknowledge or work around each constraint.
+
+---
+
 ## 1. Break Down a Feature into Units
 
 ```

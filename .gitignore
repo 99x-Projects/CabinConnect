@@ -115,3 +115,34 @@ desktop.ini
 *.p12
 *.key
 secrets.json
+**/secrets.json
+.user-secrets/
+*.env.local
+*.local
+
+# Backup / scratch
+*.bak
+*.orig
+*.tmp
+*.rej
+
+# ===========================
+# Supabase (local dev)
+# ===========================
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+
+# ===========================
+# Entity Framework / EF Core scratch
+# ===========================
+*.dbmdl
+*.jfm
+*.mdf
+*.ldf
+
+# ===========================
+# AI-DLC local artifacts
+# ===========================
+ai-dlc/ops/operate/incidents/local/
+ai-dlc/**/*.local.md

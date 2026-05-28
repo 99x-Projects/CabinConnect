@@ -1,0 +1,13 @@
+-- ============================================================================
+-- Supabase migration: 20260528000000_initial.sql
+-- ----------------------------------------------------------------------------
+-- This file owns RLS policies, functions, triggers, and seed-shaped DDL that
+-- EF Core does NOT manage. Table/column DDL belongs in EF Core migrations
+-- under src/backend/CabinConnect.Infrastructure/Migrations/. See
+-- docs/migrations.md for the split.
+--
+-- Naming convention: <UTC_timestamp>_<short_snake_case_description>.sql.
+-- Apply order matches lexical sort.
+--
+-- This migration is intentionally empty — no tables exist yet.
+-- ============================================================================
