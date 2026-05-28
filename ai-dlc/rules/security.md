@@ -18,7 +18,24 @@
 - Apply the principle of least privilege to database roles and service accounts
 - Use HTTPS everywhere; reject HTTP in production
 - Rate-limit authentication endpoints to prevent brute-force attacks
-- Rotate secrets immediately if accidentally exposed
+
+## Secret-Leak Protocol — Rotate First, Finish Work Later
+If a credential (DB password, API key, JWT signing key, service-role key, OAuth client secret, etc.) appears in **any** of the following surfaces, treat the credential as compromised and rotate it BEFORE continuing other work:
+
+- AI chat (Copilot, Claude, ChatGPT) — the transcript is retained
+- A pull request description, comment, or review
+- A committed file in any branch (even if reverted — `git log -p` keeps it)
+- A screenshot, screen recording, or video shared in chat / tickets
+- A log file, error message, or stack trace that was shared outside the box that produced it
+- A support ticket, email, or external messaging app
+
+Order of operations (no exceptions):
+1. **Rotate** the credential in the source system (Supabase dashboard, cloud provider IAM, etc.).
+2. **Update** every local copy (gitignored `appsettings.Local.json`, `.env.local`, user-secrets, CI secret store).
+3. **Verify** the old credential no longer works (one quick failed connection attempt).
+4. **Then** resume whatever work was interrupted.
+
+Do not skip rotation because "the chat is private" or "the screenshot was only sent to one person". Treat retention and propagation as out of your control once a secret leaves your machine.
 
 ## Supabase-Specific
 - Enable RLS on every table before going to production

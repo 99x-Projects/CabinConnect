@@ -58,3 +58,11 @@ _Mitigation:_ Validated server-side before any database query. Frontend also val
 **EC-010 — Zero-night booking**
 Check-in and check-out on the same date results in a zero-night stay.
 _Mitigation:_ Minimum booking duration is 1 night. Enforce in validation with a clear error message.
+
+---
+
+## Infrastructure & Connectivity
+
+**EC-011 — Supabase direct DB host is IPv6-only**
+`db.<project-ref>.supabase.co` resolves only to AAAA records on the Supabase free / standard tiers. Most Windows dev boxes, many corporate networks, and several CI runners (incl. default GitHub Actions Linux runners until you opt in) cannot reach IPv6, so any direct connection attempt fails opaquely (`DbContext.CanConnectAsync()` returns `false` with no inner exception).
+_Mitigation:_ Always use the **Supavisor session pooler** as the default for both runtime app traffic and EF migrations. The hostname is shown in the Supabase dashboard under **Project Settings → Database → Connect → Session pooler**. It looks like `aws-<N>-<region>.pooler.supabase.com:5432` and the username is `postgres.<project-ref>` (note the dot). The `<N>` prefix (`aws-0-`, `aws-1-`, …) is project-specific — copy the hostname verbatim from the dashboard rather than guessing. Transaction pooler (port 6543) is fine for short-lived app queries but does not support prepared statements; use the session pooler for EF migrations.
