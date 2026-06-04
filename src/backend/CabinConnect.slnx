@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CabinConnect.Api.Tests/CabinConnect.Api.Tests.csproj" />
+  <Project Path="CabinConnect.Api/CabinConnect.Api.csproj" />
+</Solution>
