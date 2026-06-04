@@ -1,6 +1,6 @@
 # Intent: Cabin Profile Registration
 
-**Status:** Ready
+**Status:** Elaborated
 **Date:** 2026-06-04
 **Owner:** Ravindu Wickramage
 
@@ -51,10 +51,14 @@ Without a cabin profile, no other capability in CabinConnect is meaningful. Host
 
 | Session | Date | Units Extracted |
 |---|---|---|
-| _(none yet)_ | | |
+| [Session 1](../elaborations/cabin-profile-registration/2026-06-04-session-1.md) | 2026-06-04 | 5 |
 
 ## Extracted Units
 
 | Unit | File | Status |
 |---|---|---|
-| _(none yet — run mob elaboration to extract)_ | | |
+| Register Cabin | [u1-register-cabin.md](../../build/units/u1-register-cabin.md) | Open |
+| List My Cabins | [u2-list-my-cabins.md](../../build/units/u2-list-my-cabins.md) | Open |
+| View Cabin Profile | [u3-view-cabin-profile.md](../../build/units/u3-view-cabin-profile.md) | Open |
+| Edit Cabin Profile | [u4-edit-cabin-profile.md](../../build/units/u4-edit-cabin-profile.md) | Open |
+| Deactivate / Reactivate Cabin | [u5-deactivate-reactivate-cabin.md](../../build/units/u5-deactivate-reactivate-cabin.md) | Open |
