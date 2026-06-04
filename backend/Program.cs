@@ -1,25 +1,22 @@
-using System.Text;
 using CabinConnect.Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Authentication — Supabase JWT (per ADR-005: JWKS-based validation)
+// Authentication — Supabase JWT (per ADR-005: JWKS-based, ES256 asymmetric)
 var supabaseUrl = builder.Configuration["Supabase:Url"] ?? "";
-var jwtSecret = builder.Configuration["Supabase:JwtSecret"] ?? "";
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.Authority = $"{supabaseUrl}/auth/v1";
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidIssuer = $"{supabaseUrl}/auth/v1",
             ValidateAudience = true,
             ValidAudience = "authenticated",
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
             ValidateLifetime = true
         };
     });

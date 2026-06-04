@@ -56,23 +56,24 @@ public class CabinRepository : ICabinRepository
     {
         return new Cabin
         {
-            Id = row.Id,
-            Name = row.Name,
-            Location = row.Location,
-            Capacity = row.Capacity,
-            Amenities = row.Amenities ?? [],
-            OwnerId = row.OwnerId,
-            CreatedAt = row.CreatedAt
+            Id = row.id,
+            Name = row.name,
+            Location = row.location,
+            Capacity = row.capacity,
+            Amenities = row.amenities ?? [],
+            OwnerId = row.owner_id,
+            CreatedAt = row.created_at
         };
     }
 
-    private record CabinRow(
-        Guid Id,
-        string Name,
-        string Location,
-        int Capacity,
-        string[]? Amenities,
-        Guid OwnerId,
-        DateTime CreatedAt
-    );
+    private class CabinRow
+    {
+        public Guid id { get; set; }
+        public string name { get; set; } = string.Empty;
+        public string location { get; set; } = string.Empty;
+        public int capacity { get; set; }
+        public string[]? amenities { get; set; }
+        public Guid owner_id { get; set; }
+        public DateTime created_at { get; set; }
+    }
 }
