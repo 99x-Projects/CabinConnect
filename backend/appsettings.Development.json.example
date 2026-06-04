@@ -1,0 +1,13 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "Supabase": {
+    "Url": "your_supabase_url_here",
+    "JwtSecret": "your_supabase_jwt_secret_here",
+    "ConnectionString": "Host=your_host;Port=5432;Database=postgres;Username=postgres;Password=your_password"
+  }
+}

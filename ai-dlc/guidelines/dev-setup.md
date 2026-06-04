@@ -6,30 +6,30 @@ Run through this before starting your first Bolt or after cloning the repo on a 
 
 ## 1. Backend — .NET API
 
-- [ ] .NET 8 SDK installed: `dotnet --version` → must be 8.x
-- [ ] Restore packages: `dotnet restore src/backend/CabinConnect.sln`
-- [ ] `appsettings.Development.json` exists at `src/backend/CabinConnect.Api/` and is **not** committed (check `.gitignore`)
+- [ ] .NET 8 SDK installed: `dotnet --version` → must be 8.x or higher
+- [ ] Restore packages: `dotnet restore CabinConnect.sln`
+- [ ] `appsettings.Development.json` exists at `backend/` and is **not** committed (check `.gitignore`)
 - [ ] `appsettings.Development.json` contains:
   - `ConnectionStrings.Default` — Supabase Postgres connection string (get from project owner or `npx supabase status` if running locally)
   - `Supabase.Url` — e.g. `https://<project>.supabase.co`
   - `Supabase.AnonKey` and `Supabase.ServiceRoleKey`
-- [ ] API starts cleanly: `dotnet run --project src/backend/CabinConnect.Api` → watch for DB connectivity log on startup
-- [ ] API is reachable at `http://localhost:5283/health` (or the port in `launchSettings.json` — confirm before setting frontend env vars)
+- [ ] API starts cleanly: `dotnet run --project backend/CabinConnect.Api.csproj` → watch for DB connectivity log on startup
+- [ ] API is reachable at `https://localhost:7001` (or the port in `launchSettings.json` — confirm before setting frontend env vars)
 
 ---
 
 ## 2. Frontend — React / Vite
 
 - [ ] Node 20+ installed: `node --version` → must be 20.x or higher
-- [ ] `.env.local` exists at `src/frontend/` and is **not** committed
+- [ ] `.env.local` exists at `frontend/` and is **not** committed
 - [ ] `.env.local` contains:
   ```
-  VITE_API_BASE_URL=http://localhost:5283      ← match the API port in launchSettings.json
+  VITE_API_URL=https://localhost:7001           ← match the API port in launchSettings.json
   VITE_SUPABASE_URL=https://<project>.supabase.co
   VITE_SUPABASE_ANON_KEY=<anon key>
   ```
-  > **Common mistake:** defaulting `VITE_API_BASE_URL` to `https://localhost:5001` (the default ASP.NET dev-cert port). Always check `launchSettings.json` for the actual port.
-- [ ] Install packages: `cd src/frontend && npm install` — verify packages appear in `node_modules/` and are listed in `package.json`
+  > **Common mistake:** defaulting `VITE_API_URL` to a wrong port. Always check `launchSettings.json` for the actual port.
+- [ ] Install packages: `cd frontend && npm install` — verify packages appear in `node_modules/` and are listed in `package.json`
 - [ ] Dev server starts: `npm run dev` → no import resolution errors
 - [ ] If you see a stale import error after a dependency change: `rm -rf node_modules/.vite && npm run dev`
 
@@ -69,8 +69,8 @@ Run through this before starting your first Bolt or after cloning the repo on a 
 | Need | Command |
 |---|---|
 | Get local Supabase credentials | `npx supabase status` |
-| Start the API | `dotnet run --project src/backend/CabinConnect.Api` |
-| Start the frontend | `cd src/frontend && npm run dev` |
-| Clear Vite cache | `rm -rf src/frontend/node_modules/.vite` |
-| Run backend tests | `dotnet test src/backend/CabinConnect.sln` |
-| Run frontend lint | `cd src/frontend && npm run lint` |
+| Start the API | `dotnet run --project backend/CabinConnect.Api.csproj` |
+| Start the frontend | `cd frontend && npm run dev` |
+| Clear Vite cache | `rm -rf frontend/node_modules/.vite` |
+| Run backend tests | `dotnet test CabinConnect.sln` |
+| Run frontend lint | `cd frontend && npm run lint` |
