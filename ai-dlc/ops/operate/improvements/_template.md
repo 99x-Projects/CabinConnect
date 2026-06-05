@@ -1,35 +1,43 @@
-# Improvement: <Short Title>
+# Improvement: [short title]
 
-**Date:** YYYY-MM-DD
-**Triggered By:** [Retro — Bolt NN](../retros/bolt-NN.md) | [Incident](../incidents/YYYY-MM-DD-incident.md)
-**Target File:** [link to the file being updated]
-**Status:** Proposed | Applied
+**Status:** Open | Applied | Rejected
+**Triggered by:** [ops/operate/retros/... or ops/operate/incidents/...](link)
+**Applied date:** —
+**Knowledge promotion:** Pending | Promoted — PR to be raised | Declined — [reason] | Project-specific — [reason]
 
 ---
 
-## What to Change
-<!-- Specific, actionable description of what needs to change in the target file. -->
-<!-- Quote the existing text and show the proposed replacement where possible. -->
+## Target File
 
-### Current
-```
-<paste current content>
-```
+`ai-dlc/[path to the file being changed]`
 
-### Proposed
+---
+
+## Current Text
+
 ```
-<paste proposed replacement>
+[Paste the exact text being replaced, or write "N/A — new addition" if adding new content]
 ```
 
-## Why
-<!-- The evidence that prompted this improvement. -->
-<!-- Reference the incident, retro finding, or pattern that made this necessary. -->
+---
 
-## Expected Outcome
-<!-- How will this improvement change team or AI behaviour going forward? -->
-<!-- What failure mode does it prevent? -->
+## Proposed Replacement
 
-## Applied
-- [ ] Target file updated
-- [ ] Retro or incident file updated to mark this improvement as applied
-- [ ] Team notified (if the change affects how the team uses the process)
+```
+[Paste the exact replacement text]
+```
+
+---
+
+## Reason
+
+[Why this change is needed. Reference the retro finding or incident that triggered it. Be specific enough that a future reader can understand why this rule exists without having to trace back to the source.]
+
+---
+
+## Validation
+
+How will we know this improvement is working?
+
+- [ ] The failure mode that triggered this improvement has not recurred after [N] bolts
+- [ ] [Any other observable signal]

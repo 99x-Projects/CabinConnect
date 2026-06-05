@@ -1,158 +1,112 @@
-# Mob Elaboration Prompts
+# Mob Elaboration — Interactive Protocol
 
-Reference prompts and the mandatory interactive protocol for Mob Elaboration sessions.
+Read this file before every elaboration session. The design session (Phase 0) runs first, then unit decomposition. Do not skip Phase 0 even for small intents — it may conclude quickly if there is nothing new to design.
 
 ---
 
-## Interactive Protocol — MANDATORY
+## Phase 0 — Design Session
 
-A mob elaboration session is a conversation between the AI facilitator and the engineer. The AI must never decompose an entire feature in one response.
+Read `ai-dlc/skills/design-session.md` and run it at the opening of every elaboration session before proposing any units.
 
-### Turn structure (strictly one unit per turn)
+The design session scopes the intent's API contracts, data model, and architectural pattern decisions. It produces binding constraints that govern every unit and AC in the session. Output is written to `ai-dlc/ops/inception/designs/YYYY-MM-DD-[slug]-design.md` and linked back to the intent file. Any new architectural patterns agreed during the session are written to `ai-dlc/rules/architecture.md` as ADRs immediately.
 
-| Turn | AI does | AI stops and waits for |
-|---|---|---|
-| 1 | Proposes one candidate unit: name + one-sentence purpose | Human confirms, renames, or rejects the unit |
-| 2 | Proposes acceptance criteria for that unit as a numbered list | Human adds, removes, or rewords ACs |
-| 3 | Surfaces edge cases and open questions for that unit only | Human resolves or defers each item |
-| 4 | Moves to next unit — repeats from Turn 1 | — |
-| Final | Presents complete summary table of all agreed units | Human gives sign-off before any files are written |
+---
 
-### Rules the AI must never break
+## Mandatory Interactive Protocol
 
-- Do not propose more than one unit per turn
-- Do not write ACs before the human confirms the unit name
-- Do not create files (unit files, elaboration record, backlog entries) until the human gives final sign-off
-- Do not decide scope, edge cases, or AC wording unilaterally — surface as questions
-- Do not move to the next unit until the human explicitly approves the current one
+### Turn structure — strictly one unit per turn
+
+1. **Propose one unit** — name and one-sentence purpose only. Stop and wait for human confirmation.
+2. **Once confirmed**, propose the acceptance criteria as a numbered list. Stop and wait. The human may add, remove, or reword ACs.
+3. **Once ACs are agreed**, surface edge cases and open questions for that unit only. Stop and wait.
+4. **Ask the three observability questions:**
+   - What confirms this unit is working correctly in production?
+   - What log entry signals a failure for this unit?
+   - What alert threshold makes sense for this unit?
+   If an answer represents code behavior, add it as an AC. If not applicable, record "Not applicable" and move on. Stop and wait.
+5. **Move to the next unit.** Repeat from step 1.
+6. **After all units are agreed**, present the full summary table and ask for final sign-off before writing any files.
+
+### Never do these during elaboration
+- Do not decompose all units in a single response
+- Do not write ACs before the human confirms the unit exists
+- Do not create unit files, elaboration files, or update the backlog until the human gives final sign-off on the complete unit list
+- Do not make scope or edge-case decisions unilaterally — surface them as questions
+- Do not skip the observability questions
 
 ---
 
 ## Facilitation Prompts
 
-### 1. Opening — Seed the session
+### Proposing a unit
+> "Next unit: **[Unit Name]** — [one sentence: what it does for the user or system].
+> Does this unit belong in this intent, or should it be scoped differently?"
 
-Use this to brief the AI at the start of a session:
+### Proposing ACs
+> "Here are the proposed acceptance criteria for [Unit Name]:
+> 1. Given [actor], when [action], then [outcome].
+> 2. Given [actor], when [invalid/edge action], then [failure outcome].
+> [etc.]
+>
+> Any additions, removals, or rewordings before we continue?"
 
-```
-We are running a Mob Elaboration session for the following intent:
+### Surfacing edge cases
+> "Edge cases to consider for [Unit Name]:
+> - [EC-XXX or new scenario]: [brief description]
+> - [...]
+>
+> Any others? Do any of these need to become ACs?"
 
-Intent: <intent name>
-What: <paste the What section>
-Success Looks Like: <paste the Success Looks Like section>
-Assumptions: <paste the Assumptions section>
-Out of Scope: <paste the Out of Scope section>
+### Observability questions
+> "For [Unit Name]:
+> - **Success signal:** What confirms this is working in production? (e.g., HTTP 201 logged, record visible in DB)
+> - **Failure signal:** What log entry or error would indicate a failure?
+> - **Alert threshold:** Should any metric alert on this? (e.g., >5 failures/min)
+>
+> Any of these that represent code behavior should be added as an AC."
 
-Follow the interactive protocol:
-- Propose units one at a time. Do not list all units upfront.
-- For each unit: propose name + purpose, wait for my confirmation,
-  then propose ACs, wait for my approval, then surface edge cases.
-- Do not create any files until I give final sign-off on all units.
+### Generating implementation scaffold
+After sign-off, when the engineer asks for the implementation:
+> "I'll now generate the implementation for [Unit Name]. Reading `ai-dlc/rules/code-standards.md`, `ai-dlc/rules/security.md`, and `ai-dlc/guidelines/edge-cases.md` before proceeding.
+>
+> **Context:** [one line]
+> **Constraints:** [one line]
+> **Acceptance Criteria:** [count] ACs, including [count] failure paths
+> **Output Format:** [what will be produced]"
 
-Start by proposing the first unit.
-```
-
----
-
-### 2. Acceptance Criteria — per unit
-
-After the human confirms a unit name, use this pattern:
-
-```
-Unit confirmed: <unit name>
-
-Now propose the acceptance criteria in Given/When/Then format.
-Rules:
-- One behavior per criterion
-- No implementation details
-- Cover at least one unhappy path
-- State the actor explicitly in every Given
-
-List them numbered. I will approve, reword, or remove each one.
-```
-
----
-
-### 3. Edge Case Check — per unit
-
-After ACs are agreed:
-
-```
-For the unit "<unit name>" with these ACs:
-<paste agreed ACs>
-
-What edge cases from guidelines/edge-cases.md apply?
-Also, are there any new edge cases specific to this unit
-that are not yet in that list?
-
-Surface each as a question — do not add them to the unit
-until I confirm they should be included.
-```
+### Reviewing output
+After presenting code:
+> "Before accepting: please verify each AC is traceable in the diff. Run the tests. Check that no files outside the unit's scope were modified. If anything looks wrong, tell me which AC is failing and I'll correct it."
 
 ---
 
-### 4. Generate API Contract — after unit is fully agreed
+## Post Sign-off — Dependency Map Update
 
-```
-Context: CabinConnect .NET Web API. All endpoints require JWT auth
-unless explicitly marked public. Response shape: { data, error }.
+After the engineer confirms sign-off on the unit summary table and **before writing any files**:
 
-Unit: <unit name>
-Acceptance criteria:
-<paste agreed ACs>
+1. Read `ai-dlc/ops/inception/dependency-map.md`
+2. Check whether this intent has:
+   - **Prerequisites** — does it depend on another intent being Implemented first?
+   - **Shared interfaces** — does it introduce or modify API contracts, data entities, or services shared with other intents?
+3. Update the dependency map: add a row for this intent, record prerequisites and shared interfaces
+4. Add a row to the Update Log in the map file
+5. If a dependency on an incomplete intent is found, flag it to the engineer:
+   > "This intent depends on [Intent Name] which is currently [status]. Do you want to proceed, or resolve the dependency first?"
 
-Design the API contract:
-- HTTP method and path
-- Request body schema (TypeScript types)
-- Response body schema (TypeScript types)
-- Error codes and when they occur
-- Auth requirement
-
-Do not generate implementation code — contract only.
-```
+Only after the dependency map is updated should you proceed to write unit files, update the backlog, and link the elaboration session.
 
 ---
 
-### 5. Generate Implementation Scaffold — when ready to build
+## Summary Table Format
+
+Present this after all units are agreed and before asking for sign-off:
 
 ```
-Context: CabinConnect .NET Web API — repository pattern, EF Core + Npgsql,
-controllers are thin, business logic in services.
-Naming conventions: rules/code-standards.md.
-Security rules: rules/security.md.
-
-Unit: <unit name>
-API contract: <paste contract>
-Acceptance criteria: <paste agreed ACs>
-
-Generate the scaffold:
-1. Domain model / entity changes (if any)
-2. Repository interface method(s) and stub implementation
-3. Service class with method signatures and business logic outline
-4. Controller action wired to the service
-5. xUnit test stubs — one per AC, named after the behavior
-
-Include TODO comments where the implementer must fill in details.
-Do not generate migrations.
+| # | Unit Name | Purpose | ACs | Edge Cases | Observability |
+|---|---|---|---|---|---|
+| 1 | [name] | [one line] | AC1, AC2, AC3 | EC-001, EC-003 | Success: ...; Failure: ... |
+| 2 | [name] | [one line] | AC1, AC2 | None new | Not applicable |
 ```
 
----
-
-### 6. Review AI Output
-
-```
-Review the following AI-generated code against:
-- Code standards: <paste key rules from rules/code-standards.md>
-- Security: <paste key rules from rules/security.md>
-- Acceptance criteria: <paste agreed ACs>
-
-Code:
-<paste generated code>
-
-Report:
-1. Does it meet every acceptance criterion? List any gaps.
-2. Does it violate any code standards? List each violation.
-3. Does it violate any security rules? List each violation.
-4. What would break if this code is wrong? (risk surface)
-5. Specific changes needed — file, location, what to change.
-```
+Then ask:
+> "That's the full unit list for [Intent Name]. Any changes before I write the files?"

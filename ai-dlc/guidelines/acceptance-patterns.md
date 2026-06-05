@@ -1,84 +1,134 @@
-# Acceptance Patterns
+# Acceptance Criteria Patterns
 
-What good acceptance criteria look like for CabinConnect. Use these patterns when writing ACs during Mob Elaboration.
+Rules and anti-patterns for writing testable acceptance criteria. Apply these during every mob elaboration session.
 
 ---
 
-## The Given/When/Then Format
+## Required Structure: Given / When / Then
 
 Every AC must follow this structure:
-- **Given** — the starting state of the system and the actor
-- **When** — the action taken
-- **Then** — the observable, verifiable outcome
 
 ```
-Given a Guest is authenticated and cabin #42 is available for 2025-07-01 to 2025-07-05,
-when the Guest submits a booking request for those dates,
-then a Booking with status Pending is created and the Guest receives a confirmation reference.
+Given [the starting state / actor context],
+When [the action taken],
+Then [the observable outcome].
+```
+
+All three parts are required. A missing "Given" makes the test unrunnable. A missing "Then" makes the AC unverifiable.
+
+---
+
+## Rules
+
+### One behavior per criterion
+Each AC covers exactly one behavioral outcome. Do not combine multiple outcomes with "and" in the Then clause unless they are inseparable.
+
+**Wrong:**
+```
+Given a host, when they create a cabin with valid data, then a 201 is returned and the cabin is stored in the database and the host receives a confirmation email.
+```
+
+**Correct:**
+```
+AC1: Given a host, when they create a cabin with valid data, then a 201 is returned with the created cabin DTO.
+AC2: Given a cabin, when it is confirmed as created, then it is retrievable via GET /api/cabins/{id}.
 ```
 
 ---
 
-## Rules for Writing Good ACs
+### Name the actor in every Given
+Always say who is performing the action. The actor determines which authorization rules apply.
 
-### One behaviour per criterion
-Bad: "The user can search, filter, and book a cabin."
-Good: Three separate ACs — one for search, one for filter, one for booking.
-
-### Observable outcomes only
-Bad: "The system calls the payment service."
-Good: "Then the booking status changes to Confirmed and the guest receives a confirmation email."
-
-### No implementation details
-Bad: "Then the `bookings` table is updated in PostgreSQL."
-Good: "Then the booking is retrievable via GET /bookings/{id} with status Confirmed."
-
-### State the actor explicitly
-Bad: "When a booking is cancelled..."
-Good: "Given a Guest with a Confirmed booking, when the Guest cancels before 48 hours prior to check-in..."
-
-### Cover the unhappy path
-Every feature needs at least one AC for a failure scenario:
+**Wrong:**
 ```
-Given cabin #42 is already booked for 2025-07-01 to 2025-07-05,
-when a second Guest submits a booking request for overlapping dates,
-then a 409 Conflict response is returned with a message indicating unavailability.
+Given valid cabin data is submitted, when the endpoint is called...
+```
+
+**Correct:**
+```
+Given an authenticated host, when POST /api/cabins is called with valid data...
 ```
 
 ---
 
-## Patterns by Feature Type
+### Cover at least one unhappy path per unit
+Every unit must have at least one AC that describes what happens when the action fails, is unauthorized, or receives invalid input.
 
-### Search / Query
-- AC for empty results (zero matches)
-- AC for pagination boundaries (first page, last page, beyond last page)
-- AC for invalid filter values
-
-### Create / Submit
-- AC for successful creation (happy path)
-- AC for validation failure (missing required field)
-- AC for conflict / duplicate
-- AC for unauthorized access
-
-### Update / Edit
-- AC for successful update
-- AC for updating a field that cannot change (e.g., booking price after confirmation)
-- AC for concurrent edit conflict
-- AC for updating a record you do not own
-
-### Delete / Cancel
-- AC for successful cancellation
-- AC for cancellation outside the allowed window
-- AC for cancelling a record in a terminal state (e.g., Completed booking)
+**Required unhappy path types for this project:**
+- **Authorization failure** — caller does not own the resource → 403
+- **Not found** — resource does not exist → 404
+- **Validation failure** — input is invalid (missing field, wrong type, out of range) → 400
+- **Conflict** — duplicate name, version mismatch, overlapping dates → 409
 
 ---
 
-## AC Anti-Patterns to Reject
+### No implementation details in ACs
+ACs describe observable outcomes — what the caller sees, what the database contains, what the user experiences. They do not describe how the code achieves the outcome.
 
-| Anti-Pattern | Why It Fails |
+**Wrong:**
+```
+Given a cabin, when UpdateAsync is called, then the CabinRepository.UpdateAsync method is invoked with the correct version number.
+```
+
+**Correct:**
+```
+Given an authenticated host, when they update a cabin with a valid version number, then the cabin is updated and a 200 is returned with the updated DTO.
+```
+
+---
+
+### Use concrete HTTP status codes and domain terms
+In backend ACs, always name the specific HTTP status code. In frontend ACs, describe the user-visible outcome.
+
+**Backend:**
+```
+...then a 201 is returned with a CabinDto in the response body.
+```
+
+**Frontend:**
+```
+...then the cabin appears in the cabin list on the dashboard.
+```
+
+---
+
+### Avoid vague outcome language
+Ban the following in Then clauses: "it should work", "the correct result is returned", "an error occurs", "the user sees a message". Be specific.
+
+| Vague | Specific |
 |---|---|
-| "The system should handle errors gracefully" | Not testable — what error, what outcome? |
-| "Performance should be acceptable" | No threshold, not verifiable |
-| "The UI should look good" | Subjective, not behavioural |
-| "Admins can do everything a Guest can" | Too broad — enumerate specific behaviours |
-| "It should work like the old system" | The old system may have bugs — specify the desired behaviour |
+| "an error is returned" | "a 400 Bad Request is returned with a message describing the validation failure" |
+| "the user sees feedback" | "a toast notification appears with the message 'Cabin saved'" |
+| "the cabin is updated" | "the cabin's name is updated and the new version number is returned in the response" |
+
+---
+
+## Anti-Patterns to Avoid
+
+| Anti-pattern | Why it fails |
+|---|---|
+| AC tests the implementation path, not the behavior | Breaks if code is refactored, even if behavior is correct |
+| Compound Then: "then X and Y and Z" | Can only partially pass — makes test results ambiguous |
+| Missing actor in Given | Can't determine which auth rules apply |
+| "Happy path only" unit | Leaves failure paths untested and edge cases unspecified |
+| AC describes a UI element by CSS class | Fragile; breaks on UI changes that don't affect behavior |
+| AC contains "should" instead of "then" | "Should" is ambiguous — use "then" for deterministic outcomes |
+
+---
+
+## CabinConnect-Specific AC Patterns
+
+### Availability ACs always cover all three blocking conditions
+Any AC about Cabin availability must cover: existing Bookings, active Holds, AND Blackout Dates. Never write an availability AC that only covers one of the three.
+
+### Pricing ACs always specify "at confirmation" vs "current"
+When writing ACs about price, specify whether the price is the stored Total Price (frozen at confirmation) or the current rate calculation. These are different — never conflate them.
+
+### Date ACs specify UTC and date-only
+ACs involving dates should state "as a UTC date-only value" to make it clear that timezone conversion is not part of the server behavior.
+
+### Ownership ACs always include the non-owner failure path
+Any AC about an operation on a Host-owned resource must include:
+```
+Given an authenticated host who does not own the cabin, when [action], then 403 is returned.
+```

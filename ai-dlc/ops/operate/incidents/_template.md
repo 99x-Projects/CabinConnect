@@ -1,46 +1,61 @@
-# Incident: <Short Title>
+# Incident: [short title]
 
-**Date:** YYYY-MM-DD
-**Severity:** P1 | P2 | P3
-**Status:** Open | Resolved
-**Resolved:** YYYY-MM-DD | —
+**Status:** Open | Investigating | Resolved | Closed
+**Date detected:** YYYY-MM-DD HH:MM
+**Date resolved:** YYYY-MM-DD HH:MM
+**Severity:** P1 (critical) | P2 (major) | P3 (minor)
+**Owner:** [Engineer name]
 
 ---
 
-## What Happened
-<!-- Factual description. What the system did vs. what it should have done. -->
+## Summary
 
-## Impact
-<!-- Who was affected, how many users, what they couldn't do. -->
+[Two to three sentences. What broke, what the user impact was, and how it was resolved.]
+
+---
 
 ## Timeline
 
 | Time | Event |
 |---|---|
-| HH:MM | Incident detected |
-| HH:MM | |
-| HH:MM | Resolved |
+| HH:MM | [What happened] |
+| HH:MM | [Detection / alert] |
+| HH:MM | [Investigation step] |
+| HH:MM | [Fix deployed / resolved] |
+
+---
 
 ## Root Cause
-<!-- The underlying reason — not just the symptom. -->
-<!-- Was this a known edge case that wasn't handled? An unknown edge case? A logic error? -->
 
-## Was This Predictable?
-<!-- Could a quality gate or edge-case check have caught this before it reached production? -->
-- [ ] Yes — the edge case existed but wasn't checked: [EC-XXX](../../../guidelines/edge-cases.md)
-- [ ] Yes — the quality gate was not applied properly
-- [ ] No — this was a genuinely unknown failure mode
+[What caused the incident. Be specific — not "human error" but what exactly was wrong and why it got past review.]
 
-## Resolution
-<!-- What was changed to fix it. Link to the PR or commit. -->
+---
 
-## Prevention
+## Was AI-DLC a Contributing Factor?
 
-### Edge case to add or update
-- [ ] [guidelines/edge-cases.md](../../../guidelines/edge-cases.md) — EC-XXX: <description>
+- [ ] Yes — describe: [which unit, which AC was missing or wrong, which review step was skipped]
+- [ ] No
 
-### Rule or skill to update
-- [ ] [link to file] — <what to change>
+---
 
-### Improvement filed
-- [ ] [operate/improvements/YYYY-MM-DD-description.md](../improvements/YYYY-MM-DD-description.md)
+## Immediate Fix
+
+[What was done to resolve the incident. Include PR or commit reference if applicable.]
+
+---
+
+## Improvements Triggered
+
+| # | Improvement file | Target rule/guideline |
+|---|---|---|
+| 1 | [ops/operate/improvements/YYYY-MM-DD-[slug].md](../improvements/YYYY-MM-DD-[slug].md) | [ai-dlc/rules/...] |
+
+---
+
+## Root Cause Analysis
+
+**RCA status:** Not run | In progress | Complete
+
+**RCA report:** — *(link here once run)*
+
+> When this incident is marked Resolved, the AI will suggest running the root-cause-analysis skill to surface deeper design, technology, or process gaps beyond the immediate fix. Run it by saying: "run root-cause-analysis on this incident."

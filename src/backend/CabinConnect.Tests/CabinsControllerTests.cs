@@ -54,7 +54,7 @@ public class CabinsControllerTests
     [Fact]
     public async Task Create_ValidRequest_Returns201WithDto()
     {
-        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, "Cozy cabin", []);
+        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, "Cozy cabin", [], 100m);
         var dto = MakeCabinDto(HostId);
         _service.CreateAsync(HostId, request, Arg.Any<CancellationToken>()).Returns(dto);
 
@@ -69,7 +69,7 @@ public class CabinsControllerTests
     public async Task Create_ZeroCapacity_Returns400()
     {
         _sut.ModelState.AddModelError("Capacity", "Capacity must be at least 1.");
-        var request = new CreateCabinRequest("Pine Lodge", "Forest", 0, null, null);
+        var request = new CreateCabinRequest("Pine Lodge", "Forest", 0, null, null, 100m);
 
         var result = await _sut.Create(request, default);
 
@@ -81,7 +81,7 @@ public class CabinsControllerTests
     public async Task Create_MissingRequiredField_Returns400()
     {
         _sut.ModelState.AddModelError("Name", "The Name field is required.");
-        var request = new CreateCabinRequest("", "Forest", 4, null, null);
+        var request = new CreateCabinRequest("", "Forest", 4, null, null, 100m);
 
         var result = await _sut.Create(request, default);
 
@@ -93,7 +93,7 @@ public class CabinsControllerTests
     public async Task Create_InvalidAmenityTagIds_Returns400WithInvalidIds()
     {
         var badId = Guid.NewGuid();
-        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, null, [badId]);
+        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, null, [badId], 100m);
         _service.CreateAsync(HostId, request, Arg.Any<CancellationToken>())
             .Throws(new InvalidAmenityTagsException([badId]));
 
@@ -108,7 +108,7 @@ public class CabinsControllerTests
     [Fact]
     public async Task Create_EmptyAmenityTagList_Returns201WithNoTags()
     {
-        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, null, []);
+        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, null, [], 100m);
         var dto = MakeCabinDto(HostId);
         _service.CreateAsync(HostId, request, Arg.Any<CancellationToken>()).Returns(dto);
 
@@ -123,7 +123,7 @@ public class CabinsControllerTests
     public async Task Create_Unauthenticated_Returns401()
     {
         SetUnauthenticated();
-        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, null, null);
+        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, null, null, 100m);
 
         var result = await _sut.Create(request, default);
 
@@ -135,7 +135,7 @@ public class CabinsControllerTests
     public async Task Create_NameExceeds512Chars_Returns400()
     {
         _sut.ModelState.AddModelError("Name", "Name must not exceed 512 characters.");
-        var request = new CreateCabinRequest(new string('A', 513), "Forest", 4, null, null);
+        var request = new CreateCabinRequest(new string('A', 513), "Forest", 4, null, null, 100m);
 
         var result = await _sut.Create(request, default);
 
@@ -146,7 +146,7 @@ public class CabinsControllerTests
     [Fact]
     public async Task Create_DuplicateCabinName_Returns409()
     {
-        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, null, []);
+        var request = new CreateCabinRequest("Pine Lodge", "Forest", 4, null, [], 100m);
         _service.CreateAsync(HostId, request, Arg.Any<CancellationToken>())
             .Throws(new DuplicateCabinNameException("Pine Lodge"));
 

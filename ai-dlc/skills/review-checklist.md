@@ -1,54 +1,86 @@
 # Review Checklist
 
-Use this before approving any AI-assisted output (code, tests, API contracts, ACs).
+Run every item below before presenting any code output. Do not present output that has not passed this checklist.
 
 ---
 
-## Functional Correctness
-- [ ] Output matches all acceptance criteria — every Given/When/Then is traceable to the code
-- [ ] Edge cases from `guidelines/edge-cases.md` are handled or explicitly excluded with a comment
-- [ ] No business logic bypassed or silently skipped
-- [ ] Feature verified in a real environment (browser smoke test or manual API call) — tests passing is not sufficient on its own
+## 1. Functional Correctness
 
-## Code Quality
-- [ ] Follows naming conventions from `rules/code-standards.md`
-- [ ] No `any` types in TypeScript without justification
-- [ ] No blocking `.Result` / `.Wait()` calls in async .NET code
-- [ ] No dead code, commented-out blocks, or debug statements left in
-- [ ] Methods/functions do one thing; no hidden side effects
-- [ ] Nothing in the diff goes beyond what the unit's acceptance criteria required — no extra abstractions, helper methods, interfaces, or "future-proofing" that no current AC calls for
+- [ ] Every acceptance criterion is traceable to at least one code path in the diff
+- [ ] All unhappy-path ACs have a corresponding error branch in the implementation
+- [ ] Edge cases listed in the unit file are handled or explicitly noted as out of scope with a reason
+- [ ] `ai-dlc/guidelines/edge-cases.md` was checked — relevant edge cases are handled
+- [ ] Date handling uses UTC; date-only fields use `DateOnly` in C# — no `DateTime` for check-in/check-out
 
-## Security
-- [ ] No secrets, keys, or credentials in code or comments
-- [ ] All inputs validated at the API boundary
-- [ ] Supabase RLS policies updated if new tables or access patterns introduced
-- [ ] No SQL concatenation — parameterized queries or ORM only
-- [ ] Auth checked on every new endpoint
+---
 
-## Architecture
-- [ ] Diff respects the system boundaries in `rules/architecture.md`: React calls the .NET API only — no direct Supabase data mutations from the frontend; all business logic in the .NET domain layer
-- [ ] No new cross-boundary pattern introduced without a corresponding ADR entry in `rules/architecture.md`
+## 2. Code Quality
 
-## Tests
+- [ ] No hallucinated API methods, library names, or type signatures — every method called exists in the codebase or documented API
+- [ ] No over-engineering: nothing in the diff beyond what the ACs required
+- [ ] No half-finished implementations (no `TODO: implement this`, no empty catch blocks)
+- [ ] Naming follows conventions in `ai-dlc/rules/code-standards.md`
+- [ ] No magic strings for claims, status values, or role names — constants classes used
+
+---
+
+## 3. Security
+
+- [ ] No secrets, credentials, or hardcoded environment values
+- [ ] Auth is verified on every new .NET endpoint (`[Authorize]` present or `[AllowAnonymous]` with documented reason)
+- [ ] Ownership check at controller level for any endpoint touching user-owned resources
+- [ ] All string inputs have `[MaxLength]` validation on request DTOs
+- [ ] No `dangerouslySetInnerHTML` in React components
+- [ ] No Supabase direct query calls from the frontend (only `supabase.auth.*`)
+- [ ] Supabase service role key not referenced in any client-side code
+
+---
+
+## 4. Architecture
+
+- [ ] Diff respects layer boundaries (ADR-001): no EF Core in Api layer, no HTTP concerns in Domain
+- [ ] DTOs are `record` types (ADR-005)
+- [ ] Repository methods call `SaveChangesAsync()` internally — service does not (ADR-003)
+- [ ] Ownership checks are in controllers, not services (ADR-008)
+- [ ] New server state in React uses `useQuery`/`useMutation` from React Query, not `useState` + `useEffect` (ADR-010)
+- [ ] Query keys use `queryKeys` factory, not inline strings (code-standards)
+- [ ] If this unit modifies an existing module, a feature flag is present (ADR-009)
+- [ ] No new `ISupabaseAdminClient` injections outside `InvitationService` (ADR-011)
+
+---
+
+## 5. Tests
+
 - [ ] At least one test per acceptance criterion
-- [ ] Tests assert behaviour, not implementation details
-- [ ] Tests are independent — no shared mutable state between tests
-- [ ] Coverage does not drop below the threshold for the domain layer
-
-## AI-Specific Checks
-- [ ] No hallucinated library names, method signatures, or APIs — verify by compiling/running the code, not just reading it; TypeScript strict mode and `dotnet build` catch most but not runtime-only misuse
-- [ ] Prompt quality gate (`rules/prompt-quality-gate.md`) completed and passed
-- [ ] Prompt and output logged in `prompts/YYYY-MM-DD-feature.md`
-- [ ] Reviewer has read the full diff — not just the AI summary
-- [ ] If the unit introduces a layout wrapper, shell, or shared component: existing pages were grepped for patterns it will duplicate (e.g. `<header`, `signOut`, `min-h-screen`) before generation — not after browser review
-- [ ] Behavioral trade-offs (e.g. null semantics, field-clearing rules, fallback behavior) were explicitly confirmed with the engineer before the output was accepted
-
-## Deployment Readiness
-- [ ] No breaking changes to existing API contracts without a versioning strategy
-- [ ] Environment-specific config uses env vars — no hardcoded URLs or credentials
-- [ ] Migration scripts (if any) are reversible or have a rollback plan
-- [ ] Feature is behind a flag if not yet accepted by stakeholders
+- [ ] Tests assert behavior, not implementation details (no asserting which private methods were called)
+- [ ] Exception translation paths (DbUpdateException → domain exception) have tests
+- [ ] Test naming: `{MethodName}_{Scenario}_{ExpectedOutcome}`
+- [ ] No tests left in a placeholder/stub state (`[Fact] public void Test1() { }`)
 
 ---
 
-**Approve only when all checked. Document any deliberate skips with a reason.**
+## 6. AI-Specific Checks
+
+- [ ] No library methods referenced that do not exist in the installed versions (check `Directory.Packages.props` for .NET; `package.json` for frontend)
+- [ ] No invented EF Core methods or Linq extension methods
+- [ ] Scope not exceeded — no changes to files outside the unit's stated scope
+- [ ] Forbidden zones not touched: `supabase/migrations/` must not be modified
+- [ ] Prompt log reminder: remind the engineer to log this session in `ai-dlc/prompts/YYYY-MM-DD-<feature>.md`
+
+---
+
+## 7. Observability
+
+- [ ] The unit file's observability section is complete (success signal, failure signal, alert threshold recorded)
+- [ ] Any observability item that represents code behavior is expressed as an AC and implemented in the diff
+- [ ] Errors are logged server-side before returning generic messages to the client
+- [ ] Privileged operations (invite user, reveal key info, delete resource) have an audit log write
+
+---
+
+## 8. Deployment Readiness
+
+- [ ] No breaking changes to existing API contracts without a documented Breaking Changes Register in the unit file
+- [ ] No new Supabase tables introduced without RLS policies defined (migration not written, but policies must be planned and noted)
+- [ ] If a new configuration key was added, `.env.example` is updated
+- [ ] Feature flag documented with removal condition if used

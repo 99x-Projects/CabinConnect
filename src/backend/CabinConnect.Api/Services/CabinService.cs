@@ -34,7 +34,7 @@ public class CabinService(ICabinRepository cabins, IAmenityTagRepository amenity
             Capacity = request.Capacity,
             Description = request.Description,
             HostId = hostId,
-            BaseRate = 0,
+            BaseRate = request.BaseRate,
             IsActive = true,
             Version = 1,
             CreatedAt = DateTimeOffset.UtcNow,

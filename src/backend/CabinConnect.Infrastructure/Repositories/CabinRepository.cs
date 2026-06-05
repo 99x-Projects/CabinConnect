@@ -42,6 +42,10 @@ public class CabinRepository(AppDbContext db) : ICabinRepository
         {
             await db.SaveChangesAsync(ct);
         }
+        catch (DbUpdateConcurrencyException)
+        {
+            throw new CabinVersionConflictException(cabin.Id, cabin.Version);
+        }
         catch (DbUpdateException ex) when (ex.InnerException is PostgresException { SqlState: "23505" })
         {
             throw new DuplicateCabinNameException(cabin.Name);

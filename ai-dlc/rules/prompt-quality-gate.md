@@ -1,66 +1,98 @@
 # Prompt Quality Gate
 
-Before responding to any request to write, generate, or modify code:
+Every code generation request must contain all four components before code is written. If any are missing, stop and ask — one question at a time, starting with the most critical gap.
 
-## Step 1 — Check for the Four Components
+---
 
-Every request must contain all four of the following:
+## The Four Components
 
-| Component | What it means |
-|---|---|
-| **Context** | Who is asking, what system or project this relates to |
-| **Constraints** | What must not be done, which rules apply (security, architecture, standards) |
-| **Acceptance Criteria** | A testable pass/fail condition — how to know the output is correct |
-| **Output Format** | What the response should look like (code, checklist, diagram, prose, scaffold) |
+### 1. Context
+Who is asking and what part of the system this touches.
 
-## Step 2 — If Any Component Is Missing, Do Not Generate Code
+**Sufficient:**
+> "I'm adding a blackout date range for a cabin. This touches the .NET API (BlackoutDatesController), the Domain (BlackoutDate entity), and the Infrastructure (BlackoutDateRepository)."
 
-Ask the engineer one question at a time to fill the gap.
-Start with the most critical missing component in this order:
+**Insufficient:**
+> "I need to block out some dates."
 
-1. **Acceptance Criteria** — without a pass/fail condition, there is no way to verify correctness
-2. **Context** — without knowing the system, the output may not fit
-3. **Constraints** — without knowing what is off-limits, the output may violate rules
-4. **Output Format** — without knowing the expected shape, the response may not be usable
+---
 
-Do not ask all questions at once. Ask the one that matters most, wait for the answer, then proceed or ask the next.
+### 2. Constraints
+What must not happen; which rules apply.
 
-## Step 3 — Only Generate Code Once All Four Are Present
+**Sufficient:**
+> "Must not allow overlapping blackout ranges for the same cabin. Must verify the caller is the cabin's host before writing. Must not expose error detail to the client."
 
-When all four components are present, proceed with generating the output.
+**Insufficient:**
+> "The usual rules."
 
-## Step 4 — Confirm the Components at the Top of Your Response
+---
 
-When you do generate code, begin your response with a brief summary of what guided the output:
+### 3. Acceptance Criteria
+A testable pass/fail condition. Must be in Given/When/Then form with at least one unhappy path.
+
+**Sufficient:**
+```
+AC1: Given a host, when they create a blackout date range with valid start/end dates for their own cabin, then the range is persisted and a 201 is returned.
+AC2: Given a host, when they attempt to create a blackout range for a cabin they do not own, then a 403 is returned and nothing is persisted.
+AC3: Given a host, when they submit a range where end_date < start_date, then a 400 is returned with a descriptive error.
+```
+
+**Insufficient:**
+> "It should work correctly and reject bad input."
+
+---
+
+### 4. Output Format
+What the response should look like — code only, code + tests, diff, explanation, etc.
+
+**Sufficient:**
+> "C# controller method, service method, repository method, and one xUnit test per AC. No migration files."
+
+**Insufficient:**
+> "Just the code."
+
+---
+
+## Missing Component Protocol
+
+Ask for missing components one at a time in this order:
+
+1. **Acceptance Criteria** — most critical; without it no output can be verified
+2. **Context** — needed to scope the change correctly
+3. **Constraints** — needed to avoid prohibited patterns
+4. **Output Format** — needed to know what to produce
+
+**Do not ask for multiple components in one message.** Ask for the most critical missing one, wait for the answer, then proceed or ask for the next.
+
+---
+
+## Complete Request Example
+
+```
+Context: Host cabin management — adding blackout date support.
+Touches: CabinsController (new endpoint), BlackoutDate entity (Domain), BlackoutDateRepository (Infrastructure), BlackoutDateConfiguration (Infrastructure).
+
+Constraints: Must verify host owns the cabin at the controller level. Must not allow end_date < start_date. Must not expose stack traces. Parameterized queries via EF Core only.
+
+Acceptance Criteria:
+AC1: Given an authenticated host, when POST /api/cabins/{id}/blackout-dates is called with valid start/end dates for a cabin they own, then the blackout date is persisted and a 201 with the created resource is returned.
+AC2: Given an authenticated host, when the cabin ID belongs to a different host, then 403 is returned and nothing is written.
+AC3: Given any caller, when end_date is before or equal to start_date, then 400 is returned with a descriptive error message.
+AC4: Given an authenticated host, when the cabin does not exist, then 404 is returned.
+
+Output Format: C# — controller endpoint, service method, repository method, EF Core configuration. xUnit tests for all 4 ACs using NSubstitute and FluentAssertions. No migration files — those are a forbidden zone.
+```
+
+---
+
+## Gate Output Header
+
+When all four components are present, open the code response with:
 
 ```
 **Context:** <one line>
 **Constraints:** <one line>
-**Acceptance Criteria:** <one line>
+**Acceptance Criteria:** <one line summary — e.g., "4 ACs, including 2 failure paths">
 **Output Format:** <one line>
 ```
-
-Then provide the output.
-
----
-
-## Example: Incomplete Request
-
-> "Add a search endpoint for cabins."
-
-Missing: Constraints, Acceptance Criteria, Output Format.
-Most critical gap: Acceptance Criteria.
-
-Correct response:
-> "Before I generate this — what's the testable condition for a correct search result? For example: given a date range and guest count, which cabins should be returned and which should be excluded?"
-
----
-
-## Example: Complete Request
-
-> "We're building CabinConnect (.NET 8 API, Supabase). Do not modify the auth layer.
-> The endpoint must return only cabins with no overlapping Confirmed bookings for the given date range.
-> An invalid date range (check-out ≤ check-in) must return 400.
-> Generate the controller action, service method, and xUnit test stubs."
-
-All four components present — generate immediately, confirm at the top of the response.

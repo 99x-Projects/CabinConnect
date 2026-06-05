@@ -7,5 +7,6 @@ public record CreateCabinRequest(
     [Required] string Location,
     [Range(1, int.MaxValue)] int Capacity,
     string? Description,
-    IReadOnlyList<Guid>? AmenityTagIds
+    IReadOnlyList<Guid>? AmenityTagIds,
+    [Range(typeof(decimal), "0.01", "9999999.99")] decimal BaseRate
 );

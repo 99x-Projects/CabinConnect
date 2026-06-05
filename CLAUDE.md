@@ -1,21 +1,24 @@
 # CabinConnect — AI-DLC Operating Rules
 
-This file governs how Claude operates in this project. All rules apply to every session.
+This file governs how Claude Code operates in this project. All rules apply to every session.
 
 ---
 
 ## 1. Project Identity
 
-**CabinConnect** is a cabin booking platform.
-- Backend: C# / .NET 8 Web API (repository pattern, async/await throughout)
-- Frontend: React 18 + TypeScript (strict mode, functional components only)
-- Database: PostgreSQL via Supabase (RLS enforced on all tables)
-- Auth: Supabase Auth — do not implement custom auth
+**CabinConnect** is a cabin booking and management platform for hosts and guests.
+- Backend: C# / .NET 10 Web API (Clean Architecture — Api → Domain ← Infrastructure; repository pattern; async/await throughout)
+- Frontend: React 19 + TypeScript strict mode (functional components; Tanstack React Query for server state; react-hook-form + Zod for forms; Tailwind CSS v4 + Radix UI)
+- Database: PostgreSQL via Supabase (RLS enabled and enforced on all application tables)
+- Auth: Supabase Auth — JWT; `OnTokenValidated` extracts `app_metadata.role` as `app_role` claim
 
 **System boundaries:**
-- React app calls the .NET API only — never Supabase directly for data mutations
-- Supabase client on the frontend is for auth tokens and real-time subscriptions only
-- All business rules live in the .NET domain layer
+- React app calls the .NET API only — never Supabase directly for data mutations or business queries
+- Supabase JS client is used for auth session management only (`supabase.auth.*`)
+- All business rules live in the .NET service layer (`CabinConnect.Api/Services`)
+- Supabase Admin API is called only from `InvitationService` via `ISupabaseAdminClient`
+- Ownership checks live at the **controller level** — services receive pre-validated host IDs
+- Feature flags use environment variables (`VITE_FF_*` on frontend; `FeatureFlags:*` config key on backend)
 
 ---
 
@@ -46,136 +49,77 @@ Full gate definition: [ai-dlc/rules/prompt-quality-gate.md](ai-dlc/rules/prompt-
 
 ## 3. Code Rules — Always Enforce
 
-### Never do these
-- Commit secrets, API keys, or connection strings — use environment variables
-- Trust client-supplied IDs without server-side ownership verification
-- Expose internal stack traces or error detail to the client
-- Use raw SQL string concatenation — parameterized queries or ORM only
-- Use `.Result` or `.Wait()` in async .NET code
-- Use `any` in TypeScript without an explanatory comment
-- Disable CORS wildcard (`*`) or CSRF protection in production
-- Call Supabase directly from React for data mutations
+### Hard stops — memorise, never look up
+- Never commit secrets, API keys, or connection strings — use environment variables
+- Never trust client-supplied IDs without server-side ownership verification at the controller level
+- Never expose internal stack traces or error detail to the client
+- Never use `.Result` or `.Wait()` in async .NET code — always `await`
+- Never use `any` in TypeScript without an explanatory comment
 
-### Always do these
-- Validate and sanitize all input at the API boundary
-- Authenticate every endpoint — explicitly mark public routes
-- Use RLS on every Supabase table; update policies when adding tables
-- Store total booking price on the Booking record at confirmation — never recalculate from current rates
-- Store and compare all dates as UTC; check-in/check-out are date-only (no time component)
-- Use DTOs at API boundaries; keep domain models internal to the .NET layer
-
-### Naming conventions
-- C#: PascalCase types/methods, camelCase locals/params, `_camelCase` private fields
-- TypeScript/React: PascalCase components, camelCase functions/variables, UPPER_SNAKE_CASE constants
-- Files: `cabin-card.tsx` (React, kebab-case), `CabinService.cs` (.NET, PascalCase)
-- Database: snake_case tables and columns
-
-Full standards: [ai-dlc/rules/code-standards.md](ai-dlc/rules/code-standards.md)
-Full security rules: [ai-dlc/rules/security.md](ai-dlc/rules/security.md)
-Architecture decisions: [ai-dlc/rules/architecture.md](ai-dlc/rules/architecture.md)
+### Full rules (read before writing any code)
+- Conventions and patterns: [ai-dlc/rules/code-standards.md](ai-dlc/rules/code-standards.md)
+- Security rules: [ai-dlc/rules/security.md](ai-dlc/rules/security.md)
+- Architecture decisions: [ai-dlc/rules/architecture.md](ai-dlc/rules/architecture.md)
+- Forbidden zones: [ai-dlc/guidelines/forbidden-zones.md](ai-dlc/guidelines/forbidden-zones.md)
 
 ---
 
 ## 4. Domain Language — Use These Terms Exactly
 
-| Term | Meaning |
-|---|---|
-| **Cabin** | A rentable accommodation unit |
-| **Booking** | A reservation of a Cabin by a Guest for a date range |
-| **Booking Status** | `Pending` / `Confirmed` / `Cancelled` / `Completed` / `NoShow` |
-| **Guest** | A user who makes bookings (authenticated via Supabase Auth) |
-| **Host** | The operator managing cabins and listings |
-| **Availability** | A Cabin is available if no Confirmed or Pending booking overlaps the requested dates |
-| **Date Range** | Inclusive check-in, exclusive check-out (e.g. Jun 1–5 = 4 nights) |
-| **Hold** | Temporary uncommitted reservation during checkout; expires after 15 minutes |
-| **Blackout Date** | Date range blocking a Cabin regardless of bookings |
-| **Base Rate** | Nightly price set by the Host |
-| **Seasonal Rate** | Override to Base Rate for a specific date range |
-| **Total Price** | Sum of nightly rates at booking confirmation; never retroactively recalculated |
+Read [ai-dlc/guidelines/domain-glossary.md](ai-dlc/guidelines/domain-glossary.md) before every elaboration session and before generating any business logic. Use only the terms defined there — do not substitute synonyms.
 
-Full glossary: [ai-dlc/guidelines/domain-glossary.md](ai-dlc/guidelines/domain-glossary.md)
+**Critical terms (load immediately):**
+- **Cabin:** A rentable accommodation unit managed by a Host
+- **Booking:** A confirmed reservation of a Cabin by a Guest for a date range; Total Price frozen at confirmation — never recalculated
+- **Hold:** A temporary uncommitted reservation during checkout; expires after 15 minutes
 
 ---
 
 ## 5. Known Edge Cases — Check Before Generating Code
 
-Always check whether the code being generated handles these:
-
-| ID | Scenario | Required behaviour |
-|---|---|---|
-| EC-001 | Concurrent booking on same cabin/dates | Database-level lock or unique constraint; Hold provides soft buffer |
-| EC-002 | Hold expires during payment | Validate Hold is still active at payment confirmation; return clear error if not |
-| EC-003 | Timezone-naive date comparison | Dates stored as UTC; date-only (no time); UI converts to local for display only |
-| EC-004 | Blackout dates not checked at booking | Availability query must always filter blackout dates |
-| EC-005 | Overlapping seasonal rates | Most specific date range wins; tie goes to higher rate |
-| EC-006 | Rate change after confirmation | Total price frozen at confirmation; never recalculated |
-| EC-007 | Guest accessing another Guest's booking | RLS restricts reads/writes to owner; server also validates ownership |
-| EC-008 | Expired JWT on long session | API returns 401; frontend uses `onAuthStateChange` to refresh proactively |
-| EC-009 | Check-out before check-in | Server validates before any DB query; frontend validates too but server is authoritative |
-| EC-010 | Zero-night booking (same-day in/out) | Minimum 1 night enforced in validation |
-
-Full list: [ai-dlc/guidelines/edge-cases.md](ai-dlc/guidelines/edge-cases.md)
+Read [ai-dlc/guidelines/edge-cases.md](ai-dlc/guidelines/edge-cases.md) before generating code for any unit. Do not skip this step — new edge cases are added after every retro.
 
 ---
 
 ## 6. AI-DLC Workflow — How Work Is Structured
 
-This project uses AI-DLC. Understand the artifact hierarchy before acting:
+**Session start check:** At the beginning of every session, read the `Next dependency audit` date from Section 9. If today is on or after that date, prompt the engineer before any other work:
+> "A dependency and security audit is scheduled. Would you like to run it now, or set a new date?"
+If the engineer defers, ask for the new date and update Section 9 before continuing.
 
-```
-Intent → Mob Elaboration → Unit → Bolt → Code → Retro → Improvement
-```
+**Elaboration turn structure (strictly one unit per turn):**
+1. Propose one unit — name and one-sentence purpose only. Stop.
+2. Propose ACs as a numbered list. Stop.
+3. Surface edge cases and open questions. Stop.
+4. Ask the three observability questions: what confirms this is working in production? What log entry signals failure? What alert threshold makes sense? If the answer represents code behavior, add it as an AC. If not applicable, record "Not applicable" and move on. Stop.
+5. Move to next unit. Repeat.
+6. After all units agreed, present summary table and ask for sign-off before writing any files.
 
-| Artifact | Where it lives | When to create/update |
-|---|---|---|
-| Intent | `ai-dlc/ops/inception/intents/` | When a new feature need is identified |
-| Elaboration session | `ai-dlc/ops/inception/elaborations/<intent-slug>/` | After each mob session |
-| Unit | `ai-dlc/ops/build/units/` | After elaboration; one file per atomic behaviour |
-| Backlog | `ai-dlc/ops/build/backlog.md` | Update whenever a unit's status changes |
-| Bolt | `ai-dlc/ops/build/bolts/` | When planning a batch of units |
-| Prompt log | `ai-dlc/prompts/` | After every AI-assisted code generation |
-| Retro | `ai-dlc/ops/operate/retros/` | After every Bolt completes |
-| Incident | `ai-dlc/ops/operate/incidents/` | When a production issue occurs |
-| Improvement | `ai-dlc/ops/operate/improvements/` | When a retro or incident triggers a rule change |
+**Remediation and defect work is not exempt from Inception.** Before any code is generated for a defect, P0 fix, or remediation bolt, an intent file must exist and at minimum one elaboration turn must have been completed to confirm ACs and identify contract changes. The quality gate alone is not a substitute for the elaboration turn structure.
 
-**Before starting any unit:** confirm it exists in `build/units/` with acceptance criteria. If it doesn't, prompt the engineer to create it from the template first.
+**Feature flags:** All new behaviour introduced into existing modules must be wrapped in an environment variable flag. Frontend: `VITE_FF_<FEATURE>=true`. Backend: `FeatureFlags:<Feature>` config key read via `IConfiguration`. This limits blast radius and enables rollback without redeployment.
 
-**After generating code for a unit:** remind the engineer to log the prompt in `ai-dlc/prompts/YYYY-MM-DD-<feature>.md`.
+**Default AC for existing-code Bolts (non-negotiable — cannot be removed during elaboration):**
+- Standard form (Enhancement Bolts): *"All integration tests for [affected module] pass without modification."*
+- Contract-change form (Migration and Remediation Bolts that change API shapes, data schemas, or inter-module interfaces): *"All integration tests for [affected module] pass without modification, except for tests covering the contract boundaries listed as breaking changes below. Each breaking change must be detailed and approved in the elaboration session before any code is generated."* When the contract-change form applies, the elaboration session must produce a Breaking Changes Register in the unit file.
 
-### Mob Elaboration — Interactive Protocol (MANDATORY)
-
-A mob elaboration session is a conversation, not a monologue. The following rules govern every session:
-
-**Turn structure — strictly one unit per turn:**
-1. Propose a single candidate unit (name + one-sentence purpose only). Stop and wait for human confirmation.
-2. Once confirmed, propose the acceptance criteria for that unit as a numbered list. Stop and wait. The human may add, remove, or reword ACs.
-3. Once ACs are agreed, surface edge cases and open questions for that unit only. Stop and wait.
-4. Move to the next unit. Repeat from step 1.
-5. After all units are agreed, present the full summary table and ask for final sign-off before writing any files.
-
-**Never do these during elaboration:**
-- Do not decompose all units in a single response
-- Do not write ACs before the human confirms the unit exists
-- Do not create unit files, elaboration files, or update the backlog until the human gives final sign-off on the complete unit list
-- Do not make scope or edge-case decisions unilaterally — surface them as questions
-
-Full interactive protocol: [ai-dlc/skills/mob-elaboration-prompts.md](ai-dlc/skills/mob-elab-prompts.md)
+**Full elaboration protocol:** read [ai-dlc/skills/mob-elab-prompts.md](ai-dlc/skills/mob-elab-prompts.md) before every elaboration session. The design session runs as Phase 0 of elaboration.
+**Bolt risk assessment:** read [ai-dlc/skills/bolt-risk-assessment.md](ai-dlc/skills/bolt-risk-assessment.md) after elaboration sign-off and before the first unit in a bolt executes. No unit may begin execution without a signed-off risk assessment in the bolt file.
+**UAT skill:** read [ai-dlc/skills/uat.md](ai-dlc/skills/uat.md) when all units under an intent are marked Done, or when the engineer invokes it directly. Prompt the engineer to run UAT before setting intent status to Implemented.
+**Progress digest skill:** read [ai-dlc/skills/progress-digest.md](ai-dlc/skills/progress-digest.md) when the engineer asks for a stakeholder update, progress summary, or digest for an intent.
+**Process health skill:** read [ai-dlc/skills/process-health.md](ai-dlc/skills/process-health.md) when the engineer invokes it to audit how well the AI-DLC process is functioning.
+**New engineer induction skill:** read [ai-dlc/skills/new-engineer-induction.md](ai-dlc/skills/new-engineer-induction.md) when an engineer says they are new to the project or invokes it directly.
+**Knowledge promotion skill:** read [ai-dlc/skills/knowledge-promotion.md](ai-dlc/skills/knowledge-promotion.md) as Step 5 of the Post-Retro Improvement Workflow after all improvements are applied. A retro is not closed until every Applied improvement has a Knowledge Promotion status.
+**Dependency audit skill:** read [ai-dlc/skills/dependency-audit.md](ai-dlc/skills/dependency-audit.md) when the engineer invokes it, or when the `Next dependency audit` date in Section 9 has been reached.
+**Compact-docs skill:** read [ai-dlc/skills/compact-docs.md](ai-dlc/skills/compact-docs.md) when the engineer invokes it.
+**Root-cause-analysis skill:** read [ai-dlc/skills/root-cause-analysis.md](ai-dlc/skills/root-cause-analysis.md) when the engineer invokes it, or when an incident is marked Resolved and no RCA has been run on it.
+**Engagement monitoring:** read and apply [ai-dlc/rules/engagement.md](ai-dlc/rules/engagement.md) throughout all ceremonies.
 
 ---
 
 ## 7. Review Behaviour — Verify Before Presenting Output
 
-Before presenting any code as complete, verify:
-
-- [ ] Every acceptance criterion is traceable to the code
-- [ ] No hallucinated API methods, library names, or type signatures
-- [ ] EC-001 through EC-010 checked — relevant ones are handled or explicitly noted as out of scope
-- [ ] No secrets, credentials, or hardcoded environment values
-- [ ] Auth is checked on every new endpoint
-- [ ] RLS policies are mentioned if new Supabase tables or access patterns are introduced
-- [ ] Tests exist for each acceptance criterion
-
-Full checklist: [ai-dlc/skills/review-checklist.md](ai-dlc/skills/review-checklist.md)
+Before presenting any output, run every item in [ai-dlc/skills/review-checklist.md](ai-dlc/skills/review-checklist.md). Do not present output that has not passed this checklist.
 
 ---
 
@@ -192,3 +136,18 @@ Full checklist: [ai-dlc/skills/review-checklist.md](ai-dlc/skills/review-checkli
 | Write an incident | [ai-dlc/ops/operate/incidents/_template.md](ai-dlc/ops/operate/incidents/_template.md) |
 | Check acceptance criteria patterns | [ai-dlc/guidelines/acceptance-patterns.md](ai-dlc/guidelines/acceptance-patterns.md) |
 | See all unit status | [ai-dlc/ops/build/backlog.md](ai-dlc/ops/build/backlog.md) |
+| Forbidden zones | [ai-dlc/guidelines/forbidden-zones.md](ai-dlc/guidelines/forbidden-zones.md) |
+| Entry points | [ai-dlc/guidelines/entry-points.md](ai-dlc/guidelines/entry-points.md) |
+| Domain glossary | [ai-dlc/guidelines/domain-glossary.md](ai-dlc/guidelines/domain-glossary.md) |
+| Known edge cases | [ai-dlc/guidelines/edge-cases.md](ai-dlc/guidelines/edge-cases.md) |
+| Dev environment setup | [ai-dlc/guidelines/dev-setup.md](ai-dlc/guidelines/dev-setup.md) |
+
+---
+
+## 9. Process Configuration
+
+| Setting | Value | Notes |
+|---|---|---|
+| **Archive threshold** | 6 months | Documents older than this qualify for archiving via the compact-docs skill |
+| **Last dependency audit** | — | Updated automatically each time the dependency-audit skill runs |
+| **Next dependency audit** | 2026-07-05 | AI prompts at session start on or after this date; default interval 30 days |
