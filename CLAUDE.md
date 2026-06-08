@@ -173,3 +173,5 @@ Full checklist: [ai-dlc/skills/review-checklist.md](ai-dlc/skills/review-checkli
 | Write an incident | [ai-dlc/ops/operate/incidents/_template.md](ai-dlc/ops/operate/incidents/_template.md) |
 | Check acceptance criteria patterns | [ai-dlc/guidelines/acceptance-patterns.md](ai-dlc/guidelines/acceptance-patterns.md) |
 | See all unit status | [ai-dlc/ops/build/backlog.md](ai-dlc/ops/build/backlog.md) |
+| Scaffold or debug an ASP.NET + SPA bolt (HTTPS redirect, CORS, port mismatch, EDR network blocks) | [ai-dlc/skills/aspnet-dev-checklist.md](ai-dlc/skills/aspnet-dev-checklist.md) |
+| Scaffold the local secret store before any tracked config | [ai-dlc/setup-guide.md](ai-dlc/setup-guide.md) (Step 0) |

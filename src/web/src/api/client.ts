@@ -37,7 +37,23 @@ export const apiClient = {
   get: <T>(path: string) => request<T>(path),
   post: <T>(path: string, body: unknown) =>
     request<T>(path, { method: 'POST', body: JSON.stringify(body) }),
+  put: <T>(path: string, body: unknown) =>
+    request<T>(path, { method: 'PUT', body: JSON.stringify(body) }),
   patch: <T>(path: string, body: unknown) =>
     request<T>(path, { method: 'PATCH', body: JSON.stringify(body) }),
   delete: (path: string) => request<void>(path, { method: 'DELETE' }),
+}
+
+/** Unauthenticated fetch for public reference data endpoints. */
+async function publicRequest<T>(path: string): Promise<T> {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    headers: { 'Content-Type': 'application/json' },
+  })
+  if (!response.ok) throw new Error('Failed to fetch reference data')
+  return response.json() as Promise<T>
+}
+
+export const referenceClient = {
+  getCommunities: <T>() => publicRequest<T>('/api/reference/communities'),
+  getAmenities: <T>() => publicRequest<T>('/api/reference/amenities'),
 }

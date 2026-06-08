@@ -1,5 +1,9 @@
+using CabinConnect.Api.Infrastructure.Persistence;
 using CabinConnect.Api.Middleware;
+using CabinConnect.Api.Repositories;
+using CabinConnect.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +50,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+// ── Database ──────────────────────────────────────────────────────────────────
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection is not configured.");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
+
+// ── Application services ──────────────────────────────────────────────────────
+builder.Services.AddScoped<ICabinRepository, CabinRepository>();
+builder.Services.AddScoped<CabinService>();
+
 var app = builder.Build();
 
 // ── Middleware pipeline ───────────────────────────────────────────────────────
@@ -56,8 +71,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseHttpsRedirection();
+}
 
-app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
