@@ -269,6 +269,50 @@ Once all nine questions are answered, the agent has enough to:
 
 ---
 
+## Step 0 — Scaffold the Secret Store Before Any Local Config
+
+> **Mandatory. Run this immediately after the structured interview and before any other scaffolding step — including before creating `appsettings.*.json`, `.env`, `application.yml`, or any other config file that could carry a real secret.**
+
+The single most common AI-DLC failure mode in early bolts is real secrets landing in a tracked config file because the secret store was set up *after* the engineer had already pasted values somewhere. This step exists to make that ordering impossible.
+
+The AI must perform every action below, in order, without skipping any item — even if the engineer says they will "just hardcode it for now":
+
+1. **Identify the right secret store for the chosen stack.** Use the table below; if the stack is not listed, ask the engineer which approach the team uses before proceeding.
+
+   | Backend stack | Local secret store | Init command |
+   |---|---|---|
+   | .NET (ASP.NET Core, Worker, etc.) | User-secrets (per-user, outside repo) | `dotnet user-secrets init --project <project-path>` |
+   | Node.js / TypeScript | `.env.local` (gitignored) | Create file; ensure `.env.local` is in `.gitignore` |
+   | Python (FastAPI, Django, Flask) | `.env` (gitignored) + `python-dotenv` | Create `.env`; ensure `.env` is in `.gitignore` |
+   | Java (Spring Boot) | `application-local.yml` (gitignored) **or** environment variables | Create the file; add to `.gitignore` |
+   | Go | `.env` (gitignored) + `godotenv` (or pure env vars) | Create `.env`; ensure `.env` is in `.gitignore` |
+   | Frontend (Vite / Next.js / CRA) | `.env.local` (gitignored — note framework-specific prefix rules: `VITE_`, `NEXT_PUBLIC_`, `REACT_APP_`) | Create file; verify `.env.local` is in `.gitignore` |
+
+2. **Verify `.gitignore` covers the secret file** *before* the file exists. If the entry is missing, add it and commit the gitignore change first.
+
+3. **Run the init command** for the chosen secret store (or create the gitignored file with placeholder keys only — never real values).
+
+4. **Add empty placeholders** to any tracked config file that the framework expects to exist (e.g. `appsettings.Development.json`, `.env.example`). The placeholders must use clearly-fake values like `<paste-into-user-secrets>` or `REPLACE_ME` so a reviewer can spot a real value being committed.
+
+5. **Document the mapping** in `guidelines/dev-setup.md` so future engineers know which keys live in the secret store vs. tracked config:
+
+   ```markdown
+   | Key | Lives in | How to obtain |
+   |---|---|---|
+   | `Supabase:Url` | user-secrets | Supabase dashboard → Project Settings → API |
+   | `ConnectionStrings:Default` | user-secrets | Supabase dashboard → Project Settings → Database |
+   ```
+
+6. **State the rule explicitly to the engineer before asking for any value:**
+
+   > "I've scaffolded `<secret store>`. From this point on, any real secret you give me — connection strings, API keys, JWT secrets — goes there directly. I will refuse to write a real secret into a tracked file, even temporarily. If you paste a real value into the chat for me to put into a tracked file, I will instead place it in the secret store and replace the tracked-file value with a placeholder."
+
+7. **Record this step as complete** in the running setup log before any other scaffolding command runs.
+
+If at any later point a real-looking secret appears in a tracked file, treat it as an incident: stop, move the value to the secret store, replace the tracked-file occurrence with a placeholder, and ask the engineer to rotate the secret because it must be assumed leaked.
+
+---
+
 ## Step 1 — Create the Folder Structure
 
 Create this directory tree at the root of your repository:
