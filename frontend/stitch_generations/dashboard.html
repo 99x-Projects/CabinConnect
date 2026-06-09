@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Set up MyCabin | CabinConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#e9e8e5",
+                    "primary-container": "#2d4739",
+                    "outline": "#727973",
+                    "tertiary-container": "#633621",
+                    "on-primary-container": "#98b5a3",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#656461",
+                    "on-secondary-fixed": "#1c1c19",
+                    "inverse-surface": "#2f312f",
+                    "surface": "#faf9f6",
+                    "inverse-primary": "#b0cdbb",
+                    "inverse-on-surface": "#f2f1ee",
+                    "surface-container-low": "#f4f3f1",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-container": "#e09f85",
+                    "secondary": "#5f5e5b",
+                    "surface-container": "#efeeeb",
+                    "surface-variant": "#e3e2e0",
+                    "on-surface": "#1a1c1a",
+                    "primary-fixed": "#ccead6",
+                    "background": "#faf9f6",
+                    "error-container": "#ffdad6",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#496455",
+                    "tertiary": "#48200e",
+                    "on-primary-fixed-variant": "#324c3e",
+                    "secondary-fixed-dim": "#c9c6c2",
+                    "surface-container-highest": "#e3e2e0",
+                    "on-surface-variant": "#424844",
+                    "outline-variant": "#c2c8c2",
+                    "on-primary-fixed": "#062014",
+                    "tertiary-fixed": "#ffdbcd",
+                    "primary-fixed-dim": "#b0cdbb",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#dbdad7",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#e5e2dd",
+                    "surface-bright": "#faf9f6",
+                    "tertiary-fixed-dim": "#fab79b",
+                    "on-tertiary-fixed-variant": "#693b26",
+                    "on-secondary-fixed-variant": "#474743",
+                    "secondary-container": "#e5e2dd",
+                    "on-tertiary-fixed": "#341102",
+                    "primary": "#173124",
+                    "on-background": "#1a1c1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "container-padding": "40px",
+                    "gutter": "24px",
+                    "section-gap": "64px",
+                    "margin-desktop": "48px",
+                    "base": "8px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Manrope"],
+                    "body-md": ["Inter"],
+                    "headline-sm": ["Manrope"],
+                    "headline-xl-mobile": ["Manrope"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-xl": ["Manrope"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Manrope"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-xl-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #faf9f6;
+            color: #1a1c1a;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .nordic-card {
+            box-shadow: 0px 4px 20px rgba(45, 71, 57, 0.04);
+            border-radius: 24px;
+        }
+
+        .step-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 8px 24px rgba(45, 71, 57, 0.08);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #f5f2ed 0%, transparent 70%);
+        }
+
+        /* Custom Scrollbar for the progress horizontal list on mobile */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-surface dark:bg-surface">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">
+            CabinConnect
+        </div>
+<div class="flex items-center gap-6">
+<button class="text-label-md font-label-md text-on-surface-variant hover:text-primary-container transition-colors">
+                Exit Setup
+            </button>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center pt-24 pb-12 px-margin-mobile hero-gradient">
+<div class="max-w-[1120px] w-full flex flex-col items-center">
+<!-- Hero Card -->
+<div class="nordic-card bg-surface-container-lowest p-container-padding w-full flex flex-col md:flex-row gap-gutter items-center overflow-hidden">
+<!-- Text Content -->
+<div class="flex-1 space-y-6 z-10">
+<div class="space-y-4">
+<h1 class="font-headline-xl text-headline-xl md:text-headline-xl text-primary">
+                            Set up MyCabin
+                        </h1>
+<p class="font-body-lg text-body-lg text-secondary max-w-md">
+                            Create one shared place for your cabin details, instructions, stays, checklists, and local help.
+                        </p>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Start with the essentials. You can complete the rest later.
+                        </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:opacity-90 transition-all transform active:scale-95 shadow-sm">
+                            Start setup
+                        </button>
+<button class="border-2 border-outline/20 text-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-surface-container transition-all transform active:scale-95">
+                            Use quick setup
+                        </button>
+</div>
+</div>
+<!-- Visual Asset (Illustration) -->
+<div class="flex-1 relative w-full h-[320px] md:h-[480px] rounded-3xl overflow-hidden group">
+<img alt="Nordic Cabin" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A serene and minimalist architectural visualization of a modern Nordic A-frame cabin nestled in a tranquil forest clearing during twilight. The cabin features large glass windows emitting a warm, amber glow, contrasting with the soft, misty blue atmosphere of the surrounding pine trees. The aesthetic is clean, sophisticated, and high-end, utilizing a palette of deep forest greens, warm wood tones, and cool greys to evoke a sense of quiet sanctuary and premium hospitality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsMyN_PHGWtGRT8g6wT6hpD4DesOPiEYtzoIprkqmSjQq5klrh7iIkncwb9-9wOa53kwSM6uTwzsZd5W3LQTqQ6cYlLend9b-rxMD6avUmWj4TMeqtCD9zj9EKhXtV9ELkU4368YPicZc2Gt5pKG8-zblCI1weFkTXMv3LWUBdg7NBi3B4y72gShbxhbpTzGF_WI9DO6KF-Ki9rmsD79biJvZx_0kZPOVGoU-YoXnlDSIk8hx0aCZejHSwY-vzPXZBgOE3PfuWdSpU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+</div>
+</div>
+<!-- Progress Preview Section -->
+<div class="w-full mt-section-gap space-y-8">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-primary">Setup Journey</h2>
+<span class="text-label-md font-label-md text-on-surface-variant">7 Steps to Complete</span>
+</div>
+<!-- Bento-style Progress Preview -->
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+<!-- Step 1: Cabin Basics -->
+<div class="step-card bg-surface-container p-6 rounded-2xl flex flex-col items-center text-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">home_work</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Cabin Basics</span>
+</div>
+<!-- Step 2: Access -->
+<div class="step-card bg-surface-container p-6 rounded-2xl flex flex-col items-center text-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">vpn_key</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Access</span>
+</div>
+<!-- Step 3: Instructions -->
+<div class="step-card bg-surface-container p-6 rounded-2xl flex flex-col items-center text-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">description</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Instructions</span>
+</div>
+<!-- Step 4: Contacts -->
+<div class="step-card bg-surface-container p-6 rounded-2xl flex flex-col items-center text-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">contact_phone</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Contacts</span>
+</div>
+<!-- Step 5: Supplies -->
+<div class="step-card bg-surface-container p-6 rounded-2xl flex flex-col items-center text-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Supplies</span>
+</div>
+<!-- Step 6: Family -->
+<div class="step-card bg-surface-container p-6 rounded-2xl flex flex-col items-center text-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">family_restroom</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Family</span>
+</div>
+<!-- Step 7: Review -->
+<div class="step-card bg-surface-container p-6 rounded-2xl flex flex-col items-center text-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">fact_check</span>
+</div>
+<span class="font-label-md text-label-md text-primary">Review</span>
+</div>
+</div>
+</div>
+<!-- Bottom Disclaimer/Footer -->
+<footer class="mt-section-gap py-8 w-full border-t border-outline/10 flex flex-col md:flex-row justify-between items-center gap-4 text-on-surface-variant font-label-sm text-label-sm">
+<p>© 2024 CabinConnect. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Support Center</a>
+<a class="hover:text-primary transition-colors" href="#">Help</a>
+</div>
+</footer>
+</div>
+</main>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.96)';
+            });
+            button.addEventListener('mouseup', () => {
+                button.style.transform = 'scale(1)';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+
+        // Hover animation for step cards
+        const stepCards = document.querySelectorAll('.step-card');
+        stepCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    </script>
+</body></html>

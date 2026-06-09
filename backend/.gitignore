@@ -1,0 +1,14 @@
+# Secrets — never commit
+.env
+
+# Build output
+bin/
+obj/
+
+# IDE
+.vs/
+*.user
+*.suo
+
+# OS
+.DS_Store

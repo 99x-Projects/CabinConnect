@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Account | CabinConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-nordic-gradient {
+            background: linear-gradient(135deg, #fbf9f8 0%, #eae8e7 100%);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fbf9f8; }
+        ::-webkit-scrollbar-thumb { background: #c2c8c2; border-radius: 10px; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-bright": "#fbf9f8",
+                      "on-secondary-container": "#656461",
+                      "outline": "#727973",
+                      "on-secondary-fixed-variant": "#474743",
+                      "surface-container-high": "#eae8e7",
+                      "on-tertiary-fixed": "#101f11",
+                      "tertiary-container": "#354635",
+                      "surface-variant": "#e4e2e1",
+                      "on-background": "#1b1c1c",
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#e4e2e1",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed": "#d5e8d1",
+                      "inverse-surface": "#303030",
+                      "secondary": "#5f5e5b",
+                      "primary-fixed": "#ccead6",
+                      "tertiary-fixed-dim": "#b9ccb5",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#98b5a3",
+                      "secondary-fixed": "#e5e2dd",
+                      "secondary-container": "#e5e2dd",
+                      "on-primary-fixed-variant": "#324c3e",
+                      "surface-dim": "#dcd9d9",
+                      "on-tertiary": "#ffffff",
+                      "inverse-on-surface": "#f3f0f0",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#c9c6c2",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#1c1c19",
+                      "on-surface": "#1b1c1c",
+                      "surface-container": "#f0eded",
+                      "on-surface-variant": "#424844",
+                      "primary": "#173124",
+                      "surface-tint": "#496455",
+                      "background": "#fbf9f8",
+                      "inverse-primary": "#b0cdbb",
+                      "surface-container-low": "#f6f3f2",
+                      "error": "#ba1a1a",
+                      "tertiary": "#202f20",
+                      "on-tertiary-container": "#a1b39e",
+                      "surface": "#fbf9f8",
+                      "outline-variant": "#c2c8c2",
+                      "primary-fixed-dim": "#b0cdbb",
+                      "on-tertiary-fixed-variant": "#3a4b3a",
+                      "primary-container": "#2d4739",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#062014"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "24px",
+                      "xs": "4px",
+                      "lg": "48px",
+                      "margin-mobile": "16px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "xl": "80px",
+                      "margin-desktop": "64px",
+                      "container-max": "1280px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Inter"],
+                      "display-lg-mobile": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "display-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background min-h-screen selection:bg-primary-fixed-dim selection:text-on-primary-fixed">
+<main class="min-h-screen flex flex-col md:flex-row">
+<!-- Left Panel: Benefits (Editorial/Visual) -->
+<section class="hidden md:flex md:w-5/12 lg:w-1/2 relative overflow-hidden bg-primary items-center justify-center p-xl">
+<!-- Atmospheric Background Image -->
+<div class="absolute inset-0 z-0 opacity-40">
+<img class="w-full h-full object-cover grayscale" data-alt="A serene wide shot of a traditional dark wooden cabin nestled in a snowy Norwegian pine forest during blue hour. The windows glow with a warm golden light, contrasting against the cool blue shadows and soft white snow. The aesthetic is premium, calm, and deeply rooted in the Nordic spirit of Friluftsliv, emphasizing peace and heritage." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7jmbIX-kzLk6oXmlYDTvsqP8j9TNOpPFMyYCdzRkc7zcPX7DH-sO6L7imBkizR6B0zf3c4mIpPnVjhdLQRI0IP2YyVklsajxAN9f-1xI3uWmjuEVbTiwb1oT4UdmQ2Ko_nThMRzOTdeLymAV0ZwknnrVQjb0o7T_dVG4dNVZhl5ELJe7N3xLHzAt8JFUwx_SxBE4Y_V08LqzvF4Ks4cNN6JU3NThlrYPLTCLg33jWiZP6NDbhUnxQpvp84AHlGHv1Qcp2TRIlNUs"/>
+</div>
+<div class="relative z-10 max-w-lg text-on-primary">
+<div class="mb-lg">
+<span class="font-label-md text-label-md uppercase tracking-widest text-on-primary-container block mb-base">Member Benefits</span>
+<h1 class="font-display-lg text-display-lg mb-md leading-tight">Start building your cabin hub</h1>
+</div>
+<ul class="space-y-md">
+<li class="flex items-start gap-md">
+<span class="material-symbols-outlined mt-1 text-on-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<div>
+<p class="font-headline-md text-headline-md mb-xs">Keep cabin knowledge in one place</p>
+<p class="font-body-md text-body-md opacity-80">Store technical manuals, maintenance schedules, and water shut-off locations.</p>
+</div>
+</li>
+<li class="flex items-start gap-md">
+<span class="material-symbols-outlined mt-1 text-on-primary-container" style="font-variation-settings: 'FILL' 1;">groups</span>
+<div>
+<p class="font-headline-md text-headline-md mb-xs">Share with family</p>
+<p class="font-body-md text-body-md opacity-80">Invite co-owners to contribute and stay updated on the cabin's status.</p>
+</div>
+</li>
+<li class="flex items-start gap-md">
+<span class="material-symbols-outlined mt-1 text-on-primary-container" style="font-variation-settings: 'FILL' 1;">history</span>
+<div>
+<p class="font-headline-md text-headline-md mb-xs">Track every improvement</p>
+<p class="font-body-md text-body-md opacity-80">Log renovation history and seasonal checklists effortlessly.</p>
+</div>
+</li>
+</ul>
+</div>
+</section>
+<!-- Right Panel: Registration Form -->
+<section class="flex-1 flex flex-col items-center justify-center p-margin-mobile md:p-xl bg-surface-bright">
+<div class="w-full max-w-[480px]">
+<!-- Header -->
+<div class="mb-xl text-center md:text-left">
+<div class="inline-flex items-center gap-base mb-md">
+<span class="font-headline-md text-headline-md font-bold text-primary tracking-tight">CabinConnect</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Create your account</h2>
+<p class="font-body-md text-body-md text-secondary mt-base">Join the community and start organizing your Nordic escape.</p>
+</div>
+<!-- Registration Card -->
+<form class="space-y-md" onsubmit="event.preventDefault();">
+<!-- Names Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="group">
+<label class="font-label-md text-label-md text-on-surface-variant block mb-xs" for="first-name">First Name</label>
+<input class="w-full px-md py-sm bg-secondary-container border-b border-transparent focus:border-primary focus:ring-0 transition-all rounded-t-lg outline-none font-body-md text-on-background" id="first-name" placeholder="Bjørn" required="" type="text"/>
+</div>
+<div class="group">
+<label class="font-label-md text-label-md text-on-surface-variant block mb-xs" for="last-name">Last Name</label>
+<input class="w-full px-md py-sm bg-secondary-container border-b border-transparent focus:border-primary focus:ring-0 transition-all rounded-t-lg outline-none font-body-md text-on-background" id="last-name" placeholder="Olsen" required="" type="text"/>
+</div>
+</div>
+<!-- Email -->
+<div class="group">
+<label class="font-label-md text-label-md text-on-surface-variant block mb-xs" for="email">Email Address</label>
+<input class="w-full px-md py-sm bg-secondary-container border-b border-transparent focus:border-primary focus:ring-0 transition-all rounded-t-lg outline-none font-body-md text-on-background" id="email" placeholder="hello@nordic-retreat.com" required="" type="email"/>
+</div>
+<!-- Password -->
+<div class="group">
+<label class="font-label-md text-label-md text-on-surface-variant block mb-xs" for="password">Create Password</label>
+<div class="relative">
+<input class="w-full px-md py-sm bg-secondary-container border-b border-transparent focus:border-primary focus:ring-0 transition-all rounded-t-lg outline-none font-body-md text-on-background" id="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-on-secondary-container" type="button">
+<span class="material-symbols-outlined text-body-md">visibility_off</span>
+</button>
+</div>
+</div>
+<!-- Confirm Password -->
+<div class="group">
+<label class="font-label-md text-label-md text-on-surface-variant block mb-xs" for="confirm-password">Confirm Password</label>
+<input class="w-full px-md py-sm bg-secondary-container border-b border-transparent focus:border-primary focus:ring-0 transition-all rounded-t-lg outline-none font-body-md text-on-background" id="confirm-password" placeholder="••••••••" required="" type="password"/>
+</div>
+<!-- Password Requirements -->
+<div class="p-md bg-surface-container rounded-lg space-y-xs">
+<p class="font-label-sm text-label-sm text-secondary mb-base">PASSWORD MUST CONTAIN:</p>
+<div class="flex items-center gap-xs font-label-md text-label-md text-on-tertiary-container">
+<span class="material-symbols-outlined text-[16px]">check</span>
+<span>8+ characters</span>
+</div>
+<div class="flex items-center gap-xs font-label-md text-label-md text-outline">
+<span class="material-symbols-outlined text-[16px]">circle</span>
+<span>At least one uppercase letter</span>
+</div>
+<div class="flex items-center gap-xs font-label-md text-label-md text-outline">
+<span class="material-symbols-outlined text-[16px]">circle</span>
+<span>At least one number</span>
+</div>
+</div>
+<!-- Checkboxes -->
+<div class="space-y-sm">
+<label class="flex items-start gap-sm cursor-pointer group">
+<div class="relative flex items-center mt-1">
+<input class="peer h-5 w-5 rounded border-outline bg-transparent text-primary focus:ring-primary focus:ring-offset-background" required="" type="checkbox"/>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-background transition-colors">
+                                I agree to the <a class="text-primary font-bold hover:underline" href="#">Terms of Service</a> and <a class="text-primary font-bold hover:underline" href="#">Privacy Policy</a>.
+                            </span>
+</label>
+<label class="flex items-start gap-sm cursor-pointer group">
+<div class="relative flex items-center mt-1">
+<input class="peer h-5 w-5 rounded border-outline bg-transparent text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+</div>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-background transition-colors">
+                                Send me periodic updates about new features and cabin maintenance tips.
+                            </span>
+</label>
+</div>
+<!-- Actions -->
+<div class="pt-md">
+<button class="w-full bg-primary text-on-primary py-md px-lg rounded-full font-label-md text-label-md font-bold uppercase tracking-widest hover:bg-primary-container transition-all shadow-sm active:scale-[0.98]" type="submit">
+                            Create Account
+                        </button>
+</div>
+<!-- Footer Link -->
+<div class="text-center pt-md">
+<p class="font-body-md text-body-md text-secondary">
+                            Already have an account? 
+                            <a class="text-primary font-bold hover:underline ml-xs" href="#">Sign In</a>
+</p>
+</div>
+</form>
+<!-- Nordic Accent Graphic (Subtle) -->
+<div class="mt-xl flex justify-center opacity-10">
+<span class="material-symbols-outlined text-[48px]">landscape</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        // Subtle form animation
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.closest('.group')?.classList.add('translate-x-1');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.closest('.group')?.classList.remove('translate-x-1');
+            });
+        });
+
+        // Simple Toggle Password Visibility (Conceptual)
+        const toggleBtn = document.querySelector('button .material-symbols-outlined');
+        if (toggleBtn) {
+            let visible = false;
+            toggleBtn.parentElement.addEventListener('click', () => {
+                visible = !visible;
+                toggleBtn.innerText = visible ? 'visibility' : 'visibility_off';
+                const input = toggleBtn.parentElement.previousElementSibling;
+                input.type = visible ? 'text' : 'password';
+            });
+        }
+    </script>
+</body></html>

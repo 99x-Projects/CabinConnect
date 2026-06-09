@@ -687,7 +687,7 @@ Whenever the master rule file is updated, all mirror files must be updated in th
 ## Step 9 — Initialize the Backlog and First Intent
 
 1. Copy `ops/build/backlog.md` from the base repo — it already contains the empty status sections and the Reference Link Registry comment at the bottom.
-2. Identify the first capability to build and write an intent: `ops/inception/intents/YYYY-MM-DD-<slug>.md`
+2. Identify the first capability to build and write an intent: `ops/inception/intents/YYYY-MM-DD-<unix_timestamp>-<slug>.md`
 3. Say to your AI assistant: "Run a mob elaboration for the [intent name] intent"
 4. After sign-off, the AI creates unit files and updates the backlog. **When adding any unit or bolt to the backlog, the AI must use reference-style links** — write the display text as `[Unit-name][unit-slug]` in the table and add the path definition to the Reference Link Registry at the bottom of the file. Never use inline URLs in backlog tables.
 5. Say: "Plan a bolt from the open units in the backlog"

@@ -140,7 +140,7 @@ Intent → Mob Elaboration → Unit → Bolt → Code → Retro → Improvement
 
 **Before starting any unit:** confirm it exists in `build/units/` with acceptance criteria. If it doesn't, prompt the engineer to create it from the template first.
 
-**After generating code for a unit:** remind the engineer to log the prompt in `ai-dlc/prompts/YYYY-MM-DD-<feature>.md`.
+**After generating code for a unit:** remind the engineer to log the prompt in `ai-dlc/prompts/YYYY-MM-DD-<unix_timestamp>-<feature>.md`.
 
 ---
 

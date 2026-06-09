@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In | CabinConnect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-bright": "#fbf9f8",
+                      "on-secondary-container": "#656461",
+                      "outline": "#727973",
+                      "on-secondary-fixed-variant": "#474743",
+                      "surface-container-high": "#eae8e7",
+                      "on-tertiary-fixed": "#101f11",
+                      "tertiary-container": "#354635",
+                      "surface-variant": "#e4e2e1",
+                      "on-background": "#1b1c1c",
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#e4e2e1",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed": "#d5e8d1",
+                      "inverse-surface": "#303030",
+                      "secondary": "#5f5e5b",
+                      "primary-fixed": "#ccead6",
+                      "tertiary-fixed-dim": "#b9ccb5",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-container": "#98b5a3",
+                      "secondary-fixed": "#e5e2dd",
+                      "secondary-container": "#e5e2dd",
+                      "on-primary-fixed-variant": "#324c3e",
+                      "surface-dim": "#dcd9d9",
+                      "on-tertiary": "#ffffff",
+                      "inverse-on-surface": "#f3f0f0",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#c9c6c2",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#1c1c19",
+                      "on-surface": "#1b1c1c",
+                      "surface-container": "#f0eded",
+                      "on-surface-variant": "#424844",
+                      "primary": "#173124",
+                      "surface-tint": "#496455",
+                      "background": "#fbf9f8",
+                      "inverse-primary": "#b0cdbb",
+                      "surface-container-low": "#f6f3f2",
+                      "error": "#ba1a1a",
+                      "tertiary": "#202f20",
+                      "on-tertiary-container": "#a1b39e",
+                      "surface": "#fbf9f8",
+                      "outline-variant": "#c2c8c2",
+                      "primary-fixed-dim": "#b0cdbb",
+                      "on-tertiary-fixed-variant": "#3a4b3a",
+                      "primary-container": "#2d4739",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed": "#062014"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "md": "24px",
+                      "xs": "4px",
+                      "lg": "48px",
+                      "margin-mobile": "16px",
+                      "base": "8px",
+                      "gutter": "24px",
+                      "xl": "80px",
+                      "margin-desktop": "64px",
+                      "container-max": "1280px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "headline-lg": ["Inter"],
+                      "display-lg-mobile": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "label-md": ["Inter"],
+                      "display-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                      "display-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fbf9f8;
+            color: #1b1c1c;
+            margin: 0;
+            padding: 0;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .nordic-gradient-overlay {
+            background: linear-gradient(to bottom, rgba(23, 49, 36, 0.4) 0%, rgba(23, 49, 36, 0.8) 100%);
+        }
+        input:focus {
+            outline: none;
+            border-bottom-color: #173124 !important;
+        }
+        .custom-shadow {
+            box-shadow: 0 10px 40px -10px rgba(23, 49, 36, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col">
+<main class="flex-grow flex items-stretch min-h-screen">
+<!-- Left Column: Visual & Headline -->
+<section class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-primary items-center justify-center p-xl">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A breathtaking, wide-angle shot of a minimalist wooden A-frame cabin nestled in a snowy Norwegian forest at dusk. The lighting is soft and ethereal, with warm golden light spilling from the cabin's large glass windows, contrasting against the cool, blue-tinted shadows of the pine trees. The aesthetic is premium and editorial, capturing a sense of deep hygge and peaceful seclusion in nature." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXZwZtM_m57cN0X6UmxbGi-RVogzESBKPwIPgx5dwWlSRKwlTkcYd8Zc35c_FVyLlj7i4ZueRWtKAAeXyDReK9IWs2_0a4gEr1Nv5E25agcl3QclDRAVDjr_2ckIm5Yv1Il1bRPnOboJb5En4ezCv8EOvl--BOo_KMPeF8AAaCtmR1F3143wk0nLweGZZXA1mlMKWx87NbK92Jqic5THUQeNKwg9KrxnBXYiOdDCmVJySZbKWdWfznmLgPkqhLt_8PVPzcz32Bd_0"/>
+<div class="absolute inset-0 nordic-gradient-overlay"></div>
+</div>
+<div class="relative z-10 max-w-lg text-white">
+<div class="mb-gutter">
+<span class="font-headline-md text-headline-md font-bold tracking-tight text-white/90">CabinConnect</span>
+</div>
+<h1 class="font-display-lg text-display-lg mb-md leading-tight text-white">One shared place for cabin life</h1>
+<p class="font-body-lg text-body-lg text-white/80 max-w-sm">
+                    Connecting families, friends, and trusted helpers to the essence of the Nordic outdoors. Organize visits, share tasks, and cherish moments.
+                </p>
+</div>
+</section>
+<!-- Right Column: Authentication Form -->
+<section class="w-full lg:w-1/2 flex flex-col justify-center items-center p-margin-mobile md:p-margin-desktop bg-surface-bright">
+<div class="w-full max-w-[440px] flex flex-col">
+<!-- Mobile Branding -->
+<div class="lg:hidden mb-xl flex flex-col items-center">
+<h1 class="font-headline-md text-headline-md font-bold tracking-tight text-primary">CabinConnect</h1>
+</div>
+<div class="bg-secondary-container/30 rounded-xl p-md md:p-lg custom-shadow">
+<header class="mb-xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Welcome back</h2>
+<p class="font-body-md text-body-md text-secondary">Please enter your details to sign in.</p>
+</header>
+<form class="space-y-md">
+<div>
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block mb-xs" for="email">Email Address</label>
+<input class="w-full bg-surface-container-low border-b border-outline-variant py-sm px-base font-body-md text-body-md transition-all focus:bg-surface-container placeholder:text-outline-variant" id="email" name="email" placeholder="name@example.com" type="email"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-xs">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-secondary block" for="password">Password</label>
+<a class="font-label-md text-label-md text-primary hover:opacity-80 transition-opacity" href="#">Forgot password?</a>
+</div>
+<input class="w-full bg-surface-container-low border-b border-outline-variant py-sm px-base font-body-md text-body-md transition-all focus:bg-surface-container placeholder:text-outline-variant" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+<div class="flex items-center space-x-sm pt-xs">
+<input class="w-4 h-4 rounded border-outline-variant text-primary focus:ring-primary" id="remember" name="remember" type="checkbox"/>
+<label class="font-label-md text-label-md text-on-secondary-container select-none" for="remember">Remember me for 30 days</label>
+</div>
+<button class="w-full bg-primary text-on-primary py-md rounded-lg font-label-md text-label-md transition-all hover:opacity-90 active:scale-[0.98] mt-md" type="submit">
+                            Sign In
+                        </button>
+</form>
+<div class="relative my-xl">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-outline-variant"></div>
+</div>
+<div class="relative flex justify-center">
+<span class="bg-[#fcfaf9] px-sm font-label-sm text-label-sm text-secondary uppercase tracking-widest">Or continue with</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-gutter">
+<button class="flex items-center justify-center space-x-sm border border-outline-variant rounded-lg py-sm px-md hover:bg-surface-container-low transition-colors">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="font-label-md text-label-md text-on-surface">Google</span>
+</button>
+<button class="flex items-center justify-center space-x-sm border border-outline-variant rounded-lg py-sm px-md hover:bg-surface-container-low transition-colors">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M17.05 20.28c-.98.95-2.05 1.61-3.2 1.61-1.12 0-1.51-.69-2.85-.69-1.33 0-1.88.68-2.84.68-1.13 0-2.24-.71-3.24-1.61-2.08-1.89-3.32-5.46-3.32-8.4 0-4.08 2.5-6.18 5.17-6.18.96 0 1.83.42 2.65.42.79 0 1.7-.42 2.76-.42 2.1 0 4.14 1.25 5.12 3.33-4.35 1.81-3.64 7.62.25 9.26zM12.03 5.4c-.03-2.18 1.8-4.04 3.9-4.1.2 2.45-2.12 4.41-3.9 4.1z"></path>
+</svg>
+<span class="font-label-md text-label-md text-on-surface">Apple</span>
+</button>
+</div>
+</div>
+<footer class="mt-xl text-center space-y-md">
+<p class="font-body-md text-body-md text-secondary">
+                        Don't have an account? 
+                        <a class="text-primary font-bold hover:underline transition-all" href="#">Create Account</a>
+</p>
+<div class="flex items-center justify-center space-x-sm pt-md border-t border-outline-variant">
+<span class="material-symbols-outlined text-outline-variant text-[18px]">lock</span>
+<p class="font-label-sm text-label-sm text-on-secondary-container">Secure access for cabin owners, families, and trusted helpers.</p>
+</div>
+</footer>
+</div>
+</section>
+</main>
+<!-- Visual Polish: Subtle Background Noise Texture -->
+<div class="pointer-events-none fixed inset-0 z-50 opacity-[0.03] mix-blend-multiply overflow-hidden">
+<div class="absolute inset-[-200%] bg-repeat" style="background-image: url('https://www.transparenttextures.com/patterns/felt.png');"></div>
+</div>
+<script>
+        // Simple micro-interaction for form labels
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label')?.classList.add('text-primary');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label')?.classList.remove('text-primary');
+            });
+        });
+
+        // Add a subtle parallax effect to the hero image
+        window.addEventListener('mousemove', (e) => {
+            const img = document.querySelector('.lg\\:flex img');
+            if (img) {
+                const moveX = (e.clientX - window.innerWidth / 2) / 100;
+                const moveY = (e.clientY - window.innerHeight / 2) / 100;
+                img.style.transform = `scale(1.1) translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+    </script>
+</body></html>
