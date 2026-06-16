@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CabinConnect.Api/CabinConnect.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CabinConnect.Api.Tests/CabinConnect.Api.Tests.csproj" />
+  </Folder>
+</Solution>

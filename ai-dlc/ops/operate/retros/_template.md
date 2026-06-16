@@ -1,93 +1,54 @@
-# Retrospective: [Bolt name]
+# Retrospective: Bolt NN — <Name>
 
-**Bolt:** [ops/build/bolts/YYYY-MM-DD-[bolt-slug].md](../../build/bolts/YYYY-MM-DD-[bolt-slug].md)
+**Bolt:** [Bolt NN](../../build/bolts/bolt-NN-name.md)
 **Date:** YYYY-MM-DD
-**Participants:** [Engineer names]
+**Participants:** 
+**Facilitator:** 
 
 ---
 
 ## What Went Well
-
-- [Observation]
-- [Observation]
-
----
+<!-- Practices, decisions, or AI interactions that worked — worth repeating. -->
+- 
 
 ## What Didn't Go Well
-
-- [Observation]
-- [Observation]
-
----
+<!-- Friction, delays, mistakes, or surprises. Be specific. -->
+- 
 
 ## AI-Specific Observations
 
-**Prompts that worked well:**
-- [Description — what made them effective]
+### Prompts that worked as expected
+<!-- Record the prompt pattern (not the full prompt) and why it worked. -->
+- 
 
-**Prompts that needed revision:**
-- [Description — what was wrong and how it was fixed]
+### Prompts that needed revision before output was usable
+<!-- What was missing or wrong in the initial prompt? What did you have to fix? -->
+- 
 
-**Quality gate failures:**
-- [Description — which component was missing and what was asked]
+### Quality gate failures caught
+<!-- Cases where the quality gate stopped a bad output from merging. -->
+- 
 
-**Output accepted without sufficient review:**
-- [Description — what slipped through and what the consequence was]
+### Cases where AI output was accepted without enough review
+<!-- Be honest — this is how the process improves. -->
+- 
 
 ---
 
 ## Actions
 
-| # | Action | Owner | Target date | Status |
-|---|---|---|---|---|
-| 1 | [description] | [name] | YYYY-MM-DD | Open |
-
----
+| Action | Owner | Target | Improvement File |
+|---|---|---|---|
+| | | YYYY-MM-DD | [link] |
 
 ## Improvements Triggered
-
-**This section cannot be left blank.** If no improvements were triggered, state the reason explicitly.
-
-| # | Improvement file | Target rule/guideline | Status |
-|---|---|---|---|
-| 1 | [ops/operate/improvements/YYYY-MM-DD-[slug].md](../improvements/YYYY-MM-DD-[slug].md) | [ai-dlc/rules/...] | Open |
-
----
+<!-- REQUIRED. For every process problem identified in "What Didn't Go Well", either: -->
+<!--   (a) link to the improvement file created, or -->
+<!--   (b) write an explicit reason why no improvement is warranted (e.g. "one-off environment issue, no rule change needed") -->
+<!-- Leaving this blank or writing "None" without a reason is not acceptable. -->
+- [ ] [operate/improvements/YYYY-MM-DD-description.md](../improvements/YYYY-MM-DD-description.md)
 
 ## New Intents Triggered
-
-| Intent | Reason |
-|---|---|
-| [name] | [what this retro revealed that requires a new capability] |
-
----
-
-## Post-Retro Improvement Workflow
-
-> **The AI must execute this workflow immediately after the retro document is complete. Do not wait for the engineer to initiate it.**
-
-### Step 1 — Synthesise findings into improvement proposals
-
-Read every entry in "What Didn't Go Well", "AI-Specific Observations", and "Actions". For each finding that points to a fixable rule, skill, or guideline, draft one improvement proposal covering:
-- Which file needs to change (`ai-dlc/rules/`, `ai-dlc/skills/`, `ai-dlc/guidelines/`, or the master rule file)
-- The exact current text to replace (or "new addition" if nothing exists yet)
-- The exact proposed replacement text
-- Why the change prevents the finding from recurring
-
-Present all proposals to the engineer as a numbered list — one proposal per finding — before creating any files.
-
-### Step 2 — Engineer review
-
-For each proposal, the engineer approves, rejects, or asks for revision. Record the decision next to each item. Do not proceed to Step 3 until all proposals have a decision.
-
-### Step 3 — Create improvement files and apply changes
-
-For each approved proposal:
-1. Create an improvement file at `ops/operate/improvements/YYYY-MM-DD-[slug].md` using the template
-2. Apply the change directly to the target file
-3. If the master rule file was changed, update all mirror files in the same pass (see Step 8 of the setup guide)
-4. Set the improvement status to **Applied** and record the date
-
-### Step 4 — Update this retro
-
-Update the "Improvements Triggered" table above with the improvement file links and mark each as Applied or Rejected. Close the retro only after all approved improvements are applied.
+<!-- Did this retro reveal a missing capability? Create an intent. -->
+<!-- If none, write "None identified — [brief reason]" -->
+- [ ] [inception/intents/YYYY-MM-DD-intent-name.md](../../inception/intents/YYYY-MM-DD-intent-name.md)
