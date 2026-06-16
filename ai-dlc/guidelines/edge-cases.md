@@ -58,3 +58,19 @@ _Mitigation:_ Validated server-side before any database query. Frontend also val
 **EC-010 — Zero-night booking**
 Check-in and check-out on the same date results in a zero-night stay.
 _Mitigation:_ Minimum booking duration is 1 night. Enforce in validation with a clear error message.
+
+---
+
+## Cabin Profile
+
+**EC-011 — Host deactivates Cabin with future Bookings**
+A Host deactivates a Cabin that has Confirmed or Pending Bookings with check-out in the future. Guests with existing reservations must not lose their Booking.
+_Mitigation:_ Deactivation sets `isActive` false and excludes the Cabin from Guest discovery and new booking attempts. Existing Confirmed and Pending Bookings are not cancelled. Full booking interaction is validated when the booking system is built.
+
+**EC-012 — Cabin capacity outside allowed bounds**
+A Host submits a capacity below the minimum (1) or above the maximum (50) when registering or updating a Cabin profile.
+_Mitigation:_ Server-side validation rejects the request with 400 Bad Request before any database write. Same bounds apply on create and update.
+
+**EC-013 — Host accesses another Host's Cabin**
+Without ownership checks, a Host could read or modify another Host's Cabin by guessing the cabin identifier.
+_Mitigation:_ API validates `host_id` from JWT against the Cabin owner on every read and mutation. Return 404 (not 403) for cross-owner access to avoid leaking existence. RLS on the `cabins` table restricts rows to the authenticated Host.
